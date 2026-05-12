@@ -1,0 +1,87 @@
+combination,normalized_combination,category,source,risk,risk_level,action,confidence,notes
+לשכת אלוף,לשכה אלוף,problematic_combination,atlas_seed_combinations,High,97,BLOCK,0.9,Senior rank office exposes command hierarchy
+"חמ""ל צפון",חמל צפון,problematic_combination,atlas_seed_combinations,High,96,BLOCK,0.9,Operations room plus region exposes operational structure
+מדור מבצעים,מדור מבצעים,problematic_combination,atlas_seed_combinations,High,94,BLOCK,0.9,Section plus operations exposes operational organization
+פרויקט מודיעין,פרויקט מודיעין,problematic_combination,atlas_seed_combinations,High,93,BLOCK,0.9,Project plus intelligence creates sensitive context
+בסיס 8200,בסיס 8200,problematic_combination,atlas_seed_combinations,High,98,BLOCK,0.9,Facility plus sensitive unit number
+חדר מצב,חדר מצב,problematic_combination,atlas_seed_combinations,Medium,82,MANUAL_REVIEW,0.9,Situation-room phrase has operational semantics
+יחידת מבצעים,יחידה מבצעים,problematic_combination,atlas_seed_combinations,High,94,BLOCK,0.9,Unit plus operations exposes operational structure
+מפקדת פיקוד,מפקדה פיקוד,problematic_combination,atlas_seed_combinations,High,95,BLOCK,0.9,Headquarters plus command exposes hierarchy
+תחקיר מבצעי,תחקיר מבצעי,problematic_combination,atlas_seed_combinations,High,90,BLOCK,0.9,Debrief plus operational context
+תרגיל חטיבה,תרגיל חטיבה,problematic_combination,atlas_seed_combinations,Medium,84,MANUAL_REVIEW,0.9,Exercise plus formation indicates activity
+אגף מודיעין,אגף מודיעין,problematic_combination,atlas_seed_combinations,High,94,BLOCK,0.9,Branch plus intelligence exposes organization
+ענף סייבר,ענף סייבר,problematic_combination,atlas_seed_combinations,High,91,BLOCK,0.9,Branch plus cyber indicates sensitive capability
+מחלקת קריפטוגרפיה,מחלקה קריפטוגרפיה,problematic_combination,atlas_seed_combinations,High,93,BLOCK,0.9,Department plus cryptography indicates sensitive capability
+"לשכת רמטכ""ל",לשכה רמטכל,problematic_combination,atlas_seed_combinations,High,98,BLOCK,0.9,Chief-of-staff office exposes senior hierarchy
+"לשכת רא""ל",לשכה ראל,problematic_combination,atlas_seed_combinations,High,97,BLOCK,0.9,Senior rank office exposes hierarchy
+"לשכת תא""ל",לשכה תאל,problematic_combination,atlas_seed_combinations,High,95,BLOCK,0.9,Senior rank office exposes hierarchy
+"לשכת אל""ם",לשכה אלם,problematic_combination,atlas_seed_combinations,High,94,BLOCK,0.9,Senior rank office exposes hierarchy
+"לשכת רע""נ",לשכה רענ,problematic_combination,atlas_seed_combinations,High,92,BLOCK,0.9,Command role office exposes structure
+"לשכת רמ""ח",לשכה רמח,problematic_combination,atlas_seed_combinations,High,93,BLOCK,0.9,Department-head office exposes structure
+חדר מבצעים,חדר מבצעים,problematic_combination,atlas_seed_combinations,High,94,BLOCK,0.9,Operations-room phrase exposes operational function
+שם מבצע,שם מבצע,problematic_combination,atlas_seed_combinations,High,94,BLOCK,0.9,Operation-name phrase indicates operational activity
+בסיס 512,בסיס 512,problematic_combination,atlas_seed_combinations,High,92,BLOCK,0.9,Base number phrase from security guide
+מרכז טילים,מרכז טילים,problematic_combination,atlas_seed_combinations,High,92,BLOCK,0.9,Missile center phrase
+"לשכה אל""מ",לשכה אלמ,generated_problematic_combination,atlas_generated_combinations,High,94,BLOCK,0.78,Administrative office plus senior role/rank exposes hierarchy
+"לשכה סא""ל",לשכה סאל,generated_problematic_combination,atlas_generated_combinations,High,94,BLOCK,0.78,Administrative office plus senior role/rank exposes hierarchy
+"לשכה רס""ן",לשכה רסן,generated_problematic_combination,atlas_generated_combinations,High,94,BLOCK,0.78,Administrative office plus senior role/rank exposes hierarchy
+לשכה מפקד,לשכה מפקד,generated_problematic_combination,atlas_generated_combinations,High,94,BLOCK,0.78,Administrative office plus senior role/rank exposes hierarchy
+בסיס 9900,בסיס 9900,generated_problematic_combination,atlas_generated_combinations,High,95,BLOCK,0.78,Facility plus sensitive unit/domain exposes location or organization
+בסיס 504,בסיס 504,generated_problematic_combination,atlas_generated_combinations,High,95,BLOCK,0.78,Facility plus sensitive unit/domain exposes location or organization
+בסיס 3060,בסיס 3060,generated_problematic_combination,atlas_generated_combinations,High,95,BLOCK,0.78,Facility plus sensitive unit/domain exposes location or organization
+בסיס מודיעין,בסיס מודיעין,generated_problematic_combination,atlas_generated_combinations,High,95,BLOCK,0.78,Facility plus sensitive unit/domain exposes location or organization
+בסיס סייבר,בסיס סייבר,generated_problematic_combination,atlas_generated_combinations,High,95,BLOCK,0.78,Facility plus sensitive unit/domain exposes location or organization
+בסיס פיקוד,בסיס פיקוד,generated_problematic_combination,atlas_generated_combinations,High,95,BLOCK,0.78,Facility plus sensitive unit/domain exposes location or organization
+בסיס נבטים,בסיס נבטים,generated_problematic_combination,atlas_generated_combinations,High,95,BLOCK,0.78,Facility plus sensitive unit/domain exposes location or organization
+בסיס חצרים,בסיס חצרים,generated_problematic_combination,atlas_generated_combinations,High,95,BLOCK,0.78,Facility plus sensitive unit/domain exposes location or organization
+בסיס פלמחים,בסיס פלמחים,generated_problematic_combination,atlas_generated_combinations,High,95,BLOCK,0.78,Facility plus sensitive unit/domain exposes location or organization
+פרויקט סייבר,פרויקט סייבר,generated_problematic_combination,atlas_generated_combinations,High,92,BLOCK,0.78,Project plus sensitive domain exposes capability or activity
+פרויקט קריפטוגרפיה,פרויקט קריפטוגרפיה,generated_problematic_combination,atlas_generated_combinations,High,92,BLOCK,0.78,Project plus sensitive domain exposes capability or activity
+פרויקט מבצעים,פרויקט מבצעים,generated_problematic_combination,atlas_generated_combinations,High,92,BLOCK,0.78,Project plus sensitive domain exposes capability or activity
+מדור מודיעין,מדור מודיעין,generated_problematic_combination,atlas_generated_combinations,High,91,BLOCK,0.78,Section plus sensitive domain exposes organizational structure
+מדור סייבר,מדור סייבר,generated_problematic_combination,atlas_generated_combinations,High,91,BLOCK,0.78,Section plus sensitive domain exposes organizational structure
+מדור קריפטוגרפיה,מדור קריפטוגרפיה,generated_problematic_combination,atlas_generated_combinations,High,91,BLOCK,0.78,Section plus sensitive domain exposes organizational structure
+מחלקה מבצעים,מחלקה מבצעים,generated_problematic_combination,atlas_generated_combinations,High,90,BLOCK,0.78,Department plus sensitive domain exposes organizational structure
+מחלקה מודיעין,מחלקה מודיעין,generated_problematic_combination,atlas_generated_combinations,High,90,BLOCK,0.78,Department plus sensitive domain exposes organizational structure
+מחלקה סייבר,מחלקה סייבר,generated_problematic_combination,atlas_generated_combinations,High,90,BLOCK,0.78,Department plus sensitive domain exposes organizational structure
+יחידה מודיעין,יחידה מודיעין,generated_problematic_combination,atlas_generated_combinations,High,92,BLOCK,0.78,Unit plus sensitive domain exposes organization
+יחידה סייבר,יחידה סייבר,generated_problematic_combination,atlas_generated_combinations,High,92,BLOCK,0.78,Unit plus sensitive domain exposes organization
+יחידה מיוחדת,יחידה מיוחדת,generated_problematic_combination,atlas_generated_combinations,High,92,BLOCK,0.78,Unit plus sensitive domain exposes organization
+"חמ""ל דרום",חמל דרום,generated_problematic_combination,atlas_generated_combinations,High,94,BLOCK,0.78,Operations room plus region/command exposes activity
+"חמ""ל מרכז",חמל מרכז,generated_problematic_combination,atlas_generated_combinations,High,94,BLOCK,0.78,Operations room plus region/command exposes activity
+"חמ""ל פיקוד",חמל פיקוד,generated_problematic_combination,atlas_generated_combinations,High,94,BLOCK,0.78,Operations room plus region/command exposes activity
+"חמ""ל מבצעים",חמל מבצעים,generated_problematic_combination,atlas_generated_combinations,High,94,BLOCK,0.78,Operations room plus region/command exposes activity
+חדר פיקוד,חדר פיקוד,generated_problematic_combination,atlas_generated_combinations,Medium,82,MANUAL_REVIEW,0.78,Room plus operational context indicates sensitive function
+תרגיל גדוד,תרגיל גדוד,generated_problematic_combination,atlas_generated_combinations,Medium,82,MANUAL_REVIEW,0.78,Exercise plus formation/command exposes activity
+תרגיל פיקוד,תרגיל פיקוד,generated_problematic_combination,atlas_generated_combinations,Medium,82,MANUAL_REVIEW,0.78,Exercise plus formation/command exposes activity
+תרגיל מבצעים,תרגיל מבצעים,generated_problematic_combination,atlas_generated_combinations,Medium,82,MANUAL_REVIEW,0.78,Exercise plus formation/command exposes activity
+תחקיר מבצעים,תחקיר מבצעים,generated_problematic_combination,atlas_generated_combinations,High,90,BLOCK,0.78,Debrief plus operational or intelligence context is sensitive
+תחקיר מודיעין,תחקיר מודיעין,generated_problematic_combination,atlas_generated_combinations,High,90,BLOCK,0.78,Debrief plus operational or intelligence context is sensitive
+מפקדת פיקוד הצפון,מפקדה פיקוד הצפון,generated_problematic_combination,atlas_generated_combinations,High,95,BLOCK,0.78,Headquarters plus command/branch exposes command structure
+מפקדת פיקוד הדרום,מפקדה פיקוד הדרום,generated_problematic_combination,atlas_generated_combinations,High,95,BLOCK,0.78,Headquarters plus command/branch exposes command structure
+מפקדת פיקוד המרכז,מפקדה פיקוד המרכז,generated_problematic_combination,atlas_generated_combinations,High,95,BLOCK,0.78,Headquarters plus command/branch exposes command structure
+מפקדת פיקוד העורף,מפקדה פיקוד העורף,generated_problematic_combination,atlas_generated_combinations,High,95,BLOCK,0.78,Headquarters plus command/branch exposes command structure
+מפקדת חיל האוויר,מפקדה חיל האוויר,generated_problematic_combination,atlas_generated_combinations,High,95,BLOCK,0.78,Headquarters plus command/branch exposes command structure
+בור פיקוד,בור פיקוד,generated_problematic_combination,atlas_generated_combinations,High,92,BLOCK,0.78,Command bunker plus command/branch exposes operations infrastructure
+בור חיל האוויר,בור חיל האוויר,generated_problematic_combination,atlas_generated_combinations,High,92,BLOCK,0.78,Command bunker plus command/branch exposes operations infrastructure
+בור מבצעים,בור מבצעים,generated_problematic_combination,atlas_generated_combinations,High,92,BLOCK,0.78,Command bunker plus command/branch exposes operations infrastructure
+בור צפון,בור צפון,generated_problematic_combination,atlas_generated_combinations,High,92,BLOCK,0.78,Command bunker plus command/branch exposes operations infrastructure
+מרכז מודיעין,מרכז מודיעין,generated_problematic_combination,atlas_generated_combinations,High,90,BLOCK,0.78,Center plus sensitive function exposes operational capability
+מרכז סייבר,מרכז סייבר,generated_problematic_combination,atlas_generated_combinations,High,90,BLOCK,0.78,Center plus sensitive function exposes operational capability
+מרכז מבצעים,מרכז מבצעים,generated_problematic_combination,atlas_generated_combinations,High,90,BLOCK,0.78,Center plus sensitive function exposes operational capability
+מרכז שליטה ובקרה,מרכז שליטה ובקרה,generated_problematic_combination,atlas_generated_combinations,High,90,BLOCK,0.78,Center plus sensitive function exposes operational capability
+"יחידת מו""פ",יחידה מופ,generated_problematic_combination,atlas_generated_combinations,High,90,BLOCK,0.78,Unit construct plus sensitive function exposes organization
+יחידת קשרי חוץ,יחידה קשרי חוץ,generated_problematic_combination,atlas_generated_combinations,High,90,BLOCK,0.78,Unit construct plus sensitive function exposes organization
+חדר מלחמה,חדר מלחמה,generated_problematic_combination,atlas_generated_combinations,High,92,BLOCK,0.78,Room plus operations/command exposes sensitive function
+חדר שליטה ובקרה,חדר שליטה ובקרה,generated_problematic_combination,atlas_generated_combinations,High,92,BLOCK,0.78,Room plus operations/command exposes sensitive function
+"מחסן אמל""ח",מחסן אמלח,generated_problematic_combination,atlas_generated_combinations,High,92,BLOCK,0.78,Storage plus weapons/equipment exposes asset concentration
+מחסן תחמושת,מחסן תחמושת,generated_problematic_combination,atlas_generated_combinations,High,92,BLOCK,0.78,Storage plus weapons/equipment exposes asset concentration
+מחסן נשק,מחסן נשק,generated_problematic_combination,atlas_generated_combinations,High,92,BLOCK,0.78,Storage plus weapons/equipment exposes asset concentration
+בונקר תחמושת,בונקר תחמושת,generated_problematic_combination,atlas_generated_combinations,High,92,BLOCK,0.78,Bunker plus ammunition/equipment exposes infrastructure
+"בונקר אמל""ח",בונקר אמלח,generated_problematic_combination,atlas_generated_combinations,High,92,BLOCK,0.78,Bunker plus ammunition/equipment exposes infrastructure
+מספן מודיעין,מספן מודיעין,generated_problematic_combination,atlas_generated_combinations,High,91,BLOCK,0.78,Navy staff structure plus function exposes organization
+מספן מבצעים,מספן מבצעים,generated_problematic_combination,atlas_generated_combinations,High,91,BLOCK,0.78,Navy staff structure plus function exposes organization
+מספן ים,מספן ים,generated_problematic_combination,atlas_generated_combinations,High,91,BLOCK,0.78,Navy staff structure plus function exposes organization
+להק מודיעין,להק מודיעין,generated_problematic_combination,atlas_generated_combinations,High,91,BLOCK,0.78,Air-force structure plus function exposes organization
+להק מבצעים,להק מבצעים,generated_problematic_combination,atlas_generated_combinations,High,91,BLOCK,0.78,Air-force structure plus function exposes organization
+להק אוויר,להק אוויר,generated_problematic_combination,atlas_generated_combinations,High,91,BLOCK,0.78,Air-force structure plus function exposes organization

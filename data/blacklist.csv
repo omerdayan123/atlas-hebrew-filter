@@ -1,0 +1,283 @@
+term,normalized_term,category,source,risk_level,action,confidence,notes
+8200,8200,sensitive_unit,atlas_seed_blacklist,96,BLOCK,0.95,Publicly known intelligence unit number
+9900,9900,sensitive_unit,atlas_seed_blacklist,95,BLOCK,0.95,Publicly known intelligence/geospatial unit number
+504,504,sensitive_unit,atlas_seed_blacklist,94,BLOCK,0.95,Publicly known human intelligence unit number
+"רמטכ""ל",רמטכל,senior_rank,atlas_seed_blacklist,98,BLOCK,0.95,Senior command rank/title
+אלוף,אלוף,senior_rank,atlas_seed_blacklist,95,BLOCK,0.95,Senior military rank
+"תא""ל",תאל,senior_rank,atlas_seed_blacklist,94,BLOCK,0.95,Senior military rank abbreviation
+תת אלוף,תת אלוף,senior_rank,atlas_seed_blacklist,94,BLOCK,0.95,Senior military rank
+"חמ""ל",חמל,operations,atlas_seed_blacklist,93,BLOCK,0.95,Operations room terminology
+"תצ""א",תצא,intelligence,atlas_seed_blacklist,92,BLOCK,0.95,Aerial imagery intelligence abbreviation
+קריפטוגרפיה,קריפטוגרפיה,intelligence,atlas_seed_blacklist,90,BLOCK,0.95,Sensitive cryptography/security terminology
+מודיעין,מודיעין,intelligence,atlas_seed_blacklist,91,BLOCK,0.95,Intelligence terminology
+מבצעים,מבצעים,operations,atlas_seed_blacklist,90,BLOCK,0.95,Operational activity terminology
+פיקוד,פיקוד,command,atlas_seed_blacklist,90,BLOCK,0.95,Command structure terminology
+מפקדה,מפקדה,command,atlas_seed_blacklist,88,BLOCK,0.95,Command headquarters terminology
+סייבר,סייבר,intelligence,atlas_seed_blacklist,86,BLOCK,0.95,Potentially sensitive security domain
+לוחמה,לוחמה,operations,atlas_seed_blacklist,86,BLOCK,0.95,Operational military activity
+כוננות,כוננות,operations,atlas_seed_blacklist,84,BLOCK,0.95,Operational readiness terminology
+חירום מבצעי,חירום מבצעי,operations,atlas_seed_blacklist,90,BLOCK,0.95,Operational emergency phrase
+נוהל קרב,נוהל קרב,operations,atlas_seed_blacklist,92,BLOCK,0.95,Operational procedure phrase
+חדר מצב,חדר מצב,operations,atlas_seed_blacklist,84,BLOCK,0.95,Situation room phrase
+מבצע,מבצע,operations,atlas_seed_blacklist,92,BLOCK,0.95,Standalone operation term
+שם מבצע,שם מבצע,operations,atlas_seed_blacklist,94,BLOCK,0.95,Operation-name phrase
+מבצעי,מבצעי,operations,atlas_seed_blacklist,91,BLOCK,0.95,Operational adjective
+מבצעית,מבצעית,operations,atlas_seed_blacklist,91,BLOCK,0.95,Operational adjective
+חדר מבצעים,חדר מבצעים,operations,atlas_seed_blacklist,94,BLOCK,0.95,Operations room phrase
+"חמ""ל מבצעים",חמל מבצעים,operations,atlas_seed_blacklist,96,BLOCK,0.95,Operations war room phrase
+מבצעים חשאיים,מבצעים חשאיים,operations,atlas_seed_blacklist,96,BLOCK,0.95,Covert operations phrase
+"סד""כ",סדכ,force_structure,atlas_seed_blacklist,93,BLOCK,0.95,Order-of-battle acronym
+סדר כוחות,סדר כוחות,force_structure,atlas_seed_blacklist,93,BLOCK,0.95,Order-of-battle phrase
+"רע""נ",רענ,senior_role,atlas_seed_blacklist,91,BLOCK,0.95,Branch chief acronym
+ראש ענף,ראש ענף,senior_role,atlas_seed_blacklist,91,BLOCK,0.95,Branch chief role
+"רמ""ח",רמח,senior_role,atlas_seed_blacklist,92,BLOCK,0.95,Department head acronym
+ראש מחלקה,ראש מחלקה,senior_role,atlas_seed_blacklist,92,BLOCK,0.95,Department head role
+"רמ""ט",רמט,senior_role,atlas_seed_blacklist,92,BLOCK,0.95,Chief of staff acronym
+ראש מטה,ראש מטה,senior_role,atlas_seed_blacklist,92,BLOCK,0.95,Chief of staff role
+"רמ""א",רמא,senior_role,atlas_seed_blacklist,90,BLOCK,0.95,Senior staff role acronym
+"רל""ש",רלש,senior_role,atlas_seed_blacklist,90,BLOCK,0.95,Bureau chief acronym
+ראש לשכה,ראש לשכה,senior_role,atlas_seed_blacklist,90,BLOCK,0.95,Bureau chief role
+"קמב""ץ",קמבץ,operations_role,atlas_seed_blacklist,92,BLOCK,0.95,Operations officer acronym
+"מח""ט",מחט,command_role,atlas_seed_blacklist,93,BLOCK,0.95,Brigade commander acronym
+מפקד חטיבה,מפקד חטיבה,command_role,atlas_seed_blacklist,93,BLOCK,0.95,Brigade commander role
+"מג""ד",מגד,command_role,atlas_seed_blacklist,93,BLOCK,0.95,Battalion commander acronym
+מפקד גדוד,מפקד גדוד,command_role,atlas_seed_blacklist,93,BLOCK,0.95,Battalion commander role
+"רנ""ג",רנג,senior_rank,atlas_seed_blacklist,90,BLOCK,0.95,Senior NCO rank acronym
+רב נגד,רב נגד,senior_rank,atlas_seed_blacklist,90,BLOCK,0.95,Senior NCO rank
+"מצו""ב",מצוב,sensitive_unit,atlas_seed_blacklist,94,BLOCK,0.95,Sensitive technology/cyber unit acronym
+לוטם,לוטם,sensitive_unit,atlas_seed_blacklist,92,BLOCK,0.95,IDF technology unit
+יחידה 3060,יחידה 3060,sensitive_unit,atlas_seed_blacklist,93,BLOCK,0.95,Publicly known technology unit number phrase
+3060,3060,sensitive_unit,atlas_seed_blacklist,90,BLOCK,0.95,Publicly known technology unit number
+שייטת 13,שייטת 13,special_unit,atlas_seed_blacklist,96,BLOCK,0.95,Elite naval unit
+שייטת,שייטת,special_unit,atlas_seed_blacklist,92,BLOCK,0.95,Naval squadron/unit term
+"סיירת מטכ""ל",סיירת מטכל,special_unit,atlas_seed_blacklist,96,BLOCK,0.95,General Staff reconnaissance unit
+סיירת,סיירת,special_unit,atlas_seed_blacklist,88,BLOCK,0.95,Reconnaissance unit term
+שלדג,שלדג,special_unit,atlas_seed_blacklist,95,BLOCK,0.95,Elite unit
+669,669,special_unit,atlas_seed_blacklist,94,BLOCK,0.95,Elite rescue unit number
+דובדבן,דובדבן,special_unit,atlas_seed_blacklist,93,BLOCK,0.95,Commando unit
+מגלן,מגלן,special_unit,atlas_seed_blacklist,93,BLOCK,0.95,Commando unit
+אגוז,אגוז,special_unit,atlas_seed_blacklist,93,BLOCK,0.95,Commando unit
+"יהל""ם",יהלם,special_unit,atlas_seed_blacklist,93,BLOCK,0.95,Combat engineering special unit
+עוקץ,עוקץ,special_unit,atlas_seed_blacklist,90,BLOCK,0.95,Special unit
+רוכב שמיים,רוכב שמיים,special_unit,atlas_seed_blacklist,90,BLOCK,0.95,Sky Rider unit
+קומנדו,קומנדו,special_unit,atlas_seed_blacklist,91,BLOCK,0.95,Commando term
+חטיבת הקומנדו,חטיבה הקומנדו,special_unit,atlas_seed_blacklist,93,BLOCK,0.95,Commando brigade
+גולני,גולני,combat_brigade,atlas_seed_blacklist,91,BLOCK,0.95,Combat brigade name per user policy
+חטיבת גולני,חטיבה גולני,combat_brigade,atlas_seed_blacklist,92,BLOCK,0.95,Combat brigade phrase per user policy
+גבעתי,גבעתי,combat_brigade,atlas_seed_blacklist,91,BLOCK,0.95,Combat brigade name per user policy
+חטיבת גבעתי,חטיבה גבעתי,combat_brigade,atlas_seed_blacklist,92,BLOCK,0.95,Combat brigade phrase per user policy
+"נח""ל",נחל,combat_brigade,atlas_seed_blacklist,91,BLOCK,0.95,Combat brigade name per user policy
+"חטיבת הנח""ל",חטיבה הנחל,combat_brigade,atlas_seed_blacklist,92,BLOCK,0.95,Combat brigade phrase per user policy
+כפיר,כפיר,combat_brigade,atlas_seed_blacklist,91,BLOCK,0.95,Combat brigade name per user policy
+חטיבת כפיר,חטיבה כפיר,combat_brigade,atlas_seed_blacklist,92,BLOCK,0.95,Combat brigade phrase per user policy
+צנחנים,צנחנים,combat_brigade,atlas_seed_blacklist,91,BLOCK,0.95,Combat brigade name per user policy
+חטיבת הצנחנים,חטיבה הצנחנים,combat_brigade,atlas_seed_blacklist,92,BLOCK,0.95,Combat brigade phrase per user policy
+מספן,מספן,naval_structure,atlas_seed_blacklist,91,BLOCK,0.95,Navy organizational structure
+להק,להק,airforce_structure,atlas_seed_blacklist,91,BLOCK,0.95,Air force wing/group term
+פלגה,פלגה,naval_structure,atlas_seed_blacklist,90,BLOCK,0.95,Naval/company structure term
+פלגת,פלגת,naval_structure,atlas_seed_blacklist,90,BLOCK,0.95,Construct form of naval/company structure term
+"מפח""י",מפחי,command_structure,atlas_seed_blacklist,92,BLOCK,0.95,Command structure acronym
+חטיבת המבצעים,חטיבה מבצעים,operations,atlas_seed_blacklist,95,BLOCK,0.95,Operations brigade/division phrase
+הקריה,הקריה,sensitive_location,atlas_seed_blacklist,93,BLOCK,0.95,MoD/IDF HQ area
+מחנה רבין,מחנה רבין,sensitive_location,atlas_seed_blacklist,93,BLOCK,0.95,IDF/MoD HQ camp
+גלילות,גלילות,sensitive_location,atlas_seed_blacklist,91,BLOCK,0.95,Sensitive location/base area
+נבטים,נבטים,sensitive_location,atlas_seed_blacklist,91,BLOCK,0.95,Airbase location
+חצרים,חצרים,sensitive_location,atlas_seed_blacklist,91,BLOCK,0.95,Airbase location
+פלמחים,פלמחים,sensitive_location,atlas_seed_blacklist,91,BLOCK,0.95,Airbase/base location
+רמת דוד,רמת דוד,sensitive_location,atlas_seed_blacklist,91,BLOCK,0.95,Airbase location
+בצת,בצת,sensitive_location,atlas_seed_blacklist,88,BLOCK,0.95,Sensitive location
+הבור,הבור,operations_infrastructure,atlas_seed_blacklist,93,BLOCK,0.95,Command bunker phrase
+מתקן כליאה,מתקן כליאה,sensitive_location,atlas_seed_blacklist,88,BLOCK,0.95,Detention facility phrase
+בסיס 512,בסיס 512,sensitive_location,atlas_seed_blacklist,92,BLOCK,0.95,Sensitive base number phrase
+512,512,sensitive_location,atlas_seed_blacklist,86,BLOCK,0.95,Sensitive base number when isolated
+הצפנה,הצפנה,intelligence,atlas_seed_blacklist,91,BLOCK,0.95,Encryption term
+צופן,צופן,intelligence,atlas_seed_blacklist,91,BLOCK,0.95,Cipher/code term
+סייבר התקפי,סייבר התקפי,cyber,atlas_seed_blacklist,94,BLOCK,0.95,Offensive cyber phrase
+פענוח,פענוח,intelligence,atlas_seed_blacklist,90,BLOCK,0.95,Decoding/interpretation term
+תצלום אוויר,תצלום אוויר,intelligence,atlas_seed_blacklist,91,BLOCK,0.95,Aerial photograph phrase
+"אמל""ח מסווג",אמלח מסווג,classified_assets,atlas_seed_blacklist,95,BLOCK,0.95,Classified weapons/equipment phrase
+"אמל""ח",אמלח,classified_assets,atlas_seed_blacklist,90,BLOCK,0.95,Weapons/equipment acronym
+צוללת,צוללת,strategic_asset,atlas_seed_blacklist,92,BLOCK,0.95,Submarine
+צוללות,צוללות,strategic_asset,atlas_seed_blacklist,92,BLOCK,0.95,Submarines
+"סטי""ל",סטיל,strategic_asset,atlas_seed_blacklist,91,BLOCK,0.95,Missile ship acronym
+דבור,דבור,naval_asset,atlas_seed_blacklist,88,BLOCK,0.95,Naval patrol boat type
+דבורה,דבורה,naval_asset,atlas_seed_blacklist,88,BLOCK,0.95,Naval patrol boat type
+מטוס אדיר,מטוס אדיר,strategic_asset,atlas_seed_blacklist,91,BLOCK,0.95,F-35 aircraft Hebrew name
+טנק מרכבה,טנק מרכבה,strategic_asset,atlas_seed_blacklist,90,BLOCK,0.95,Merkava tank phrase
+בונקר תחמושת,בונקר תחמושת,strategic_asset,atlas_seed_blacklist,92,BLOCK,0.95,Ammunition bunker phrase
+מרכז טילים,מרכז טילים,strategic_asset,atlas_seed_blacklist,92,BLOCK,0.95,Missile center phrase
+יחידה,יחידה,organization,atlas_seed_greylist_promoted_blacklist,70,BLOCK,0.82,Context-sensitive organizational term
+חטיבה,חטיבה,organization,atlas_seed_greylist_promoted_blacklist,72,BLOCK,0.82,Context-sensitive formation or department
+גדוד,גדוד,organization,atlas_seed_greylist_promoted_blacklist,76,BLOCK,0.82,Military formation term
+בסיס,בסיס,location,atlas_seed_greylist_promoted_blacklist,74,BLOCK,0.82,Context-sensitive base/facility term
+מתקן,מתקן,location,atlas_seed_greylist_promoted_blacklist,68,BLOCK,0.82,Context-sensitive facility term
+מחלקה,מחלקה,organization,atlas_seed_greylist_promoted_blacklist,62,BLOCK,0.82,Civilian or military department
+מדור,מדור,organization,atlas_seed_greylist_promoted_blacklist,66,BLOCK,0.82,Civilian or military section
+תרגיל,תרגיל,operations,atlas_seed_greylist_promoted_blacklist,65,BLOCK,0.82,Exercise/drill term
+פרויקט,פרויקט,project,atlas_seed_greylist_promoted_blacklist,62,BLOCK,0.82,Context-sensitive project term
+תחקיר,תחקיר,operations,atlas_seed_greylist_promoted_blacklist,64,BLOCK,0.82,Context-sensitive debrief/investigation term
+אגף,אגף,organization,atlas_seed_greylist_promoted_blacklist,63,BLOCK,0.82,Context-sensitive branch term
+ענף,ענף,organization,atlas_seed_greylist_promoted_blacklist,63,BLOCK,0.82,Context-sensitive branch term
+לשכה,לשכה,office,atlas_seed_greylist_promoted_blacklist,60,BLOCK,0.82,Administrative office; risky near ranks
+צפון,צפון,location,atlas_seed_greylist_promoted_blacklist,60,BLOCK,0.82,Regional term; risky near operations terms
+דרום,דרום,location,atlas_seed_greylist_promoted_blacklist,60,BLOCK,0.82,Regional term; risky near operations terms
+מרכז,מרכז,location,atlas_seed_greylist_promoted_blacklist,58,BLOCK,0.82,Regional/center term; context-sensitive
+מצב,מצב,operations,atlas_seed_greylist_promoted_blacklist,58,BLOCK,0.82,"Benign alone, risky in situation-room phrase"
+חייל,חייל,military_personnel,atlas_seed_greylist_promoted_blacklist,64,BLOCK,0.82,Military personnel term; context-sensitive
+מילואים,מילואים,military_personnel,atlas_seed_greylist_promoted_blacklist,66,BLOCK,0.82,Reserve service term; context-sensitive
+משק,משק,military_role,atlas_seed_greylist_promoted_blacklist,62,BLOCK,0.82,NCO abbreviation after quote normalization; context-sensitive
+קצין,קצין,military_role,atlas_seed_greylist_promoted_blacklist,68,BLOCK,0.82,Officer role; context-sensitive outside official rank phrases
+"צה""ל",צהל,idf_identity,idf_public:https://www.idf.il/,92,BLOCK,0.88,Israel Defense Forces name/acronym
+"מטכ""ל",מטכל,command_structure,idf_public:https://www.idf.il/,94,BLOCK,0.88,General Staff acronym
+"רא""ל",ראל,senior_rank,public_acronym:https://hadshon.education.gov.il/lexicons/acronyms-and-abbreviations/,96,BLOCK,0.88,Chief-of-staff rank abbreviation
+רב אלוף,רב אלוף,senior_rank,public_rank:https://www.psychometry.co.il/idf/ranks.php,96,BLOCK,0.88,Chief-of-staff rank
+"אל""מ",אלמ,senior_rank,public_acronym:https://hadshon.education.gov.il/lexicons/acronyms-and-abbreviations/,93,BLOCK,0.88,Colonel rank abbreviation
+אלוף משנה,אלוף משנה,senior_rank,public_rank:https://www.psychometry.co.il/idf/ranks.php,93,BLOCK,0.88,Colonel rank
+"סא""ל",סאל,senior_rank,public_rank:https://www.psychometry.co.il/idf/ranks.php,91,BLOCK,0.88,Lieutenant colonel rank abbreviation
+סגן אלוף,סגן אלוף,senior_rank,public_rank:https://www.psychometry.co.il/idf/ranks.php,91,BLOCK,0.88,Lieutenant colonel rank
+"רס""ן",רסן,officer_rank,public_rank:https://www.psychometry.co.il/idf/ranks.php,90,BLOCK,0.88,Major rank abbreviation
+רב סרן,רב סרן,officer_rank,public_rank:https://www.psychometry.co.il/idf/ranks.php,90,BLOCK,0.88,Major rank
+סרן,סרן,officer_rank,public_rank:https://www.psychometry.co.il/idf/ranks.php,88,BLOCK,0.88,Captain rank
+"סג""מ",סגמ,officer_rank,public_rank:https://www.psychometry.co.il/idf/ranks.php,86,BLOCK,0.88,Second lieutenant rank abbreviation
+סגן משנה,סגן משנה,officer_rank,public_rank:https://www.psychometry.co.il/idf/ranks.php,86,BLOCK,0.88,Second lieutenant rank
+"קמ""א",קמא,officer_rank,public_rank:https://commons.wikimedia.org/wiki/File:IDF_kama.svg,86,BLOCK,0.88,Professional academic officer rank abbreviation
+"אמ""ן",אמן,intelligence,public_acronym:https://hadshon.education.gov.il/lexicons/acronyms-and-abbreviations/,96,BLOCK,0.88,IDF Intelligence Directorate acronym
+אגף המודיעין,אגף מודיעין,intelligence,idf_public:https://www.idf.il/,96,BLOCK,0.88,IDF Intelligence Directorate
+אגף המבצעים,אגף מבצעים,operations,idf_public:https://www.idf.il/,95,BLOCK,0.88,IDF Operations Directorate
+"אמ""ץ",אמץ,operations,wiktionary_public:https://he.wiktionary.org/wiki/%D7%90%D7%92%22%D7%9D,94,BLOCK,0.88,Operations Directorate acronym
+"אג""ם",אגם,operations,wiktionary_public:https://he.wiktionary.org/wiki/%D7%90%D7%92%22%D7%9D,93,BLOCK,0.88,Operations/general-staff branch acronym
+"אכ""א",אכא,manpower_command,idf_public:https://www.idf.il/,90,BLOCK,0.88,IDF Manpower Directorate acronym
+"אט""ל",אטל,logistics_command,idf_public:https://www.idf.il/,90,BLOCK,0.88,IDF Technology and Logistics Directorate acronym
+אגף התקשוב,אגף התקשוב,cyber_command,idf_public:https://www.idf.il/,92,BLOCK,0.88,IDF C4I/Cyber directorate
+"אגף התקשוב וההגנה בסב""ר",אגף התקשוב וההגנה בסבר,cyber_command,idf_public:https://www.idf.il/,94,BLOCK,0.88,IDF C4I and Cyber Defense Directorate
+"סב""ר",סבר,cyber_command,idf_public:https://www.idf.il/,90,BLOCK,0.88,Cyber acronym used by IDF public pages
+פיקוד הצפון,פיקוד הצפון,regional_command,idf_public:https://www.idf.il/,94,BLOCK,0.88,IDF Northern Command
+פיקוד הדרום,פיקוד הדרום,regional_command,idf_public:https://www.idf.il/,94,BLOCK,0.88,IDF Southern Command
+פיקוד המרכז,פיקוד המרכז,regional_command,idf_public:https://www.idf.il/,94,BLOCK,0.88,IDF Central Command
+פיקוד העורף,פיקוד העורף,regional_command,idf_public:https://www.idf.il/,92,BLOCK,0.88,IDF Home Front Command
+זרוע היבשה,זרוע היבשה,military_branch,idf_public:https://www.idf.il/,92,BLOCK,0.88,IDF ground arm
+זרוע הים,זרוע הים,military_branch,idf_public:https://www.idf.il/,92,BLOCK,0.88,IDF naval arm
+חיל האוויר,חיל האוויר,military_branch,idf_public:https://www.idf.il/,93,BLOCK,0.88,Israeli Air Force
+חיל הים,חיל הים,military_branch,idf_public:https://www.idf.il/,92,BLOCK,0.88,Israeli Navy
+חיל הקשר,חיל הקשר,military_branch,idf_public:https://www.idf.il/,88,BLOCK,0.88,Signal Corps
+כוחות מיוחדים,כוחות מיוחדים,operations,idf_public:https://www.idf.il/,92,BLOCK,0.88,Special forces phrase
+תגבור כוחות,תגבור כוחות,operations,idf_public:https://www.idf.il/,90,BLOCK,0.88,Force reinforcement phrase
+גיוס מילואים,גיוס מילואים,operations,idf_public:https://www.idf.il/,90,BLOCK,0.88,Reserve mobilization phrase
+הערכת מצב,הערכת מצב,operations,idf_public:https://www.idf.il/,88,BLOCK,0.88,Situation assessment phrase
+שליטה ובקרה,שליטה ובקרה,operations,idf_public:https://www.idf.il/,88,BLOCK,0.88,Command and control phrase
+בור,בור,operations,idf_public:https://www.idf.il/,88,BLOCK,0.88,Command bunker/operations center term in IDF context
+"מפא""ת",מפאת,mod_defense_rnd,mod_public:https://www.mod.gov.il/אגפים/מפאת,94,BLOCK,0.88,MoD R&D directorate acronym
+מינהל פיתוח אמצעי לחימה ותשתית טכנולוגית,מינהל פיתוח אמצעי לחימה ותשתית טכנולוגית,mod_defense_rnd,mod_public:https://www.mod.gov.il/אגפים/מפאת,94,BLOCK,0.88,MoD MAFAT full name
+"מנה""ר",מנהר,mod_procurement,mod_public:https://www.mod.gov.il/,91,BLOCK,0.88,MoD procurement directorate acronym
+מינהל ההרכשה והייצור,מינהל ההרכשה והייצור,mod_procurement,mod_public:https://www.mod.gov.il/,91,BLOCK,0.88,MoD procurement and production directorate
+סיבט,סיבט,mod_export,mod_public:https://mod.gov.il/en/departments/sibat-international-defense-cooperation,90,BLOCK,0.88,MoD international defense cooperation directorate
+"אפ""י",אפי,mod_export_control,mod_public:https://exportctrl.mod.gov.il/about/,90,BLOCK,0.88,MoD defense export control agency acronym
+אגף הפיקוח על היצוא הביטחוני,אגף הפיקוח על היצוא הביטחוני,mod_export_control,mod_public:https://exportctrl.mod.gov.il/about/,90,BLOCK,0.88,MoD defense export control agency
+"רח""ל",רחל,national_emergency,mod_public:https://www.mod.gov.il/,88,BLOCK,0.88,National Emergency Authority acronym
+רשות החירום הלאומית,רשות החירום הלאומית,national_emergency,mod_public:https://www.mod.gov.il/,88,BLOCK,0.88,National Emergency Authority
+"מלמ""ב",מלמב,defense_security,mod_public:https://www.mod.gov.il/,92,BLOCK,0.88,Defense establishment security director acronym
+"משהב""ט",משהבט,mod_identity,mod_public:https://www.mod.gov.il/,88,BLOCK,0.88,Ministry of Defense acronym
+אוגדה,אוגדה,command_structure,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: command_structure
+אוגדות,אוגדות,command_structure,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: command_structure
+אוגדת,אוגדת,command_structure,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: command_structure
+אוגדתי,אוגדתי,command_structure,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: command_structure
+אוגדתיות,אוגדתיות,command_structure,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: command_structure
+אוגדתיים,אוגדתיים,command_structure,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: command_structure
+אוגדתית,אוגדתית,command_structure,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: command_structure
+אוגדתם,אוגדתם,command_structure,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: command_structure
+אוגדתן,אוגדתן,command_structure,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: command_structure
+ארטילרי,ארטילרי,military_assets,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: military_assets
+ארטילריה,ארטילריה,military_assets,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: military_assets
+ארטילריות,ארטילריות,military_assets,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: military_assets
+ארטילריים,ארטילריים,military_assets,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: military_assets
+ארטילרית,ארטילרית,military_assets,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: military_assets
+בונקר,בונקר,military_assets,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: military_assets
+בונקרים,בונקרים,military_assets,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: military_assets
+הצנח,הצנח,operations,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: operations
+הצנחה,הצנחה,operations,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: operations
+הצנחות,הצנחות,operations,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: operations
+הצנחנו,הצנחנו,operations,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: operations
+הצנחת,הצנחת,operations,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: operations
+הצנחתי,הצנחתי,operations,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: operations
+הצנחתם,הצנחתם,operations,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: operations
+הצנחתן,הצנחתן,operations,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: operations
+התחמש,התחמש,operations,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: operations
+התחמשה,התחמשה,operations,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: operations
+התחמשו,התחמשו,operations,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: operations
+התחמשויות,התחמשויות,operations,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: operations
+התחמשות,התחמשות,operations,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: operations
+התחמשי,התחמשי,operations,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: operations
+התחמשנו,התחמשנו,operations,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: operations
+התחמשת,התחמשת,operations,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: operations
+התחמשתי,התחמשתי,operations,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: operations
+התחמשתם,התחמשתם,operations,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: operations
+התחמשתן,התחמשתן,operations,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: operations
+חטיבות,חטיבות,command_structure,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: command_structure
+חטיבתי,חטיבתי,command_structure,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: command_structure
+חטיבתיות,חטיבתיות,command_structure,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: command_structure
+חטיבתיים,חטיבתיים,command_structure,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: command_structure
+חטיבתית,חטיבתית,command_structure,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: command_structure
+חיל,חיל,command_structure,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: command_structure
+חשאי,חשאי,intelligence_security,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: intelligence_security
+חשאיות,חשאיות,intelligence_security,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: intelligence_security
+חשאיים,חשאיים,intelligence_security,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: intelligence_security
+חשאית,חשאית,intelligence_security,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: intelligence_security
+טיל,טיל,military_assets,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: military_assets
+טילים,טילים,military_assets,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: military_assets
+לחימה,לחימה,operations,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: operations
+מבצעות,מבצעות,operations,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: operations
+מבצעיות,מבצעיות,operations,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: operations
+מבצעיים,מבצעיים,operations,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: operations
+מבצעת,מבצעת,operations,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: operations
+מודיעיני,מודיעיני,intelligence_security,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: intelligence_security
+מודיעיניות,מודיעיניות,intelligence_security,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: intelligence_security
+מודיעיניים,מודיעיניים,intelligence_security,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: intelligence_security
+מודיעינית,מודיעינית,intelligence_security,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: intelligence_security
+מוצפן,מוצפן,intelligence_security,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: intelligence_security
+מלחמה,מלחמה,operations,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: operations
+מלחמתי,מלחמתי,operations,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: operations
+מלחמתיות,מלחמתיות,operations,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: operations
+מלחמתיים,מלחמתיים,operations,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: operations
+מלחמתית,מלחמתית,operations,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: operations
+מלט,מלט,military_assets,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: military_assets
+מסווג,מסווג,intelligence_security,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: intelligence_security
+מסווגות,מסווגות,intelligence_security,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: intelligence_security
+מסווגים,מסווגים,intelligence_security,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: intelligence_security
+מסווגת,מסווגת,intelligence_security,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: intelligence_security
+מפקד,מפקד,command_structure,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: command_structure
+מפקדות,מפקדות,command_structure,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: command_structure
+מפקדים,מפקדים,command_structure,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: command_structure
+נשק,נשק,military_assets,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: military_assets
+סודי,סודי,intelligence_security,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: intelligence_security
+סודיות,סודיות,intelligence_security,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: intelligence_security
+סודיים,סודיים,intelligence_security,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: intelligence_security
+סודית,סודית,intelligence_security,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: intelligence_security
+פיקודי,פיקודי,command_structure,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: command_structure
+פיקודיות,פיקודיות,command_structure,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: command_structure
+פיקודיים,פיקודיים,command_structure,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: command_structure
+פיקודים,פיקודים,command_structure,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: command_structure
+פיקודית,פיקודית,command_structure,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: command_structure
+פלוגה,פלוגה,command_structure,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: command_structure
+פלוגות,פלוגות,command_structure,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: command_structure
+קצינים,קצינים,command_structure,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: command_structure
+רדאר,רדאר,military_assets,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: military_assets
+רדארים,רדארים,military_assets,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: military_assets
+רקטה,רקטה,military_assets,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: military_assets
+רקטות,רקטות,military_assets,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: military_assets
+רקטי,רקטי,military_assets,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: military_assets
+רקטיות,רקטיות,military_assets,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: military_assets
+רקטיים,רקטיים,military_assets,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: military_assets
+רקטית,רקטית,military_assets,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: military_assets
+תחמושת,תחמושת,military_assets,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: military_assets
+תצפית,תצפית,operations,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: operations
+תצפיתי,תצפיתי,operations,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: operations
+תצפיתיות,תצפיתיות,operations,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: operations
+תצפיתיים,תצפיתיים,operations,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: operations
+תצפיתית,תצפיתית,operations,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: operations
+תצפיתן,תצפיתן,operations,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: operations
+תצפיתניות,תצפיתניות,operations,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: operations
+תצפיתנים,תצפיתנים,operations,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: operations
+תצפיתנית,תצפיתנית,operations,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: operations
+תרגילו,תרגילו,operations,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: operations
+תרגילי,תרגילי,operations,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: operations
+תרגילים,תרגילים,operations,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: operations
