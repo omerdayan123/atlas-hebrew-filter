@@ -40,6 +40,7 @@ term,normalized_term,category,source,risk_level,action,confidence,notes
 מפקד חטיבה,מפקד חטיבה,command_role,atlas_seed_blacklist,93,BLOCK,0.95,Brigade commander role
 "מג""ד",מגד,command_role,atlas_seed_blacklist,93,BLOCK,0.95,Battalion commander acronym
 מפקד גדוד,מפקד גדוד,command_role,atlas_seed_blacklist,93,BLOCK,0.95,Battalion commander role
+מכלול מפקדים,מכלול מפקדים,command_role,atlas_seed_blacklist,90,BLOCK,0.95,Commanders' cluster/forum phrase exposes command population
 בכיר,בכיר,senior_role,atlas_seed_blacklist,88,BLOCK,0.95,Senior-only role marker
 בכירים,בכירים,senior_role,atlas_seed_blacklist,90,BLOCK,0.95,Senior-only role marker
 בכירים בלבד,בכירים בלבד,senior_role,atlas_seed_blacklist,92,BLOCK,0.95,Senior-only access phrase
@@ -244,9 +245,6 @@ term,normalized_term,category,source,risk_level,action,confidence,notes
 מסווגות,מסווגות,intelligence_security,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: intelligence_security
 מסווגים,מסווגים,intelligence_security,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: intelligence_security
 מסווגת,מסווגת,intelligence_security,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: intelligence_security
-מפקד,מפקד,command_structure,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: command_structure
-מפקדות,מפקדות,command_structure,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: command_structure
-מפקדים,מפקדים,command_structure,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: command_structure
 נשק,נשק,military_assets,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: military_assets
 פיקודי,פיקודי,command_structure,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: command_structure
 פיקודיות,פיקודיות,command_structure,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: command_structure

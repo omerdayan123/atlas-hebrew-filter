@@ -59,7 +59,7 @@ ARMY + קליקנט,ALLOW,0,,,army קליקנט,approved_example_allowed
 עד הקצה + OneAman/צהלנט + OneAman,ALLOW,0,"הקצה, עד",,עד הקצה oneaman צהלנט oneaman,approved_example_allowed
 אימון,ALLOW,0,אימון,,אימון,approved_example_allowed
 עמדת עבודה אישית,ALLOW,0,"אישית, עבודה, עמדת",,עמדת עבודה אישית,approved_example_allowed
-"משרד מפקד - מחשב סודי , VC",BLOCK,90,"מחשב, מפקד, מפקדה, משרד, סודי",,משרד מפקד מחשב סודי vc,keep_blocked_rank_or_command_exposure
+"משרד מפקד - מחשב סודי , VC",ALLOW,12,"מחשב, מפקד, משרד, משרד מפקד, סודי",,משרד מפקד מחשב סודי vc,approved_example_allowed
 עמדת עבודה בעמידה,ALLOW,0,"עבודה, עמדת",,עמדת עבודה בעמידה,approved_example_allowed
 "חד""ן 15 אנשים - מחשב סודי , סודי ביותר, VC , VC מבצעי",ALLOW,12,"אנשים, מבצעי, מחשב, סודי, סודי ביותר",,חדן 15 אנשים מחשב סודי סודי ביותר vc vc מבצעי,approved_example_allowed
 עמדת עבודה אישית (סודי),ALLOW,8,"אישית, סודי, עבודה, עמדת",,עמדת עבודה אישית סודי,approved_example_allowed
@@ -83,9 +83,9 @@ ARMY-TS+OneAman,ALLOW,0,,,army ts oneaman,approved_example_allowed
 עמדת VC,ALLOW,0,עמדת,,עמדת vc,approved_example_allowed
 פגישת קבע בכיר / מוסכם פרישה,BLOCK,88,"בכיר, מוסכם, פרישה, קבע",,פגישת קבע בכיר מוסכם פרישה,keep_blocked_rank_or_command_exposure
 פגישת קבע ראשוני / קבע מובהק,ALLOW,0,"מובהק, קבע, ראשוני",,פגישת קבע ראשוני קבע מובהק,approved_example_allowed
-משרד מפקד משותף,BLOCK,90,"מפקד, מפקדה, משותף, משרד",,משרד מפקד משותף,keep_blocked_rank_or_command_exposure
-מכלול מפקדים,BLOCK,90,"מכלול, מפקדים",,מכלול מפקדים,keep_blocked_rank_or_command_exposure
+משרד מפקד משותף,ALLOW,12,"מפקד, משותף, משרד, משרד מפקד, משרד מפקד משותף",,משרד מפקד משותף,approved_example_allowed
+מכלול מפקדים,BLOCK,90,"מכלול, מכלול מפקדים, מפקדים",,מכלול מפקדים,keep_blocked_rank_or_command_exposure
 "חד""ן",ALLOW,0,,,חדן,approved_example_allowed
-"משרד מפקד - מחשב סודי , סודי ביותר, VC , VC מבצעי",BLOCK,90,"מבצעי, מחשב, מפקד, מפקדה, משרד, סודי, סודי ביותר",,משרד מפקד מחשב סודי סודי ביותר vc vc מבצעי,keep_blocked_rank_or_command_exposure
+"משרד מפקד - מחשב סודי , סודי ביותר, VC , VC מבצעי",ALLOW,12,"מבצעי, מחשב, מפקד, משרד, משרד מפקד, סודי, סודי ביותר",,משרד מפקד מחשב סודי סודי ביותר vc vc מבצעי,approved_example_allowed
 OneAman + Army,ALLOW,0,,,oneaman army,approved_example_allowed
 OneAman + Army + Army - TS,ALLOW,0,,,oneaman army army ts,approved_example_allowed

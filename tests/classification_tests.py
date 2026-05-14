@@ -137,8 +137,17 @@ def test_rank_and_command_resource_names_stay_blocked():
     for text in [
         'חדר מג"ד - בדרגת סא"ל ומעלה בלבד',
         "חדר בכירים בלבד",
-        "משרד מפקד משותף",
         "מכלול מפקדים",
     ]:
         result = classify_text(text)
         assert result["action"] == "BLOCK"
+
+
+def test_generic_commander_office_resource_names_are_allowed():
+    for text in [
+        "משרד מפקד",
+        "משרד מפקד משותף",
+        "משרד מפקד - מחשב סודי , VC",
+    ]:
+        result = classify_text(text)
+        assert result["action"] == "ALLOW"
