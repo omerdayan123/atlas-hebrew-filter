@@ -22,6 +22,8 @@ combination,normalized_combination,category,source,risk,risk_level,action,confid
 שם מבצע,שם מבצע,problematic_combination,atlas_seed_combinations,High,94,BLOCK,0.9,Operation-name phrase indicates operational activity
 בסיס 512,בסיס 512,problematic_combination,atlas_seed_combinations,High,92,BLOCK,0.9,Base number phrase from security guide
 מרכז טילים,מרכז טילים,problematic_combination,atlas_seed_combinations,High,92,BLOCK,0.9,Missile center phrase
+חדר בכירים,חדר בכירים,problematic_combination,atlas_seed_combinations,High,92,BLOCK,0.9,Senior-only room exposes hierarchy
+חדר בכירים בלבד,חדר בכירים בלבד,problematic_combination,atlas_seed_combinations,High,94,BLOCK,0.9,Senior-only reservation room exposes hierarchy
 "לשכה אל""מ",לשכה אלמ,generated_problematic_combination,atlas_generated_combinations,High,94,BLOCK,0.78,Administrative office plus senior role/rank exposes hierarchy
 "לשכה סא""ל",לשכה סאל,generated_problematic_combination,atlas_generated_combinations,High,94,BLOCK,0.78,Administrative office plus senior role/rank exposes hierarchy
 "לשכה רס""ן",לשכה רסן,generated_problematic_combination,atlas_generated_combinations,High,94,BLOCK,0.78,Administrative office plus senior role/rank exposes hierarchy

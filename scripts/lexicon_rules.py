@@ -58,7 +58,6 @@ SENSITIVE_BLACKLIST_PATTERNS = {
         "קריפטוגרפיה",
         "הצפנה",
         "סייבר",
-        "סודי",
         "מסווג",
         "חשאי",
         "מוצפן",
@@ -82,6 +81,16 @@ SENSITIVE_BLACKLIST_PATTERNS = {
         "בונקר",
         "בונקרים",
     ],
+}
+
+EXPLICIT_SAFE_NORMALIZED_TERMS = {
+    "סודי",
+    "סודית",
+    "סודי ביותר",
+    "מבצעי",
+    "מבצעית",
+    "תחקיר",
+    "תחקיר בטחוני",
 }
 
 GREYLIST_PATTERNS = {
@@ -139,6 +148,16 @@ def trace_external_row(row: dict, curated_by_norm: dict[str, dict]) -> dict:
     normalized = row["normalized_term"]
     if normalized in curated_by_norm:
         return curated_by_norm[normalized]
+    if normalized in EXPLICIT_SAFE_NORMALIZED_TERMS:
+        return {
+            **row,
+            "category": "approved_resource_label",
+            "source": f"{row['source']}+atlas_user_approved_resource_label",
+            "risk_level": 0,
+            "action": "ALLOW",
+            "confidence": 0.92,
+            "notes": "Approved as workstation/network/resource label based on production infosec-approved examples",
+        }
 
     for category, patterns in NORMALIZED_BLACKLIST_PATTERNS.items():
         if _contains_any(normalized, patterns):

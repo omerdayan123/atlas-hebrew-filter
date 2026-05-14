@@ -1,0 +1,91 @@
+resource_name,action,risk_score,matched_terms,matched_combinations,normalized_text,recommendation
+עד הקצה,ALLOW,0,"הקצה, עד",,עד הקצה,approved_example_allowed
+OneAman,ALLOW,0,,,oneaman,approved_example_allowed
+SOUF,ALLOW,0,,,souf,approved_example_allowed
+"צה""לנט",ALLOW,0,,,צהלנט,approved_example_allowed
+מתחם משותף (צד ימין)- ARMY + TS + אוזניה,ALLOW,0,"ימין, משותף, מתחם, צד",,מתחם משותף צד ימין army ts אוזניה,approved_example_allowed
+מתחם משותף (צד שמאל)- ARMY + אוזניה,ALLOW,0,"משותף, מתחם, צד, שמאל",,מתחם משותף צד שמאל army אוזניה,approved_example_allowed
+חדר 1- ARMY + אוזניה,ALLOW,0,חדר,,חדר 1 army אוזניה,approved_example_allowed
+חדר 2- ARMY + אוזניה,ALLOW,0,חדר,,חדר 2 army אוזניה,approved_example_allowed
+חדר 3- ARMY + אוזניה,ALLOW,0,חדר,,חדר 3 army אוזניה,approved_example_allowed
+חדר 4- ARMY + אוזניה,ALLOW,0,חדר,,חדר 4 army אוזניה,approved_example_allowed
+Army,ALLOW,0,,,army,approved_example_allowed
+ArmyTs,ALLOW,0,,,armyts,approved_example_allowed
+רילוקייטור,ALLOW,0,,,רילוקייטור,approved_example_allowed
+עמדת עבודה אישית (סודי+סודי ביותר),ALLOW,8,"אישית, סודי, סודי ביותר, עבודה, עמדת",,עמדת עבודה אישית סודי סודי ביותר,approved_example_allowed
+(סודי+סודי ביותר+uc) עמדת עבודה אישית,ALLOW,8,"אישית, סודי, סודי ביותר, עבודה, עמדת",,סודי סודי ביותר uc עמדת עבודה אישית,approved_example_allowed
+"חד""ן (עד 14 אנשים)",ALLOW,0,"אנשים, עד",,חדן עד 14 אנשים,approved_example_allowed
+יועץ כלכלי,ALLOW,0,"יועץ, כלכלי",,יועץ כלכלי,approved_example_allowed
+עמדה סודי+ vc + אוזניות,ALLOW,8,"סודי, עמדה",,עמדה סודי vc אוזניות,approved_example_allowed
+"חדר מג""ד - בדרגת סא""ל ומעלה בלבד",BLOCK,93,"בלבד, חדר, מג""ד, סא""ל",,חדר מגד בדרגת סאל ומעלה בלבד,keep_blocked_rank_or_command_exposure
+(סודי+סודי ביותר+uc) חדר עבודה פרטי,ALLOW,8,"חדר, סודי, סודי ביותר, עבודה, פרטי",,סודי סודי ביותר uc חדר עבודה פרטי,approved_example_allowed
+חדר עבודה פרטי (סודי+סודי ביותר),ALLOW,8,"חדר, סודי, סודי ביותר, עבודה, פרטי",,חדר עבודה פרטי סודי סודי ביותר,approved_example_allowed
+"עד הקצה + צה""לנט",ALLOW,0,"הקצה, עד",,עד הקצה צהלנט,approved_example_allowed
+כיתה מחלקתית (30-40 איש),ALLOW,8,"איש, כיתה, מחלקתית",,כיתה מחלקתית 30 40 איש,approved_example_allowed
+כיתה פלוגתית (134 איש),ALLOW,8,"איש, כיתה, פלוגתית",,כיתה פלוגתית 134 איש,approved_example_allowed
+"צי""ד (30 איש)",ALLOW,0,"איש, ציד",,ציד 30 איש,approved_example_allowed
+"הדב""ם (30 איש)",ALLOW,0,איש,,הדבם 30 איש,approved_example_allowed
+"צי""ד (30-40 איש)",ALLOW,0,"איש, ציד",,ציד 30 40 איש,approved_example_allowed
+עד הקצה + OneAman,ALLOW,0,"הקצה, עד",,עד הקצה oneaman,approved_example_allowed
+עד הקצה + כפר גלובלי + OneAman,ALLOW,0,"גלובלי, הקצה, כפר, עד",,עד הקצה כפר גלובלי oneaman,approved_example_allowed
+עד הקצה+OneAman+SOUF,ALLOW,0,"הקצה, עד",,עד הקצה oneaman souf,approved_example_allowed
+עד הקצה+SOUF+כפר גלובלי,ALLOW,0,"גלובלי, הקצה, כפר, עד",,עד הקצה souf כפר גלובלי,approved_example_allowed
+עד הקצה + צהלנט,ALLOW,0,"הקצה, עד",,עד הקצה צהלנט,approved_example_allowed
+צהלנט + OneAman,ALLOW,0,,,צהלנט oneaman,approved_example_allowed
+צהלנט + army ts,ALLOW,0,,,צהלנט army ts,approved_example_allowed
+army ts,ALLOW,0,,,army ts,approved_example_allowed
+רחבת שילוח- עד 150 איש,ALLOW,0,"איש, עד, שילוח",,רחבת שילוח עד 150 איש,approved_example_allowed
+ARMY + קליקנט,ALLOW,0,,,army קליקנט,approved_example_allowed
+רחבת הפרקליטות הקטנה- עד 100 איש,ALLOW,0,"איש, הקטנה, עד",,רחבת הפרקליטות הקטנה עד 100 איש,approved_example_allowed
+רחבת הפרקליטות הגדולה- עד 300 איש,ALLOW,0,"איש, עד",,רחבת הפרקליטות הגדולה עד 300 איש,approved_example_allowed
+עד 8 אנשים,ALLOW,0,"אנשים, עד",,עד 8 אנשים,approved_example_allowed
+עד 10 אנשים,ALLOW,0,"אנשים, עד",,עד 10 אנשים,approved_example_allowed
+עד 12 אנשים,ALLOW,0,"אנשים, עד",,עד 12 אנשים,approved_example_allowed
+עד 14 אנשים,ALLOW,0,"אנשים, עד",,עד 14 אנשים,approved_example_allowed
+עד 16 אנשים,ALLOW,0,"אנשים, עד",,עד 16 אנשים,approved_example_allowed
+עד 18 אנשים,ALLOW,0,"אנשים, עד",,עד 18 אנשים,approved_example_allowed
+עד 20 אנשים,ALLOW,0,"אנשים, עד",,עד 20 אנשים,approved_example_allowed
+"חד""ן +vc עד 4 אנשים",ALLOW,0,"אנשים, עד",,חדן vc עד 4 אנשים,approved_example_allowed
+צהלנט,ALLOW,0,,,צהלנט,approved_example_allowed
+עמדה סודי,ALLOW,8,"סודי, עמדה",,עמדה סודי,approved_example_allowed
+מסך אזרחי,ALLOW,0,"אזרחי, מסך",,מסך אזרחי,approved_example_allowed
+מסך+מחשב אזרחי,ALLOW,0,"אזרחי, מחשב, מסך",,מסך מחשב אזרחי,approved_example_allowed
+עמדת עבודה אישית + vc,ALLOW,0,"אישית, עבודה, עמדת",,עמדת עבודה אישית vc,approved_example_allowed
+תחקיר בטחוני,ALLOW,12,"תחקיר, תחקיר בטחוני",,תחקיר בטחוני,approved_example_allowed
+כפר גלובלי,ALLOW,0,"גלובלי, כפר",,כפר גלובלי,approved_example_allowed
+עד הקצה + כפר גלובלי,ALLOW,0,"גלובלי, הקצה, כפר, עד",,עד הקצה כפר גלובלי,approved_example_allowed
+עד הקצה + SOUF,ALLOW,0,"הקצה, עד",,עד הקצה souf,approved_example_allowed
+ספר גברים,ALLOW,0,"גברים, ספר",,ספר גברים,approved_example_allowed
+עד הקצה + OneAman/צהלנט + OneAman,ALLOW,0,"הקצה, עד",,עד הקצה oneaman צהלנט oneaman,approved_example_allowed
+אימון,ALLOW,0,אימון,,אימון,approved_example_allowed
+עמדת עבודה אישית,ALLOW,0,"אישית, עבודה, עמדת",,עמדת עבודה אישית,approved_example_allowed
+"משרד מפקד - מחשב סודי , VC",BLOCK,90,"מחשב, מפקד, מפקדה, משרד, סודי",,משרד מפקד מחשב סודי vc,keep_blocked_rank_or_command_exposure
+עמדת עבודה בעמידה,ALLOW,0,"עבודה, עמדת",,עמדת עבודה בעמידה,approved_example_allowed
+"חד""ן 15 אנשים - מחשב סודי , סודי ביותר, VC , VC מבצעי",ALLOW,12,"אנשים, מבצעי, מחשב, סודי, סודי ביותר",,חדן 15 אנשים מחשב סודי סודי ביותר vc vc מבצעי,approved_example_allowed
+עמדת עבודה אישית (סודי),ALLOW,8,"אישית, סודי, עבודה, עמדת",,עמדת עבודה אישית סודי,approved_example_allowed
+עמדת עבודה אישית (סודי ביותר),ALLOW,8,"אישית, סודי, סודי ביותר, עבודה, עמדת",,עמדת עבודה אישית סודי ביותר,approved_example_allowed
+ARMY,ALLOW,0,,,army,approved_example_allowed
+ARMYTS + ARMY,ALLOW,0,,,armyts army,approved_example_allowed
+ARMY-TS+OneAman,ALLOW,0,,,army ts oneaman,approved_example_allowed
+אזרחי + OneAman,ALLOW,0,אזרחי,,אזרחי oneaman,approved_example_allowed
+עד הקצה + צהלנט + OneAman,ALLOW,0,"הקצה, עד",,עד הקצה צהלנט oneaman,approved_example_allowed
+כפר גלובלי + ARMY-TS,ALLOW,0,"גלובלי, כפר",,כפר גלובלי army ts,approved_example_allowed
+"חד""ן (22 מקומות ישיבה)",ALLOW,0,"ישיבה, מקומות",,חדן 22 מקומות ישיבה,approved_example_allowed
+חדר דיונים,ALLOW,0,"דיונים, חדר",,חדר דיונים,approved_example_allowed
+"חד""ת",ALLOW,0,חדת,,חדת,approved_example_allowed
+חדש מורשת,ALLOW,0,"חדש, מורשת",,חדש מורשת,approved_example_allowed
+לובי קולנוע,ALLOW,0,"לובי, קולנוע",,לובי קולנוע,approved_example_allowed
+מגרש כדור רגל,ALLOW,0,"כדור, מגרש, רגל",,מגרש כדור רגל,approved_example_allowed
+קולנוע,ALLOW,0,קולנוע,,קולנוע,approved_example_allowed
+אולם ספורט,ALLOW,8,"אולם, ספורט",,אולם ספורט,approved_example_allowed
+בריכה,ALLOW,8,בריכה,,בריכה,approved_example_allowed
+"חד""ן אישי",ALLOW,0,אישי,,חדן אישי,approved_example_allowed
+עמדת VC,ALLOW,0,עמדת,,עמדת vc,approved_example_allowed
+פגישת קבע בכיר / מוסכם פרישה,BLOCK,88,"בכיר, מוסכם, פרישה, קבע",,פגישת קבע בכיר מוסכם פרישה,keep_blocked_rank_or_command_exposure
+פגישת קבע ראשוני / קבע מובהק,ALLOW,0,"מובהק, קבע, ראשוני",,פגישת קבע ראשוני קבע מובהק,approved_example_allowed
+משרד מפקד משותף,BLOCK,90,"מפקד, מפקדה, משותף, משרד",,משרד מפקד משותף,keep_blocked_rank_or_command_exposure
+מכלול מפקדים,BLOCK,90,"מכלול, מפקדים",,מכלול מפקדים,keep_blocked_rank_or_command_exposure
+"חד""ן",ALLOW,0,,,חדן,approved_example_allowed
+"משרד מפקד - מחשב סודי , סודי ביותר, VC , VC מבצעי",BLOCK,90,"מבצעי, מחשב, מפקד, מפקדה, משרד, סודי, סודי ביותר",,משרד מפקד מחשב סודי סודי ביותר vc vc מבצעי,keep_blocked_rank_or_command_exposure
+OneAman + Army,ALLOW,0,,,oneaman army,approved_example_allowed
+OneAman + Army + Army - TS,ALLOW,0,,,oneaman army army ts,approved_example_allowed

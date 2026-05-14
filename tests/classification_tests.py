@@ -119,3 +119,26 @@ def test_user_policy_allows_known_unclassified_locations_and_armory_service():
         result = classify_text(text)
         assert result["action"] == "ALLOW"
         assert result["risk_score"] < 60
+
+
+def test_approved_resource_network_labels_are_allowed():
+    for text in [
+        "עמדה סודי",
+        "עמדה סודי ביותר",
+        "עמדת עבודה אישית (סודי+סודי ביותר)",
+        "VC מבצעי",
+        "תחקיר בטחוני",
+    ]:
+        result = classify_text(text)
+        assert result["action"] == "ALLOW"
+
+
+def test_rank_and_command_resource_names_stay_blocked():
+    for text in [
+        'חדר מג"ד - בדרגת סא"ל ומעלה בלבד',
+        "חדר בכירים בלבד",
+        "משרד מפקד משותף",
+        "מכלול מפקדים",
+    ]:
+        result = classify_text(text)
+        assert result["action"] == "BLOCK"

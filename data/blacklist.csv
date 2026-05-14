@@ -21,8 +21,6 @@ term,normalized_term,category,source,risk_level,action,confidence,notes
 חדר מצב,חדר מצב,operations,atlas_seed_blacklist,84,BLOCK,0.95,Situation room phrase
 מבצע,מבצע,operations,atlas_seed_blacklist,92,BLOCK,0.95,Standalone operation term
 שם מבצע,שם מבצע,operations,atlas_seed_blacklist,94,BLOCK,0.95,Operation-name phrase
-מבצעי,מבצעי,operations,atlas_seed_blacklist,91,BLOCK,0.95,Operational adjective
-מבצעית,מבצעית,operations,atlas_seed_blacklist,91,BLOCK,0.95,Operational adjective
 חדר מבצעים,חדר מבצעים,operations,atlas_seed_blacklist,94,BLOCK,0.95,Operations room phrase
 "חמ""ל מבצעים",חמל מבצעים,operations,atlas_seed_blacklist,96,BLOCK,0.95,Operations war room phrase
 מבצעים חשאיים,מבצעים חשאיים,operations,atlas_seed_blacklist,96,BLOCK,0.95,Covert operations phrase
@@ -42,6 +40,9 @@ term,normalized_term,category,source,risk_level,action,confidence,notes
 מפקד חטיבה,מפקד חטיבה,command_role,atlas_seed_blacklist,93,BLOCK,0.95,Brigade commander role
 "מג""ד",מגד,command_role,atlas_seed_blacklist,93,BLOCK,0.95,Battalion commander acronym
 מפקד גדוד,מפקד גדוד,command_role,atlas_seed_blacklist,93,BLOCK,0.95,Battalion commander role
+בכיר,בכיר,senior_role,atlas_seed_blacklist,88,BLOCK,0.95,Senior-only role marker
+בכירים,בכירים,senior_role,atlas_seed_blacklist,90,BLOCK,0.95,Senior-only role marker
+בכירים בלבד,בכירים בלבד,senior_role,atlas_seed_blacklist,92,BLOCK,0.95,Senior-only access phrase
 "רנ""ג",רנג,senior_rank,atlas_seed_blacklist,90,BLOCK,0.95,Senior NCO rank acronym
 רב נגד,רב נגד,senior_rank,atlas_seed_blacklist,90,BLOCK,0.95,Senior NCO rank
 "מצו""ב",מצוב,sensitive_unit,atlas_seed_blacklist,94,BLOCK,0.95,Sensitive technology/cyber unit acronym
@@ -115,7 +116,6 @@ term,normalized_term,category,source,risk_level,action,confidence,notes
 מדור,מדור,organization,atlas_seed_greylist_promoted_blacklist,66,BLOCK,0.82,Civilian or military section
 תרגיל,תרגיל,operations,atlas_seed_greylist_promoted_blacklist,65,BLOCK,0.82,Exercise/drill term
 פרויקט,פרויקט,project,atlas_seed_greylist_promoted_blacklist,62,BLOCK,0.82,Context-sensitive project term
-תחקיר,תחקיר,operations,atlas_seed_greylist_promoted_blacklist,64,BLOCK,0.82,Context-sensitive debrief/investigation term
 אגף,אגף,organization,atlas_seed_greylist_promoted_blacklist,63,BLOCK,0.82,Context-sensitive branch term
 ענף,ענף,organization,atlas_seed_greylist_promoted_blacklist,63,BLOCK,0.82,Context-sensitive branch term
 לשכה,לשכה,office,atlas_seed_greylist_promoted_blacklist,60,BLOCK,0.82,Administrative office; risky near ranks
@@ -248,10 +248,6 @@ term,normalized_term,category,source,risk_level,action,confidence,notes
 מפקדות,מפקדות,command_structure,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: command_structure
 מפקדים,מפקדים,command_structure,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: command_structure
 נשק,נשק,military_assets,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: military_assets
-סודי,סודי,intelligence_security,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: intelligence_security
-סודיות,סודיות,intelligence_security,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: intelligence_security
-סודיים,סודיים,intelligence_security,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: intelligence_security
-סודית,סודית,intelligence_security,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: intelligence_security
 פיקודי,פיקודי,command_structure,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: command_structure
 פיקודיות,פיקודיות,command_structure,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: command_structure
 פיקודיים,פיקודיים,command_structure,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: command_structure

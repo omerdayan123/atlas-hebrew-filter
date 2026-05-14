@@ -6,6 +6,7 @@ from pathlib import Path
 
 from scripts.combinations import detect_combinations, load_combination_rules
 from scripts.export import export_all
+from scripts.lexicon_rules import EXPLICIT_SAFE_NORMALIZED_TERMS
 from scripts.normalize import normalize_text, tokenize
 
 
@@ -65,10 +66,14 @@ def phrase_or_fuzzy_match(
         return True
     if not allow_fuzzy:
         return False
-    if len(normalized_term) < 4:
+    if len(normalized_term) < 5:
         return False
     if len(term_tokens) == 1:
-        return any(similarity(token, normalized_term) >= 0.86 for token in tokens)
+        return any(
+            token not in EXPLICIT_SAFE_NORMALIZED_TERMS
+            and similarity(token, normalized_term) >= 0.86
+            for token in tokens
+        )
     for start in range(0, max(len(tokens) - len(term_tokens) + 1, 0)):
         candidate = " ".join(tokens[start : start + len(term_tokens)])
         if similarity(candidate, normalized_term) >= 0.86:
