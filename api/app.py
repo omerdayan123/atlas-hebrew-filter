@@ -17,6 +17,9 @@ ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = ROOT / "data"
 STATIC_DIR = ROOT / "api" / "static"
 TOKEN_RE = re.compile(r"[\u0590-\u05ffA-Za-z0-9]+")
+MIN_SUGGESTION_PREFIX = 2
+MAX_SUGGESTION_PREFIX = 24
+MAX_SUGGESTIONS_PER_PREFIX = 200
 
 
 class ClassificationRequest(BaseModel):
@@ -72,11 +75,13 @@ def validation_index() -> dict:
     }
     combinations = load_combination_rules(combination_rows)
     suggestions = build_suggestions(approved_rows, whitelist_rows, set(blacklist))
+    suggestion_prefixes = build_suggestion_prefixes(suggestions)
     return {
         "blacklist": blacklist,
         "whitelist": whitelist,
         "combinations": combinations,
         "suggestions": suggestions,
+        "suggestion_prefixes": suggestion_prefixes,
     }
 
 
@@ -112,10 +117,29 @@ def build_suggestions(
     return suggestions
 
 
-def suggestion_matches(query: str, suggestion: dict) -> bool:
-    normalized_query = normalize_text(query)
-    if len(normalized_query) < 2:
-        return False
+def build_suggestion_prefixes(suggestions: list[dict]) -> dict[str, list[dict]]:
+    prefixes: dict[str, list[dict]] = {}
+    seen_by_prefix: dict[str, set[str]] = {}
+
+    for suggestion in suggestions:
+        normalized_term = suggestion["normalized_term"]
+        candidates = {normalized_term, *normalized_term.split()}
+        for candidate in candidates:
+            max_length = min(len(candidate), MAX_SUGGESTION_PREFIX)
+            for length in range(MIN_SUGGESTION_PREFIX, max_length + 1):
+                prefix = candidate[:length]
+                bucket = prefixes.setdefault(prefix, [])
+                if len(bucket) >= MAX_SUGGESTIONS_PER_PREFIX:
+                    continue
+                seen = seen_by_prefix.setdefault(prefix, set())
+                if normalized_term in seen:
+                    continue
+                seen.add(normalized_term)
+                bucket.append(suggestion)
+    return prefixes
+
+
+def suggestion_matches_normalized(normalized_query: str, suggestion: dict) -> bool:
     normalized_term = suggestion["normalized_term"]
     return normalized_term.startswith(normalized_query) or any(
         token.startswith(normalized_query) for token in normalized_term.split()
@@ -127,12 +151,15 @@ def suggest(q: str = Query(default=""), limit: int = Query(default=12, ge=1, le=
     normalized_query = normalize_text(q)
     if len(normalized_query) < 2:
         return {"query": q, "suggestions": []}
-    suggestions = [
-        suggestion
-        for suggestion in validation_index()["suggestions"]
-        if suggestion_matches(normalized_query, suggestion)
-    ]
-    return {"query": q, "suggestions": suggestions[:limit]}
+    index_key = normalized_query[:MAX_SUGGESTION_PREFIX]
+    candidate_suggestions = validation_index()["suggestion_prefixes"].get(index_key, [])
+    if len(normalized_query) > MAX_SUGGESTION_PREFIX:
+        candidate_suggestions = [
+            suggestion
+            for suggestion in candidate_suggestions
+            if suggestion_matches_normalized(normalized_query, suggestion)
+        ]
+    return {"query": q, "suggestions": candidate_suggestions[:limit]}
 
 
 def text_tokens(text: str) -> list[str]:

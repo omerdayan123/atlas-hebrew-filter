@@ -1,6 +1,6 @@
 from fastapi.testclient import TestClient
 
-from api.app import app
+from api.app import app, validation_index
 
 
 client = TestClient(app)
@@ -23,11 +23,26 @@ def test_suggest_returns_approved_examples_before_whitelist_terms():
     assert suggestions[0]["display_term"].startswith("עמד")
 
 
+def test_suggest_uses_prebuilt_prefix_index():
+    index = validation_index()
+
+    assert "suggestion_prefixes" in index
+    assert index["suggestion_prefixes"]["עמ"]
+
+
 def test_suggest_accepts_numbers():
     response = client.get("/suggest", params={"q": "10"})
 
     assert response.status_code == 200
     assert "suggestions" in response.json()
+
+
+def test_ui_uses_inline_token_editor():
+    response = client.get("/")
+
+    assert response.status_code == 200
+    assert 'contenteditable="true"' in response.text
+    assert 'class="token' in response.text
 
 
 def test_validate_detailed_allows_approved_resource_label():

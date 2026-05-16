@@ -111,10 +111,9 @@
         margin-bottom: 8px;
       }
 
-      textarea {
+      .editor {
         width: 100%;
         min-height: 136px;
-        resize: vertical;
         border: 1px solid var(--line);
         background: #fffefa;
         color: var(--ink);
@@ -122,11 +121,47 @@
         font-size: 22px;
         line-height: 1.55;
         outline: none;
+        white-space: pre-wrap;
+        word-break: break-word;
+        overflow-y: auto;
       }
 
-      textarea:focus {
+      .editor:focus {
         border-color: var(--focus);
         box-shadow: 0 0 0 3px rgba(36, 78, 154, 0.14);
+      }
+
+      .editor:empty::before {
+        content: attr(data-placeholder);
+        color: #9a9285;
+      }
+
+      .token {
+        display: inline-block;
+        min-height: 30px;
+        margin: 2px 1px;
+        padding: 0 7px;
+        border: 1px solid transparent;
+        vertical-align: baseline;
+      }
+
+      .token.allow {
+        color: var(--green);
+        background: var(--green-bg);
+        border-color: rgba(18, 116, 71, 0.26);
+      }
+
+      .token.block {
+        color: var(--red);
+        background: var(--red-bg);
+        border-color: rgba(159, 29, 36, 0.36);
+        border-radius: 0;
+      }
+
+      .token.unknown {
+        color: var(--yellow);
+        background: var(--yellow-bg);
+        border-color: rgba(138, 98, 0, 0.28);
       }
 
       .suggestions {
@@ -262,13 +297,17 @@
       <section class="workspace">
         <div>
           <div class="input-wrap">
-            <label for="resourceName">שם משאב</label>
-            <textarea
+            <label id="resourceNameLabel" for="resourceName">שם משאב</label>
+            <div
               id="resourceName"
-              autocomplete="off"
+              class="editor"
+              contenteditable="true"
+              role="textbox"
+              aria-labelledby="resourceNameLabel"
+              aria-multiline="true"
               spellcheck="false"
-              placeholder="לדוגמה: עמדה סודי ביותר"
-            ></textarea>
+              data-placeholder="לדוגמה: עמדה סודי ביותר"
+            ></div>
             <div id="suggestions" class="suggestions" role="listbox"></div>
           </div>
           <div id="chips" class="chips"></div>
@@ -292,7 +331,7 @@
     </main>
 
     <script>
-      const input = document.getElementById("resourceName");
+      const editor = document.getElementById("resourceName");
       const statusBox = document.getElementById("status");
       const chips = document.getElementById("chips");
       const normalized = document.getElementById("normalized");
@@ -300,6 +339,9 @@
       const terms = document.getElementById("terms");
       const suggestions = document.getElementById("suggestions");
       let timer = null;
+      let validationController = null;
+      let suggestionController = null;
+      let lastText = "";
 
       const statusText = {
         ALLOW: "מאושר",
@@ -336,24 +378,90 @@
         values.forEach((value) => node.appendChild(chip(value, status, "")));
       }
 
-      async function validate() {
-        const text = input.value.trim();
-        if (!text) {
-          renderStatus("UNKNOWN");
-          chips.innerHTML = "";
-          normalized.textContent = "-";
+      function escapeHtml(value) {
+        return value
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
+      }
+
+      function getText() {
+        return editor.innerText.replace(/\u00a0/g, " ");
+      }
+
+      function setText(value) {
+        editor.textContent = value;
+        moveCaretToEnd();
+      }
+
+      function moveCaretToEnd() {
+        editor.focus();
+        const range = document.createRange();
+        range.selectNodeContents(editor);
+        range.collapse(false);
+        const selection = window.getSelection();
+        selection.removeAllRanges();
+        selection.addRange(range);
+      }
+
+      function renderEditorSegments(payload) {
+        const text = payload.text || "";
+        const segments = payload.segments || [];
+        const parts = [];
+        let cursor = 0;
+
+        segments.forEach((segment) => {
+          const index = text.indexOf(segment.value, cursor);
+          if (index === -1) {
+            return;
+          }
+          parts.push(escapeHtml(text.slice(cursor, index)));
+          parts.push(
+            `<span class="token ${className(segment.status)}" title="${escapeHtml(
+              segment.reason || segment.status,
+            )}">${escapeHtml(segment.value)}</span>`,
+          );
+          cursor = index + segment.value.length;
+        });
+        parts.push(escapeHtml(text.slice(cursor)));
+        editor.innerHTML = parts.join("");
+        moveCaretToEnd();
+      }
+
+      function resetDetails() {
+        renderStatus("UNKNOWN");
+        chips.innerHTML = "";
+        normalized.textContent = "-";
+        renderList(combinations, [], "BLOCK");
+        renderList(terms, [], "ALLOW");
+      }
+
+      async function validate({ paint = false } = {}) {
+        const text = getText();
+        if (!text.trim()) {
+          resetDetails();
           renderList(combinations, [], "BLOCK");
           renderList(terms, [], "ALLOW");
           suggestions.classList.remove("visible");
           return;
         }
 
+        validationController?.abort();
+        validationController = new AbortController();
         const response = await fetch("/validate-detailed", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ text }),
-        });
+          signal: validationController.signal,
+        }).catch((error) => (error.name === "AbortError" ? null : Promise.reject(error)));
+        if (!response) {
+          return;
+        }
         const payload = await response.json();
+        if (payload.text !== getText()) {
+          return;
+        }
         renderStatus(payload.overall_status);
         normalized.textContent = payload.normalized_text || "-";
         chips.innerHTML = "";
@@ -362,11 +470,14 @@
         });
         renderList(combinations, payload.matched_combinations || [], "BLOCK");
         renderList(terms, payload.matched_terms || [], "ALLOW");
+        if (paint) {
+          renderEditorSegments(payload);
+        }
       }
 
       function currentToken() {
-        const beforeCursor = input.value.slice(0, input.selectionStart || input.value.length);
-        const match = beforeCursor.match(/[\u0590-\u05ffA-Za-z0-9]+$/);
+        const text = getText();
+        const match = text.match(/[\u0590-\u05ffA-Za-z0-9]+$/);
         return match ? match[0] : "";
       }
 
@@ -377,7 +488,14 @@
           suggestions.innerHTML = "";
           return;
         }
-        const response = await fetch(`/suggest?q=${encodeURIComponent(token)}`);
+        suggestionController?.abort();
+        suggestionController = new AbortController();
+        const response = await fetch(`/suggest?q=${encodeURIComponent(token)}`, {
+          signal: suggestionController.signal,
+        }).catch((error) => (error.name === "AbortError" ? null : Promise.reject(error)));
+        if (!response) {
+          return;
+        }
         const payload = await response.json();
         suggestions.innerHTML = "";
         if (!payload.suggestions.length) {
@@ -396,35 +514,42 @@
       }
 
       function insertSuggestion(value) {
-        const cursor = input.selectionStart || input.value.length;
-        const before = input.value.slice(0, cursor);
-        const after = input.value.slice(cursor);
-        const replaced = before.replace(/[\u0590-\u05ffA-Za-z0-9]+$/, value);
-        input.value = `${replaced}${after}`;
-        input.focus();
+        const text = getText();
+        const replaced = text.replace(/[\u0590-\u05ffA-Za-z0-9]+$/, value);
+        setText(replaced);
         suggestions.classList.remove("visible");
-        schedule();
+        schedule({ paint: true });
       }
 
-      function schedule() {
+      function schedule({ paint = false } = {}) {
         clearTimeout(timer);
         timer = setTimeout(() => {
-          validate();
+          validate({ paint });
           updateSuggestions();
-        }, 160);
+        }, 220);
       }
 
-      input.addEventListener("input", schedule);
-      input.addEventListener("keyup", updateSuggestions);
+      editor.addEventListener("input", (event) => {
+        const text = getText();
+        const typedBoundary = /\s$/.test(text) || text.length < lastText.length;
+        lastText = text;
+        schedule({ paint: typedBoundary });
+      });
+
+      editor.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+          event.preventDefault();
+          document.execCommand("insertText", false, " ");
+        }
+      });
+
       document.addEventListener("click", (event) => {
-        if (!suggestions.contains(event.target) && event.target !== input) {
+        if (!suggestions.contains(event.target) && event.target !== editor) {
           suggestions.classList.remove("visible");
         }
       });
 
-      renderStatus("UNKNOWN");
-      renderList(combinations, [], "BLOCK");
-      renderList(terms, [], "ALLOW");
+      resetDetails();
     </script>
   </body>
 </html>
