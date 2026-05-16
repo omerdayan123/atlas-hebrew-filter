@@ -18,6 +18,8 @@
         --yellow: #8a6200;
         --yellow-bg: #fff1bd;
         --focus: #244e9a;
+        --radius: 10px;
+        --radius-small: 7px;
       }
 
       * {
@@ -43,7 +45,9 @@
       .shell {
         background: rgba(255, 253, 247, 0.94);
         border: 1px solid var(--line);
+        border-radius: var(--radius);
         box-shadow: 0 22px 55px rgba(48, 42, 31, 0.14);
+        overflow: hidden;
       }
 
       header {
@@ -70,6 +74,7 @@
       .status {
         min-width: 168px;
         border: 1px solid var(--line);
+        border-radius: var(--radius-small);
         padding: 12px 14px;
         text-align: center;
         font-weight: 700;
@@ -115,6 +120,7 @@
         width: 100%;
         min-height: 136px;
         border: 1px solid var(--line);
+        border-radius: var(--radius-small);
         background: #fffefa;
         color: var(--ink);
         padding: 18px;
@@ -142,6 +148,7 @@
         margin: 2px 1px;
         padding: 0 7px;
         border: 1px solid transparent;
+        border-radius: 6px;
         vertical-align: baseline;
       }
 
@@ -155,7 +162,6 @@
         color: var(--red);
         background: var(--red-bg);
         border-color: rgba(159, 29, 36, 0.36);
-        border-radius: 0;
       }
 
       .token.unknown {
@@ -172,6 +178,7 @@
         max-height: 280px;
         overflow: auto;
         border: 1px solid var(--line);
+        border-radius: var(--radius-small);
         background: var(--panel);
         box-shadow: 0 18px 38px rgba(48, 42, 31, 0.16);
         display: none;
@@ -221,6 +228,7 @@
         min-height: 32px;
         padding: 6px 10px;
         border: 1px solid var(--line);
+        border-radius: var(--radius-small);
         font-size: 14px;
       }
 
@@ -241,6 +249,7 @@
 
       aside {
         border: 1px solid var(--line);
+        border-radius: var(--radius-small);
         padding: 18px;
         background: #fbf6ea;
       }
@@ -281,6 +290,7 @@
 
       .override-form {
         border: 1px solid var(--line);
+        border-radius: var(--radius-small);
         background: #fffefa;
         padding: 16px;
       }
@@ -306,6 +316,7 @@
         min-width: 72px;
         padding: 4px 8px;
         border: 1px solid currentColor;
+        border-radius: 999px;
         text-align: center;
         font-size: 12px;
       }
@@ -337,6 +348,7 @@
       .override-input {
         width: 100%;
         border: 1px solid var(--line);
+        border-radius: var(--radius-small);
         background: white;
         color: var(--ink);
         padding: 11px 12px;
@@ -351,6 +363,7 @@
 
       .override-button {
         border: 1px solid currentColor;
+        border-radius: var(--radius-small);
         padding: 11px 14px;
         font: inherit;
         font-weight: 700;
