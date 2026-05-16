@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Atlas Resource Validator</title>
+    <style>
+      :root {
+        --ink: #17201b;
+        --muted: #64706a;
+        --paper: #f7f3ea;
+        --panel: #fffdf7;
+        --line: #d9d0bf;
+        --green: #127447;
+        --green-bg: #e2f4e9;
+        --red: #9f1d24;
+        --red-bg: #fae1df;
+        --yellow: #8a6200;
+        --yellow-bg: #fff1bd;
+        --focus: #244e9a;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        color: var(--ink);
+        background:
+          linear-gradient(90deg, rgba(23, 32, 27, 0.045) 1px, transparent 1px),
+          linear-gradient(rgba(23, 32, 27, 0.035) 1px, transparent 1px),
+          var(--paper);
+        background-size: 28px 28px;
+        font-family: "Avenir Next", "Noto Sans Hebrew", "Segoe UI", sans-serif;
+      }
+
+      main {
+        width: min(1080px, calc(100vw - 32px));
+        margin: 32px auto;
+      }
+
+      .shell {
+        background: rgba(255, 253, 247, 0.94);
+        border: 1px solid var(--line);
+        box-shadow: 0 22px 55px rgba(48, 42, 31, 0.14);
+      }
+
+      header {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 24px;
+        padding: 28px 28px 18px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      h1 {
+        margin: 0;
+        font-size: 28px;
+        letter-spacing: 0;
+      }
+
+      .subtle {
+        margin: 8px 0 0;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .status {
+        min-width: 168px;
+        border: 1px solid var(--line);
+        padding: 12px 14px;
+        text-align: center;
+        font-weight: 700;
+      }
+
+      .status.allow {
+        color: var(--green);
+        background: var(--green-bg);
+        border-color: rgba(18, 116, 71, 0.28);
+      }
+
+      .status.block {
+        color: var(--red);
+        background: var(--red-bg);
+        border-color: rgba(159, 29, 36, 0.28);
+      }
+
+      .status.unknown {
+        color: var(--yellow);
+        background: var(--yellow-bg);
+        border-color: rgba(138, 98, 0, 0.28);
+      }
+
+      .workspace {
+        display: grid;
+        grid-template-columns: minmax(0, 1.6fr) minmax(280px, 0.9fr);
+        gap: 22px;
+        padding: 28px;
+      }
+
+      .input-wrap {
+        position: relative;
+      }
+
+      label {
+        display: block;
+        font-size: 13px;
+        color: var(--muted);
+        margin-bottom: 8px;
+      }
+
+      textarea {
+        width: 100%;
+        min-height: 136px;
+        resize: vertical;
+        border: 1px solid var(--line);
+        background: #fffefa;
+        color: var(--ink);
+        padding: 18px;
+        font-size: 22px;
+        line-height: 1.55;
+        outline: none;
+      }
+
+      textarea:focus {
+        border-color: var(--focus);
+        box-shadow: 0 0 0 3px rgba(36, 78, 154, 0.14);
+      }
+
+      .suggestions {
+        position: absolute;
+        z-index: 5;
+        inset-inline: 0;
+        top: calc(100% + 8px);
+        max-height: 280px;
+        overflow: auto;
+        border: 1px solid var(--line);
+        background: var(--panel);
+        box-shadow: 0 18px 38px rgba(48, 42, 31, 0.16);
+        display: none;
+      }
+
+      .suggestions.visible {
+        display: block;
+      }
+
+      .suggestion {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        gap: 14px;
+        border: 0;
+        border-bottom: 1px solid #eee6d8;
+        background: transparent;
+        padding: 12px 14px;
+        color: var(--ink);
+        text-align: start;
+        cursor: pointer;
+        font: inherit;
+      }
+
+      .suggestion:hover,
+      .suggestion:focus {
+        background: #f1eadc;
+      }
+
+      .source {
+        color: var(--muted);
+        font-size: 12px;
+        white-space: nowrap;
+      }
+
+      .chips,
+      .matches {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 14px;
+      }
+
+      .chip {
+        display: inline-flex;
+        align-items: center;
+        min-height: 32px;
+        padding: 6px 10px;
+        border: 1px solid var(--line);
+        font-size: 14px;
+      }
+
+      .chip.allow {
+        color: var(--green);
+        background: var(--green-bg);
+      }
+
+      .chip.block {
+        color: var(--red);
+        background: var(--red-bg);
+      }
+
+      .chip.unknown {
+        color: var(--yellow);
+        background: var(--yellow-bg);
+      }
+
+      aside {
+        border: 1px solid var(--line);
+        padding: 18px;
+        background: #fbf6ea;
+      }
+
+      h2 {
+        margin: 0 0 12px;
+        font-size: 18px;
+      }
+
+      .meta {
+        display: grid;
+        gap: 10px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .empty {
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      @media (max-width: 760px) {
+        main {
+          margin: 16px auto;
+          width: min(100vw - 20px, 1080px);
+        }
+
+        header,
+        .workspace {
+          grid-template-columns: 1fr;
+          display: grid;
+        }
+
+        header {
+          align-items: stretch;
+        }
+
+        .status {
+          min-width: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="shell">
+      <header>
+        <div>
+          <h1>Atlas Resource Validator</h1>
+          <p class="subtle">בדיקת שם משאב מול רשימות שחור/לבן ושילובים רגישים</p>
+        </div>
+        <div id="status" class="status unknown">הקלד שם משאב</div>
+      </header>
+
+      <section class="workspace">
+        <div>
+          <div class="input-wrap">
+            <label for="resourceName">שם משאב</label>
+            <textarea
+              id="resourceName"
+              autocomplete="off"
+              spellcheck="false"
+              placeholder="לדוגמה: עמדה סודי ביותר"
+            ></textarea>
+            <div id="suggestions" class="suggestions" role="listbox"></div>
+          </div>
+          <div id="chips" class="chips"></div>
+        </div>
+
+        <aside>
+          <h2>פירוט בדיקה</h2>
+          <div class="meta">
+            <div><strong>טקסט מנורמל:</strong> <span id="normalized">-</span></div>
+            <div>
+              <strong>שילובים רגישים:</strong>
+              <div id="combinations" class="matches"></div>
+            </div>
+            <div>
+              <strong>מונחים מזוהים:</strong>
+              <div id="terms" class="matches"></div>
+            </div>
+          </div>
+        </aside>
+      </section>
+    </main>
+
+    <script>
+      const input = document.getElementById("resourceName");
+      const statusBox = document.getElementById("status");
+      const chips = document.getElementById("chips");
+      const normalized = document.getElementById("normalized");
+      const combinations = document.getElementById("combinations");
+      const terms = document.getElementById("terms");
+      const suggestions = document.getElementById("suggestions");
+      let timer = null;
+
+      const statusText = {
+        ALLOW: "מאושר",
+        BLOCK: "חסום",
+        UNKNOWN: "לא מזוהה",
+      };
+
+      function className(status) {
+        return status.toLowerCase();
+      }
+
+      function renderStatus(status) {
+        statusBox.className = `status ${className(status)}`;
+        statusBox.textContent = statusText[status] || "לא מזוהה";
+      }
+
+      function chip(value, status, reason) {
+        const span = document.createElement("span");
+        span.className = `chip ${className(status)}`;
+        span.textContent = value;
+        span.title = reason || status;
+        return span;
+      }
+
+      function renderList(node, values, status) {
+        node.innerHTML = "";
+        if (!values.length) {
+          const empty = document.createElement("span");
+          empty.className = "empty";
+          empty.textContent = "אין";
+          node.appendChild(empty);
+          return;
+        }
+        values.forEach((value) => node.appendChild(chip(value, status, "")));
+      }
+
+      async function validate() {
+        const text = input.value.trim();
+        if (!text) {
+          renderStatus("UNKNOWN");
+          chips.innerHTML = "";
+          normalized.textContent = "-";
+          renderList(combinations, [], "BLOCK");
+          renderList(terms, [], "ALLOW");
+          suggestions.classList.remove("visible");
+          return;
+        }
+
+        const response = await fetch("/validate-detailed", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text }),
+        });
+        const payload = await response.json();
+        renderStatus(payload.overall_status);
+        normalized.textContent = payload.normalized_text || "-";
+        chips.innerHTML = "";
+        payload.segments.forEach((segment) => {
+          chips.appendChild(chip(segment.value, segment.status, segment.reason));
+        });
+        renderList(combinations, payload.matched_combinations || [], "BLOCK");
+        renderList(terms, payload.matched_terms || [], "ALLOW");
+      }
+
+      function currentToken() {
+        const beforeCursor = input.value.slice(0, input.selectionStart || input.value.length);
+        const match = beforeCursor.match(/[\u0590-\u05ffA-Za-z0-9]+$/);
+        return match ? match[0] : "";
+      }
+
+      async function updateSuggestions() {
+        const token = currentToken();
+        if (token.length < 2) {
+          suggestions.classList.remove("visible");
+          suggestions.innerHTML = "";
+          return;
+        }
+        const response = await fetch(`/suggest?q=${encodeURIComponent(token)}`);
+        const payload = await response.json();
+        suggestions.innerHTML = "";
+        if (!payload.suggestions.length) {
+          suggestions.classList.remove("visible");
+          return;
+        }
+        payload.suggestions.forEach((item) => {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = "suggestion";
+          button.innerHTML = `<span>${item.display_term}</span><span class="source">${item.source_type}</span>`;
+          button.addEventListener("click", () => insertSuggestion(item.display_term));
+          suggestions.appendChild(button);
+        });
+        suggestions.classList.add("visible");
+      }
+
+      function insertSuggestion(value) {
+        const cursor = input.selectionStart || input.value.length;
+        const before = input.value.slice(0, cursor);
+        const after = input.value.slice(cursor);
+        const replaced = before.replace(/[\u0590-\u05ffA-Za-z0-9]+$/, value);
+        input.value = `${replaced}${after}`;
+        input.focus();
+        suggestions.classList.remove("visible");
+        schedule();
+      }
+
+      function schedule() {
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+          validate();
+          updateSuggestions();
+        }, 160);
+      }
+
+      input.addEventListener("input", schedule);
+      input.addEventListener("keyup", updateSuggestions);
+      document.addEventListener("click", (event) => {
+        if (!suggestions.contains(event.target) && event.target !== input) {
+          suggestions.classList.remove("visible");
+        }
+      });
+
+      renderStatus("UNKNOWN");
+      renderList(combinations, [], "BLOCK");
+      renderList(terms, [], "ALLOW");
+    </script>
+  </body>
+</html>

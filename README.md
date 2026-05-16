@@ -95,6 +95,12 @@ python3 -m scripts.classify "לשכת אלוף"
 uvicorn api.app:app --reload
 ```
 
+Open the browser UI:
+
+```text
+http://127.0.0.1:8000/
+```
+
 POST `/classify`:
 
 ```json
@@ -105,6 +111,17 @@ POST `/classify`:
 ```
 
 Blocked requests with `audit: true` are appended to `logs/audit.jsonl`.
+
+Additional UI endpoints:
+
+- `GET /suggest?q=עמ`: autocomplete after at least two characters.
+- `POST /validate-detailed`: token-level validation for the live UI.
+
+`validate-detailed` returns UI-only `overall_status` values:
+
+- `ALLOW`: no blocked terms or unknown tokens.
+- `BLOCK`: a blacklisted term or problematic combination matched.
+- `UNKNOWN`: no block, but at least one typed token is not recognized in the black/white data.
 
 ## Optional Public Lexicon Ingestion
 
