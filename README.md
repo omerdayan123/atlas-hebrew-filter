@@ -101,6 +101,30 @@ Open the browser UI:
 http://127.0.0.1:8000/
 ```
 
+## Live UI Development
+
+For live browser refresh while editing `api/static/index.html`, run the FastAPI
+API and Vite UI server in two terminals:
+
+```bash
+uvicorn api.app:app --reload
+```
+
+```bash
+npm install
+npm run dev
+```
+
+Open the Vite URL:
+
+```text
+http://127.0.0.1:5173/
+```
+
+Vite serves the static UI and proxies API calls such as `/suggest`,
+`/validate-detailed`, and `/overrides/*` to FastAPI on port `8000`. The normal
+FastAPI URL on port `8000` still works for production-like local testing.
+
 POST `/classify`:
 
 ```json
