@@ -1,14 +1,16 @@
 import csv
 import re
+from datetime import datetime, timezone
 from functools import lru_cache
 from pathlib import Path
 
-from fastapi import FastAPI, Query
+from fastapi import FastAPI, HTTPException, Query
 from fastapi.responses import FileResponse, HTMLResponse
 from pydantic import BaseModel, Field
 
 from scripts.classify import classify_text
 from scripts.combinations import detect_combinations, load_combination_rules
+from scripts.export import TERM_FIELDS, write_csv, write_split_word_only_csv, write_word_only_csv
 from scripts.normalize import normalize_text
 
 
@@ -31,6 +33,10 @@ class DetailedValidationRequest(BaseModel):
     text: str = Field(..., min_length=1)
 
 
+class TermOverrideRequest(BaseModel):
+    term: str = Field(..., min_length=1)
+
+
 @app.get("/health")
 def health() -> dict:
     return {"status": "ok"}
@@ -51,9 +57,115 @@ def classify(request: ClassificationRequest) -> dict:
     return classify_text(request.text, audit=request.audit)
 
 
+@app.post("/overrides/whitelist")
+def add_whitelist_override(request: TermOverrideRequest) -> dict:
+    try:
+        row = move_term_to_list(request.term, "ALLOW")
+    except ValueError as error:
+        raise HTTPException(status_code=400, detail=str(error)) from error
+    return {
+        "status": "ok",
+        "message": "Term added to whitelist override list",
+        "term": row["term"],
+        "normalized_term": row["normalized_term"],
+        "action": row["action"],
+    }
+
+
+@app.post("/overrides/blacklist")
+def add_blacklist_override(request: TermOverrideRequest) -> dict:
+    try:
+        row = move_term_to_list(request.term, "BLOCK")
+    except ValueError as error:
+        raise HTTPException(status_code=400, detail=str(error)) from error
+    return {
+        "status": "ok",
+        "message": "Term added to blacklist override list",
+        "term": row["term"],
+        "normalized_term": row["normalized_term"],
+        "action": row["action"],
+    }
+
+
 def read_csv_rows(path: Path) -> list[dict]:
+    if not path.exists():
+        return []
     with path.open("r", encoding="utf-8", newline="") as handle:
         return list(csv.DictReader(handle))
+
+
+def write_override_history(path: Path, row: dict) -> None:
+    fields = [
+        "term",
+        "normalized_term",
+        "action",
+        "category",
+        "source",
+        "created_at",
+        "notes",
+    ]
+    rows = read_csv_rows(path)
+    rows = [existing for existing in rows if existing["normalized_term"] != row["normalized_term"]]
+    rows.append({field: row.get(field, "") for field in fields})
+    write_csv(path, rows, fields)
+
+
+def move_term_to_list(term: str, action: str, data_dir: Path | None = None) -> dict:
+    data_dir = data_dir or DATA_DIR
+    normalized = normalize_text(term)
+    if not normalized:
+        raise ValueError("Term has no normalized content")
+
+    is_allow = action == "ALLOW"
+    target_name = "whitelist.csv" if is_allow else "blacklist.csv"
+    opposite_name = "blacklist.csv" if is_allow else "whitelist.csv"
+    history_name = "user_whitelist_additions.csv" if is_allow else "user_blacklist_additions.csv"
+    category = "user_whitelist_override" if is_allow else "user_blacklist_override"
+    source = "atlas_ui_user_whitelist_override" if is_allow else "atlas_ui_user_blacklist_override"
+    notes = (
+        "User override from UI: force allow term"
+        if is_allow
+        else "User override from UI: force block term"
+    )
+    row = {
+        "term": term.strip(),
+        "normalized_term": normalized,
+        "category": category,
+        "source": source,
+        "risk_level": 0 if is_allow else 95,
+        "action": action,
+        "confidence": 0.99,
+        "notes": notes,
+    }
+
+    target_rows = read_csv_rows(data_dir / target_name)
+    opposite_rows = read_csv_rows(data_dir / opposite_name)
+    all_rows = read_csv_rows(data_dir / "all_terms.csv")
+
+    target_rows = [existing for existing in target_rows if existing["normalized_term"] != normalized]
+    opposite_rows = [existing for existing in opposite_rows if existing["normalized_term"] != normalized]
+    all_rows = [existing for existing in all_rows if existing["normalized_term"] != normalized]
+    target_rows.append(row)
+
+    blacklist_rows = target_rows if not is_allow else opposite_rows
+    whitelist_rows = target_rows if is_allow else opposite_rows
+    all_rows = blacklist_rows + whitelist_rows
+
+    write_csv(data_dir / "blacklist.csv", blacklist_rows, TERM_FIELDS)
+    write_csv(data_dir / "whitelist.csv", whitelist_rows, TERM_FIELDS)
+    write_csv(data_dir / "all_terms.csv", all_rows, TERM_FIELDS)
+    write_word_only_csv(data_dir / "blacklist_words.csv", blacklist_rows)
+    write_word_only_csv(data_dir / "whitelist_words.csv", whitelist_rows)
+    write_split_word_only_csv(data_dir / "whitelist_parts", whitelist_rows)
+    write_override_history(
+        data_dir / history_name,
+        {
+            **row,
+            "created_at": datetime.now(timezone.utc).isoformat(),
+        },
+    )
+    validation_index.cache_clear()
+    return row
 
 
 @lru_cache(maxsize=1)

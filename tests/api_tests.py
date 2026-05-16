@@ -1,9 +1,56 @@
+import csv
+
 from fastapi.testclient import TestClient
 
+import api.app as api_app
 from api.app import app, validation_index
+from scripts.export import COMBINATION_FIELDS, TERM_FIELDS, write_csv
 
 
 client = TestClient(app)
+
+
+def seed_override_test_data(tmp_path):
+    write_csv(
+        tmp_path / "blacklist.csv",
+        [
+            {
+                "term": "רגיש",
+                "normalized_term": "רגיש",
+                "category": "seed",
+                "source": "test",
+                "risk_level": 95,
+                "action": "BLOCK",
+                "confidence": 1,
+                "notes": "",
+            }
+        ],
+        TERM_FIELDS,
+    )
+    write_csv(
+        tmp_path / "whitelist.csv",
+        [
+            {
+                "term": "מותר",
+                "normalized_term": "מותר",
+                "category": "seed",
+                "source": "test",
+                "risk_level": 0,
+                "action": "ALLOW",
+                "confidence": 1,
+                "notes": "",
+            }
+        ],
+        TERM_FIELDS,
+    )
+    write_csv(tmp_path / "all_terms.csv", [], TERM_FIELDS)
+    write_csv(tmp_path / "problematic_combinations.csv", [], COMBINATION_FIELDS)
+    write_csv(tmp_path / "approved_resource_analysis.csv", [], ["resource_name", "action"])
+
+
+def read_rows(path):
+    with path.open(encoding="utf-8", newline="") as handle:
+        return list(csv.DictReader(handle))
 
 
 def test_suggest_requires_at_least_two_characters():
@@ -43,6 +90,50 @@ def test_ui_uses_inline_token_editor():
     assert response.status_code == 200
     assert 'contenteditable="true"' in response.text
     assert 'class="token' in response.text
+
+
+def test_ui_contains_manual_override_fields():
+    response = client.get("/")
+
+    assert response.status_code == 200
+    assert "הוספה לרשימה לבנה" in response.text
+    assert "הוספה לרשימה שחורה" in response.text
+    assert "/overrides/whitelist" in response.text
+    assert "/overrides/blacklist" in response.text
+
+
+def test_whitelist_override_moves_existing_black_term_to_white(tmp_path, monkeypatch):
+    seed_override_test_data(tmp_path)
+    monkeypatch.setattr(api_app, "DATA_DIR", tmp_path)
+    validation_index.cache_clear()
+
+    response = client.post("/overrides/whitelist", json={"term": "רגיש"})
+
+    assert response.status_code == 200
+    assert response.json()["action"] == "ALLOW"
+    blacklist = read_rows(tmp_path / "blacklist.csv")
+    whitelist = read_rows(tmp_path / "whitelist.csv")
+    additions = read_rows(tmp_path / "user_whitelist_additions.csv")
+    assert not any(row["normalized_term"] == "רגיש" for row in blacklist)
+    assert any(row["normalized_term"] == "רגיש" for row in whitelist)
+    assert additions[0]["normalized_term"] == "רגיש"
+
+
+def test_blacklist_override_moves_existing_white_term_to_black(tmp_path, monkeypatch):
+    seed_override_test_data(tmp_path)
+    monkeypatch.setattr(api_app, "DATA_DIR", tmp_path)
+    validation_index.cache_clear()
+
+    response = client.post("/overrides/blacklist", json={"term": "מותר"})
+
+    assert response.status_code == 200
+    assert response.json()["action"] == "BLOCK"
+    blacklist = read_rows(tmp_path / "blacklist.csv")
+    whitelist = read_rows(tmp_path / "whitelist.csv")
+    additions = read_rows(tmp_path / "user_blacklist_additions.csv")
+    assert any(row["normalized_term"] == "מותר" for row in blacklist)
+    assert not any(row["normalized_term"] == "מותר" for row in whitelist)
+    assert additions[0]["normalized_term"] == "מותר"
 
 
 def test_validate_detailed_allows_approved_resource_label():

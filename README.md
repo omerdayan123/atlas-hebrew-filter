@@ -116,6 +116,8 @@ Additional UI endpoints:
 
 - `GET /suggest?q=עמ`: autocomplete after at least two characters.
 - `POST /validate-detailed`: token-level validation for the live UI.
+- `POST /overrides/whitelist`: force a submitted term into `all_terms.csv` and `whitelist.csv`, removing it from `blacklist.csv` if present. Also records it in `data/user_whitelist_additions.csv`.
+- `POST /overrides/blacklist`: force a submitted term into `all_terms.csv` and `blacklist.csv`, removing it from `whitelist.csv` if present. Also records it in `data/user_blacklist_additions.csv`.
 
 `validate-detailed` returns UI-only `overall_status` values:
 

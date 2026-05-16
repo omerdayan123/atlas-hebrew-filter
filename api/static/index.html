@@ -262,6 +262,127 @@
         font-size: 14px;
       }
 
+      .override-panel {
+        border-top: 1px solid var(--line);
+        padding: 24px 28px 28px;
+        background: #fffaf0;
+      }
+
+      .override-panel h2 {
+        margin-bottom: 6px;
+      }
+
+      .override-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+        margin-top: 18px;
+      }
+
+      .override-form {
+        border: 1px solid var(--line);
+        background: #fffefa;
+        padding: 16px;
+      }
+
+      .override-form.allow {
+        border-color: rgba(18, 116, 71, 0.3);
+      }
+
+      .override-form.block {
+        border-color: rgba(159, 29, 36, 0.3);
+      }
+
+      .override-title {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        align-items: center;
+        margin-bottom: 10px;
+        font-weight: 700;
+      }
+
+      .override-badge {
+        min-width: 72px;
+        padding: 4px 8px;
+        border: 1px solid currentColor;
+        text-align: center;
+        font-size: 12px;
+      }
+
+      .override-badge.allow {
+        color: var(--green);
+        background: var(--green-bg);
+      }
+
+      .override-badge.block {
+        color: var(--red);
+        background: var(--red-bg);
+      }
+
+      .override-help {
+        min-height: 40px;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.45;
+      }
+
+      .override-controls {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 10px;
+        margin-top: 14px;
+      }
+
+      .override-input {
+        width: 100%;
+        border: 1px solid var(--line);
+        background: white;
+        color: var(--ink);
+        padding: 11px 12px;
+        font: inherit;
+        outline: none;
+      }
+
+      .override-input:focus {
+        border-color: var(--focus);
+        box-shadow: 0 0 0 3px rgba(36, 78, 154, 0.14);
+      }
+
+      .override-button {
+        border: 1px solid currentColor;
+        padding: 11px 14px;
+        font: inherit;
+        font-weight: 700;
+        cursor: pointer;
+        white-space: nowrap;
+      }
+
+      .override-button.allow {
+        color: var(--green);
+        background: var(--green-bg);
+      }
+
+      .override-button.block {
+        color: var(--red);
+        background: var(--red-bg);
+      }
+
+      .override-result {
+        min-height: 20px;
+        margin-top: 10px;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .override-result.success {
+        color: var(--green);
+      }
+
+      .override-result.error {
+        color: var(--red);
+      }
+
       @media (max-width: 760px) {
         main {
           margin: 16px auto;
@@ -280,6 +401,11 @@
 
         .status {
           min-width: 0;
+        }
+
+        .override-grid,
+        .override-controls {
+          grid-template-columns: 1fr;
         }
       }
     </style>
@@ -328,6 +454,58 @@
           </div>
         </aside>
       </section>
+
+      <section class="override-panel" aria-labelledby="overrideTitle">
+        <h2 id="overrideTitle">עדכוני רשימות ידניים</h2>
+        <p class="subtle">
+          שדות אלה מעדכנים את קבצי הרשימות בפועל ושומרים גם רשימת תוספות נפרדת למעקב.
+        </p>
+        <div class="override-grid">
+          <form id="whitelistOverrideForm" class="override-form allow">
+            <div class="override-title">
+              <span>הוספה לרשימה לבנה</span>
+              <span class="override-badge allow">ALLOW</span>
+            </div>
+            <div class="override-help">
+              מונח שלא קיים או מונח שנמצא בשחור יוסר מהשחור וייכנס ל־all terms ול־whitelist.
+            </div>
+            <div class="override-controls">
+              <input
+                id="whitelistOverrideInput"
+                class="override-input"
+                name="term"
+                autocomplete="off"
+                spellcheck="false"
+                placeholder="לדוגמה: ביותר"
+              />
+              <button class="override-button allow" type="submit">הוסף ללבן</button>
+            </div>
+            <div id="whitelistOverrideResult" class="override-result"></div>
+          </form>
+
+          <form id="blacklistOverrideForm" class="override-form block">
+            <div class="override-title">
+              <span>הוספה לרשימה שחורה</span>
+              <span class="override-badge block">BLOCK</span>
+            </div>
+            <div class="override-help">
+              מונח שלא קיים או מונח שנמצא בלבן יוסר מהלבן וייכנס ל־all terms ול־blacklist.
+            </div>
+            <div class="override-controls">
+              <input
+                id="blacklistOverrideInput"
+                class="override-input"
+                name="term"
+                autocomplete="off"
+                spellcheck="false"
+                placeholder="לדוגמה: שם רגיש חדש"
+              />
+              <button class="override-button block" type="submit">הוסף לשחור</button>
+            </div>
+            <div id="blacklistOverrideResult" class="override-result"></div>
+          </form>
+        </div>
+      </section>
     </main>
 
     <script>
@@ -338,6 +516,12 @@
       const combinations = document.getElementById("combinations");
       const terms = document.getElementById("terms");
       const suggestions = document.getElementById("suggestions");
+      const whitelistOverrideForm = document.getElementById("whitelistOverrideForm");
+      const blacklistOverrideForm = document.getElementById("blacklistOverrideForm");
+      const whitelistOverrideInput = document.getElementById("whitelistOverrideInput");
+      const blacklistOverrideInput = document.getElementById("blacklistOverrideInput");
+      const whitelistOverrideResult = document.getElementById("whitelistOverrideResult");
+      const blacklistOverrideResult = document.getElementById("blacklistOverrideResult");
       let timer = null;
       let validationController = null;
       let suggestionController = null;
@@ -547,6 +731,52 @@
         if (!suggestions.contains(event.target) && event.target !== editor) {
           suggestions.classList.remove("visible");
         }
+      });
+
+      async function submitOverride({ input, result, endpoint, successText }) {
+        const term = input.value.trim();
+        result.className = "override-result";
+        if (!term) {
+          result.classList.add("error");
+          result.textContent = "יש להזין מונח לפני שליחה";
+          return;
+        }
+        const response = await fetch(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ term }),
+        });
+        const payload = await response.json();
+        if (!response.ok) {
+          result.classList.add("error");
+          result.textContent = payload.detail || "העדכון נכשל";
+          return;
+        }
+        result.classList.add("success");
+        result.textContent = `${successText}: ${payload.term} (${payload.normalized_term})`;
+        input.value = "";
+        validate({ paint: true });
+        updateSuggestions();
+      }
+
+      whitelistOverrideForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        submitOverride({
+          input: whitelistOverrideInput,
+          result: whitelistOverrideResult,
+          endpoint: "/overrides/whitelist",
+          successText: "נוסף לרשימה הלבנה",
+        });
+      });
+
+      blacklistOverrideForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        submitOverride({
+          input: blacklistOverrideInput,
+          result: blacklistOverrideResult,
+          endpoint: "/overrides/blacklist",
+          successText: "נוסף לרשימה השחורה",
+        });
       });
 
       resetDetails();
