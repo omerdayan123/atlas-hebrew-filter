@@ -15,6 +15,7 @@ from scripts.normalize import normalize_text
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = ROOT / "data"
+APPROVED_RESOURCE_ANALYSIS = DATA_DIR / "approved_resource_analysis.csv"
 TERM_FIELDS = [
     "term",
     "normalized_term",
@@ -36,6 +37,7 @@ COMBINATION_FIELDS = [
     "confidence",
     "notes",
 ]
+WHITELIST_PART_SIZE = 10000
 
 
 def term_rows() -> list[dict]:
@@ -71,6 +73,37 @@ def term_rows() -> list[dict]:
                 "notes": notes,
             }
         )
+    return rows
+
+
+def approved_resource_token_rows(path: Path = APPROVED_RESOURCE_ANALYSIS) -> list[dict]:
+    if not path.exists():
+        return []
+
+    rows: list[dict] = []
+    seen: set[str] = set()
+    with path.open("r", encoding="utf-8", newline="") as handle:
+        for approved_row in csv.DictReader(handle):
+            if approved_row.get("action") != "ALLOW":
+                continue
+            resource_name = approved_row.get("resource_name", "")
+            for token in normalize_text(resource_name).split():
+                normalized = normalize_text(token)
+                if not normalized or normalized in seen:
+                    continue
+                seen.add(normalized)
+                rows.append(
+                    {
+                        "term": token,
+                        "normalized_term": normalized,
+                        "category": "approved_resource_token",
+                        "source": "approved_resource_analysis.csv+atlas_approved_resource_token",
+                        "risk_level": 0,
+                        "action": "ALLOW",
+                        "confidence": 0.9,
+                        "notes": "Individual token extracted from an infosec-approved production resource name",
+                    }
+                )
     return rows
 
 
@@ -131,6 +164,30 @@ def write_word_only_csv(path: Path, rows: list[dict], key: str = "term") -> None
             writer.writerow([term])
 
 
+def write_split_word_only_csv(
+    directory: Path,
+    rows: list[dict],
+    part_size: int = WHITELIST_PART_SIZE,
+) -> None:
+    directory.mkdir(parents=True, exist_ok=True)
+    unique_terms = sorted({row["term"] for row in rows if row.get("term")})
+    manifest_rows = []
+    for index, start in enumerate(range(0, len(unique_terms), part_size), start=1):
+        filename = f"whitelist_words_part_{index:03d}.csv"
+        part_terms = unique_terms[start : start + part_size]
+        with (directory / filename).open("w", encoding="utf-8", newline="") as handle:
+            writer = csv.writer(handle)
+            writer.writerow(["term"])
+            for term in part_terms:
+                writer.writerow([term])
+        manifest_rows.append({"file": filename, "rows": len(part_terms)})
+
+    with (directory / "manifest.csv").open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=["file", "rows"])
+        writer.writeheader()
+        writer.writerows(manifest_rows)
+
+
 def deduplicate_rows(rows: list[dict]) -> list[dict]:
     seen: set[tuple[str, str, str]] = set()
     deduped: list[dict] = []
@@ -160,7 +217,7 @@ def split_black_white(rows: list[dict]) -> tuple[list[dict], list[dict]]:
 
 
 def export_all(data_dir: Path = DATA_DIR, external_rows: list[dict] | None = None) -> None:
-    rows = term_rows()
+    rows = term_rows() + approved_resource_token_rows()
     traced_external_rows = partition_external_rows(rows, external_rows or [])
     all_rows = deduplicate_rows(rows + traced_external_rows)
     blacklist_rows, whitelist_rows = split_black_white(all_rows)
@@ -173,6 +230,7 @@ def export_all(data_dir: Path = DATA_DIR, external_rows: list[dict] | None = Non
     write_csv(data_dir / "problematic_combinations.csv", combination_rows_, COMBINATION_FIELDS)
     write_word_only_csv(data_dir / "blacklist_words.csv", blacklist_rows)
     write_word_only_csv(data_dir / "whitelist_words.csv", whitelist_rows)
+    write_split_word_only_csv(data_dir / "whitelist_parts", whitelist_rows)
     write_word_only_csv(
         data_dir / "problematic_combinations_words.csv",
         combination_rows_,

@@ -19,6 +19,7 @@ REVIEW_FIELDS = [
 EXPLICIT_SAFE_SOURCE_MARKERS = {
     "atlas_seed_whitelist",
     "atlas_default_whitelist",
+    "atlas_approved_resource_token",
 }
 EXPLICIT_BLACK_SOURCE_MARKERS = {
     "atlas_seed_blacklist",
@@ -98,6 +99,10 @@ def review_row(row: dict, decision: str) -> dict:
             confidence = "high"
             bucket = "reviewed_white_user_override"
             reason = "Explicitly approved by user policy"
+        elif source_contains(row, {"atlas_approved_resource_token"}):
+            confidence = "high"
+            bucket = "reviewed_white_approved_resource_token"
+            reason = "Individual token extracted from an infosec-approved production resource name"
         elif source_contains(row, {"atlas_seed_whitelist"}):
             confidence = "high"
             bucket = "reviewed_white_curated"

@@ -54,6 +54,17 @@ def test_validate_detailed_allows_approved_resource_label():
     assert {segment["status"] for segment in payload["segments"]} == {"ALLOW"}
 
 
+def test_validate_detailed_allows_tokens_from_approved_resource_labels():
+    response = client.post("/validate-detailed", json={"text": "ביותר"})
+
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["overall_status"] == "ALLOW"
+    assert payload["segments"] == [
+        {"value": "ביותר", "status": "ALLOW", "reason": "Approved term"}
+    ]
+
+
 def test_validate_detailed_marks_unknown_without_blocking():
     response = client.post("/validate-detailed", json={"text": "בלורפ"})
 

@@ -44,6 +44,22 @@ def test_export_all_routes_unknown_external_lexicon_rows_to_whitelist(tmp_path):
     assert greylist == []
 
 
+def test_export_all_adds_individual_tokens_from_allowed_approved_resources(tmp_path):
+    export_all(tmp_path, external_rows=[])
+
+    with (tmp_path / "whitelist.csv").open(encoding="utf-8", newline="") as handle:
+        whitelist = list(csv.DictReader(handle))
+
+    approved_tokens = {
+        row["normalized_term"]: row
+        for row in whitelist
+        if "atlas_approved_resource_token" in row["source"]
+    }
+    assert "ביותר" in approved_tokens
+    assert approved_tokens["ביותר"]["term"] == "ביותר"
+    assert approved_tokens["ביותר"]["action"] == "ALLOW"
+
+
 def test_export_all_traces_sensitive_external_terms_to_blacklist(tmp_path):
     external_rows = [
         {
@@ -149,6 +165,18 @@ def test_export_all_writes_word_only_black_and_white_lists(tmp_path):
 
     assert lines[0] == "term"
     assert "שלום" in lines
+
+
+def test_export_all_writes_split_whitelist_parts(tmp_path):
+    export_all(tmp_path, external_rows=[])
+
+    manifest_path = tmp_path / "whitelist_parts" / "manifest.csv"
+    assert manifest_path.exists()
+    with manifest_path.open(encoding="utf-8", newline="") as handle:
+        manifest = list(csv.DictReader(handle))
+
+    assert manifest
+    assert (tmp_path / "whitelist_parts" / manifest[0]["file"]).exists()
 
 
 def test_export_all_partitions_every_term_into_black_or_white_only(tmp_path):

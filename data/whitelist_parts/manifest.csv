@@ -1,4 +1,4 @@
-file,term_count
+file,rows
 whitelist_words_part_001.csv,10000
 whitelist_words_part_002.csv,10000
 whitelist_words_part_003.csv,10000
@@ -11,4 +11,4 @@ whitelist_words_part_009.csv,10000
 whitelist_words_part_010.csv,10000
 whitelist_words_part_011.csv,10000
 whitelist_words_part_012.csv,10000
-whitelist_words_part_013.csv,9353
+whitelist_words_part_013.csv,9393
