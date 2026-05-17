@@ -125,7 +125,6 @@ term,normalized_term,category,source,risk_level,action,confidence,notes
 מרכז,מרכז,location,atlas_seed_greylist_promoted_blacklist,58,BLOCK,0.82,Regional/center term; context-sensitive
 מצב,מצב,operations,atlas_seed_greylist_promoted_blacklist,58,BLOCK,0.82,"Benign alone, risky in situation-room phrase"
 חייל,חייל,military_personnel,atlas_seed_greylist_promoted_blacklist,64,BLOCK,0.82,Military personnel term; context-sensitive
-מילואים,מילואים,military_personnel,atlas_seed_greylist_promoted_blacklist,66,BLOCK,0.82,Reserve service term; context-sensitive
 משק,משק,military_role,atlas_seed_greylist_promoted_blacklist,62,BLOCK,0.82,NCO abbreviation after quote normalization; context-sensitive
 קצין,קצין,military_role,atlas_seed_greylist_promoted_blacklist,68,BLOCK,0.82,Officer role; context-sensitive outside official rank phrases
 "צה""ל",צהל,idf_identity,idf_public:https://www.idf.il/,92,BLOCK,0.88,Israel Defense Forces name/acronym

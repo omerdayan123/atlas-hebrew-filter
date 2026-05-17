@@ -1,1 +1,2 @@
 term,normalized_term,action,category,source,created_at,notes
+מילואים,מילואים,ALLOW,user_whitelist_override,atlas_ui_user_whitelist_override,2026-05-16T12:54:51.751766+00:00,User override from UI: force allow term
