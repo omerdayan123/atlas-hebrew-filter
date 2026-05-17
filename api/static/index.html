@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Atlas Resource Validator</title>
+    <title>Cubical Resource Validator</title>
     <style>
       :root {
         --ink: #17201b;
@@ -38,7 +38,7 @@
       }
 
       main {
-        width: min(1080px, calc(100vw - 32px));
+        width: min(1280px, calc(100vw - 32px));
         margin: 32px auto;
       }
 
@@ -70,6 +70,28 @@
         color: var(--muted);
         font-size: 14px;
       }
+
+      .header-actions {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+        min-width: 168px;
+      }
+
+      .browse-link {
+        display: inline-block;
+        text-align: center;
+        text-decoration: none;
+        color: var(--focus);
+        border: 1px solid var(--line);
+        background: var(--panel);
+        padding: 10px 14px;
+        border-radius: var(--radius-small);
+        font-weight: 600;
+        font-size: 14px;
+      }
+      .browse-link:hover { background: #f1eadc; }
 
       .status {
         min-width: 168px;
@@ -427,10 +449,13 @@
     <main class="shell">
       <header>
         <div>
-          <h1>Atlas Resource Validator</h1>
+          <h1>Cubical Resource Validator</h1>
           <p class="subtle">בדיקת שם משאב מול רשימות שחור/לבן ושילובים רגישים</p>
         </div>
-        <div id="status" class="status unknown">הקלד שם משאב</div>
+        <div class="header-actions">
+          <div id="status" class="status unknown">הקלד שם משאב</div>
+          <a class="browse-link" href="/browse">עיון ברשימות ←</a>
+        </div>
       </header>
 
       <section class="workspace">

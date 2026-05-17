@@ -14,7 +14,7 @@ from scripts.export import TERM_FIELDS, write_csv, write_split_word_only_csv, wr
 from scripts.normalize import normalize_text
 
 
-app = FastAPI(title="Atlas Hebrew Military Terminology Filtering Engine")
+app = FastAPI(title="Cubical Resource Validator")
 ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = ROOT / "data"
 STATIC_DIR = ROOT / "api" / "static"
@@ -50,6 +50,11 @@ def ui() -> FileResponse:
 @app.get("/ui", response_class=HTMLResponse)
 def ui_alias() -> FileResponse:
     return FileResponse(STATIC_DIR / "index.html")
+
+
+@app.get("/browse", response_class=HTMLResponse)
+def browse() -> FileResponse:
+    return FileResponse(STATIC_DIR / "browse.html")
 
 
 @app.post("/classify")
@@ -165,6 +170,7 @@ def move_term_to_list(term: str, action: str, data_dir: Path | None = None) -> d
         },
     )
     validation_index.cache_clear()
+    list_index.cache_clear()
     return row
 
 
@@ -293,6 +299,148 @@ def segment_for_token(token: str, blacklist: dict, whitelist: dict) -> dict:
             "reason": "Approved term",
         }
     return {"value": token, "status": "UNKNOWN", "reason": "Unknown term"}
+
+
+LIST_SOURCES = {"blacklist", "whitelist", "combinations"}
+HEBREW_LETTERS = list("אבגדהוזחטיכלמנסעפצקרשת")
+ENGLISH_LETTERS = list("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+DIGIT_BUCKETS = list("0123456789")
+OTHER_BUCKET = "אחר"
+
+
+def normalize_combination_row(row: dict) -> dict:
+    return {
+        "term": row.get("combination", ""),
+        "normalized_term": row.get("normalized_combination", ""),
+        "category": row.get("category", ""),
+        "risk_level": row.get("risk_level", ""),
+        "action": row.get("action", ""),
+        "notes": row.get("notes", ""),
+    }
+
+
+def normalize_term_row(row: dict) -> dict:
+    return {
+        "term": row.get("term", ""),
+        "normalized_term": row.get("normalized_term", ""),
+        "category": row.get("category", ""),
+        "risk_level": row.get("risk_level", ""),
+        "action": row.get("action", ""),
+        "notes": row.get("notes", ""),
+    }
+
+
+def letter_bucket_for(value: str) -> str:
+    if not value:
+        return OTHER_BUCKET
+    char = value[0]
+    if char in HEBREW_LETTERS:
+        return char
+    upper = char.upper()
+    if upper in ENGLISH_LETTERS:
+        return upper
+    if char in DIGIT_BUCKETS:
+        return char
+    return OTHER_BUCKET
+
+
+@lru_cache(maxsize=1)
+def list_index() -> dict:
+    blacklist_rows = [
+        normalize_term_row(row)
+        for row in read_csv_rows(DATA_DIR / "blacklist.csv")
+        if row.get("normalized_term")
+    ]
+    whitelist_rows = [
+        normalize_term_row(row)
+        for row in read_csv_rows(DATA_DIR / "whitelist.csv")
+        if row.get("normalized_term")
+    ]
+    combination_rows = [
+        normalize_combination_row(row)
+        for row in read_csv_rows(DATA_DIR / "problematic_combinations.csv")
+        if row.get("normalized_combination")
+    ]
+
+    sources = {
+        "blacklist": blacklist_rows,
+        "whitelist": whitelist_rows,
+        "combinations": combination_rows,
+    }
+
+    indexed: dict[str, dict] = {}
+    for name, rows in sources.items():
+        sorted_rows = sorted(rows, key=lambda item: item["normalized_term"])
+        letter_counts: dict[str, int] = {}
+        for row in sorted_rows:
+            bucket = letter_bucket_for(row["normalized_term"])
+            letter_counts[bucket] = letter_counts.get(bucket, 0) + 1
+        indexed[name] = {
+            "rows": sorted_rows,
+            "letter_counts": letter_counts,
+        }
+    return indexed
+
+
+def filter_list_rows(rows: list[dict], *, query: str = "", letter: str = "") -> list[dict]:
+    normalized_query = normalize_text(query) if query else ""
+    if letter:
+        if letter == OTHER_BUCKET:
+            letter_filter = letter
+        elif letter.isascii() and letter.isalpha():
+            letter_filter = letter.upper()
+        else:
+            letter_filter = letter
+    else:
+        letter_filter = ""
+
+    def matches(row: dict) -> bool:
+        if letter_filter and letter_bucket_for(row["normalized_term"]) != letter_filter:
+            return False
+        if normalized_query:
+            normalized_term = row["normalized_term"]
+            if normalized_query in normalized_term:
+                return True
+            return any(token.startswith(normalized_query) for token in normalized_term.split())
+        return True
+
+    return [row for row in rows if matches(row)]
+
+
+@app.get("/lists/{list_name}")
+def get_list(
+    list_name: str,
+    q: str = Query(default=""),
+    letter: str = Query(default=""),
+    page: int = Query(default=1, ge=1),
+    page_size: int = Query(default=100, ge=1, le=500),
+) -> dict:
+    if list_name not in LIST_SOURCES:
+        raise HTTPException(status_code=404, detail=f"Unknown list: {list_name}")
+    entry = list_index()[list_name]
+    filtered = filter_list_rows(entry["rows"], query=q, letter=letter)
+    total = len(filtered)
+    start = (page - 1) * page_size
+    end = start + page_size
+    items = filtered[start:end]
+
+    bucket_order = HEBREW_LETTERS + ENGLISH_LETTERS + DIGIT_BUCKETS + [OTHER_BUCKET]
+    letter_counts = entry["letter_counts"]
+    letters = [
+        {"letter": bucket, "count": letter_counts.get(bucket, 0)}
+        for bucket in bucket_order
+    ]
+
+    return {
+        "list": list_name,
+        "query": q,
+        "letter": letter,
+        "page": page,
+        "page_size": page_size,
+        "total": total,
+        "items": items,
+        "letters": letters,
+    }
 
 
 @app.post("/validate-detailed")

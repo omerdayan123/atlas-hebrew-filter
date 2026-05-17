@@ -1,0 +1,599 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Cubical Resource Validator — עיון ברשימות</title>
+    <style>
+      :root {
+        --ink: #17201b;
+        --muted: #64706a;
+        --paper: #f7f3ea;
+        --panel: #fffdf7;
+        --line: #d9d0bf;
+        --green: #127447;
+        --green-bg: #e2f4e9;
+        --red: #9f1d24;
+        --red-bg: #fae1df;
+        --yellow: #8a6200;
+        --yellow-bg: #fff1bd;
+        --focus: #244e9a;
+        --radius: 10px;
+        --radius-small: 7px;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        color: var(--ink);
+        background:
+          linear-gradient(90deg, rgba(23, 32, 27, 0.045) 1px, transparent 1px),
+          linear-gradient(rgba(23, 32, 27, 0.035) 1px, transparent 1px),
+          var(--paper);
+        background-size: 28px 28px;
+        font-family: "Avenir Next", "Noto Sans Hebrew", "Segoe UI", sans-serif;
+      }
+
+      main {
+        width: min(1280px, calc(100vw - 32px));
+        margin: 24px auto;
+      }
+
+      .shell {
+        background: rgba(255, 253, 247, 0.94);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        box-shadow: 0 22px 55px rgba(48, 42, 31, 0.14);
+        overflow: hidden;
+      }
+
+      header {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 24px;
+        padding: 24px 28px 16px;
+        border-bottom: 1px solid var(--line);
+        flex-wrap: wrap;
+      }
+
+      h1 { margin: 0; font-size: 26px; }
+      .subtle { margin: 6px 0 0; color: var(--muted); font-size: 14px; }
+
+      .nav-back {
+        color: var(--focus);
+        text-decoration: none;
+        font-weight: 600;
+        border: 1px solid var(--line);
+        padding: 8px 14px;
+        border-radius: var(--radius-small);
+        background: var(--panel);
+      }
+      .nav-back:hover { background: #f1eadc; }
+
+      .tabs {
+        display: flex;
+        gap: 8px;
+        padding: 16px 28px 0;
+        flex-wrap: wrap;
+      }
+
+      .tab {
+        border: 1px solid var(--line);
+        background: var(--panel);
+        color: var(--ink);
+        padding: 10px 18px;
+        border-radius: var(--radius-small);
+        cursor: pointer;
+        font: inherit;
+        font-weight: 600;
+      }
+      .tab[aria-selected="true"] {
+        background: var(--ink);
+        color: var(--panel);
+        border-color: var(--ink);
+      }
+      .tab .count {
+        opacity: 0.7;
+        font-weight: 400;
+        margin-inline-start: 6px;
+        font-size: 12px;
+      }
+
+      .workspace {
+        display: grid;
+        grid-template-columns: 220px minmax(0, 1fr);
+        gap: 22px;
+        padding: 22px 28px 28px;
+      }
+
+      .letters {
+        border: 1px solid var(--line);
+        border-radius: var(--radius-small);
+        padding: 10px;
+        background: var(--panel);
+        max-height: 70vh;
+        overflow-y: auto;
+        position: sticky;
+        top: 16px;
+        align-self: start;
+      }
+
+      .letters-title {
+        font-size: 12px;
+        color: var(--muted);
+        margin: 0 0 8px;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+
+      .letter-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 4px;
+      }
+
+      .letter {
+        border: 1px solid var(--line);
+        background: transparent;
+        padding: 6px 0;
+        border-radius: 5px;
+        cursor: pointer;
+        font: inherit;
+        font-size: 14px;
+        color: var(--ink);
+        position: relative;
+      }
+      .letter:disabled {
+        opacity: 0.35;
+        cursor: default;
+      }
+      .letter[aria-pressed="true"] {
+        background: var(--ink);
+        color: var(--panel);
+        border-color: var(--ink);
+      }
+      .letter .letter-count {
+        display: block;
+        font-size: 10px;
+        color: var(--muted);
+        margin-top: 2px;
+      }
+      .letter[aria-pressed="true"] .letter-count { color: rgba(255,255,255,0.7); }
+
+      .clear-letter {
+        margin-top: 10px;
+        width: 100%;
+        border: 1px dashed var(--line);
+        background: transparent;
+        padding: 8px;
+        border-radius: var(--radius-small);
+        cursor: pointer;
+        font: inherit;
+        color: var(--muted);
+      }
+      .clear-letter:hover { background: #f1eadc; color: var(--ink); }
+
+      .list-panel { min-width: 0; }
+
+      .search-row {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        margin-bottom: 14px;
+        flex-wrap: wrap;
+      }
+
+      .search-input {
+        flex: 1;
+        min-width: 220px;
+        border: 1px solid var(--line);
+        border-radius: var(--radius-small);
+        padding: 12px 14px;
+        font: inherit;
+        background: #fffefa;
+      }
+      .search-input:focus {
+        outline: none;
+        border-color: var(--focus);
+        box-shadow: 0 0 0 3px rgba(36, 78, 154, 0.14);
+      }
+
+      .meta-row {
+        font-size: 13px;
+        color: var(--muted);
+        margin-bottom: 10px;
+      }
+
+      .similar {
+        background: #f1eadc;
+        border: 1px solid var(--line);
+        border-radius: var(--radius-small);
+        padding: 8px 12px;
+        margin-bottom: 14px;
+        font-size: 13px;
+      }
+      .similar strong { color: var(--ink); margin-inline-end: 6px; }
+      .similar .similar-term {
+        display: inline-block;
+        margin: 2px;
+        padding: 3px 8px;
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        cursor: pointer;
+      }
+      .similar .similar-term:hover { background: #fff; }
+
+      .results {
+        border: 1px solid var(--line);
+        border-radius: var(--radius-small);
+        background: var(--panel);
+        overflow: hidden;
+      }
+
+      .row {
+        display: grid;
+        grid-template-columns: minmax(0, 1.4fr) minmax(0, 0.7fr) minmax(0, 1.4fr) 90px;
+        gap: 12px;
+        padding: 10px 14px;
+        border-bottom: 1px solid #eee6d8;
+        align-items: center;
+      }
+      .row:last-child { border-bottom: 0; }
+      .row.header {
+        background: #f1eadc;
+        font-weight: 700;
+        font-size: 13px;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+
+      .term { font-size: 16px; word-break: break-word; }
+      .category, .notes { font-size: 13px; color: var(--muted); word-break: break-word; }
+
+      .badge {
+        display: inline-block;
+        padding: 3px 10px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 700;
+        border: 1px solid transparent;
+      }
+      .badge.allow { color: var(--green); background: var(--green-bg); border-color: rgba(18,116,71,0.26); }
+      .badge.block { color: var(--red); background: var(--red-bg); border-color: rgba(159,29,36,0.36); }
+
+      .empty {
+        padding: 28px;
+        text-align: center;
+        color: var(--muted);
+      }
+
+      .pagination {
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+        align-items: center;
+        margin-top: 14px;
+        flex-wrap: wrap;
+      }
+      .pagination button {
+        border: 1px solid var(--line);
+        background: var(--panel);
+        padding: 8px 14px;
+        border-radius: var(--radius-small);
+        cursor: pointer;
+        font: inherit;
+      }
+      .pagination button:disabled { opacity: 0.4; cursor: default; }
+      .pagination .page-info { color: var(--muted); font-size: 13px; }
+
+      @media (max-width: 900px) {
+        .workspace {
+          grid-template-columns: 1fr;
+          padding: 18px;
+        }
+        .letters {
+          position: static;
+          max-height: 220px;
+        }
+        .letter-grid { grid-template-columns: repeat(8, 1fr); }
+        .row {
+          grid-template-columns: minmax(0, 1.2fr) 80px;
+          gap: 6px;
+        }
+        .row .category, .row .notes { display: none; }
+        .row.header .category, .row.header .notes { display: none; }
+        header { padding: 16px 18px 12px; gap: 12px; }
+        .tabs { padding: 12px 18px 0; }
+        main { width: min(100vw - 16px, 1280px); margin: 12px auto; }
+      }
+
+      @media (min-width: 1200px) {
+        .letter-grid { grid-template-columns: repeat(5, 1fr); }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="shell">
+      <header>
+        <div>
+          <h1>Cubical Resource Validator — עיון ברשימות</h1>
+          <p class="subtle">חיפוש וסקירה של מילים וצירופים שחורים, לבנים ובעייתיים</p>
+        </div>
+        <a class="nav-back" href="/">→ חזרה לבדיקה</a>
+      </header>
+
+      <div class="tabs" role="tablist">
+        <button class="tab" role="tab" data-list="blacklist" aria-selected="true">
+          חסומים<span class="count" id="count-blacklist"></span>
+        </button>
+        <button class="tab" role="tab" data-list="whitelist" aria-selected="false">
+          מאושרים<span class="count" id="count-whitelist"></span>
+        </button>
+        <button class="tab" role="tab" data-list="combinations" aria-selected="false">
+          צירופים בעייתיים<span class="count" id="count-combinations"></span>
+        </button>
+      </div>
+
+      <section class="workspace">
+        <aside class="letters" aria-label="אינדקס אותיות">
+          <p class="letters-title">אינדקס אותיות</p>
+          <div id="letterGrid" class="letter-grid"></div>
+          <button id="clearLetter" class="clear-letter" type="button">ניקוי סינון אות</button>
+        </aside>
+
+        <div class="list-panel">
+          <div class="search-row">
+            <input
+              id="search"
+              class="search-input"
+              type="search"
+              placeholder="חיפוש מילה או צירוף (לפחות 2 תווים)"
+              autocomplete="off"
+              spellcheck="false"
+            />
+          </div>
+          <div id="meta" class="meta-row">טוען…</div>
+          <div id="similar" class="similar" hidden></div>
+
+          <div class="results" id="results">
+            <div class="row header">
+              <span>מונח</span>
+              <span>סטטוס</span>
+              <span class="category">קטגוריה</span>
+              <span class="notes">הערות</span>
+            </div>
+            <div id="rows"></div>
+          </div>
+
+          <div class="pagination">
+            <button id="prevPage" type="button">← הקודם</button>
+            <span class="page-info" id="pageInfo"></span>
+            <button id="nextPage" type="button">הבא →</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const state = {
+        list: "blacklist",
+        query: "",
+        letter: "",
+        page: 1,
+        pageSize: 100,
+        total: 0,
+      };
+
+      const tabs = document.querySelectorAll(".tab");
+      const letterGrid = document.getElementById("letterGrid");
+      const clearLetterButton = document.getElementById("clearLetter");
+      const searchInput = document.getElementById("search");
+      const meta = document.getElementById("meta");
+      const similar = document.getElementById("similar");
+      const rows = document.getElementById("rows");
+      const prevButton = document.getElementById("prevPage");
+      const nextButton = document.getElementById("nextPage");
+      const pageInfo = document.getElementById("pageInfo");
+
+      const listLabels = {
+        blacklist: "חסומים",
+        whitelist: "מאושרים",
+        combinations: "צירופים בעייתיים",
+      };
+
+      function escapeHtml(value) {
+        return String(value ?? "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#39;");
+      }
+
+      function statusBadge(action) {
+        const cls = action === "BLOCK" ? "block" : "allow";
+        const label = action === "BLOCK" ? "חסום" : "מאושר";
+        return `<span class="badge ${cls}">${label}</span>`;
+      }
+
+      function renderRows(items) {
+        if (!items.length) {
+          rows.innerHTML = '<div class="empty">לא נמצאו תוצאות</div>';
+          return;
+        }
+        rows.innerHTML = items
+          .map(
+            (item) => `
+            <div class="row">
+              <span class="term">${escapeHtml(item.term || item.normalized_term)}</span>
+              <span>${statusBadge(item.action)}</span>
+              <span class="category">${escapeHtml(item.category || "—")}</span>
+              <span class="notes">${escapeHtml(item.notes || "")}</span>
+            </div>`
+          )
+          .join("");
+      }
+
+      function renderLetters(letters) {
+        letterGrid.innerHTML = letters
+          .map(
+            (entry) => `
+            <button
+              type="button"
+              class="letter"
+              data-letter="${escapeHtml(entry.letter)}"
+              aria-pressed="${state.letter === entry.letter ? "true" : "false"}"
+              ${entry.count === 0 ? "disabled" : ""}
+              title="${escapeHtml(entry.letter)} — ${entry.count}"
+            >${escapeHtml(entry.letter)}<span class="letter-count">${entry.count}</span></button>`
+          )
+          .join("");
+      }
+
+      function setActiveTab() {
+        tabs.forEach((tab) => {
+          tab.setAttribute("aria-selected", tab.dataset.list === state.list ? "true" : "false");
+        });
+      }
+
+      async function loadList() {
+        const params = new URLSearchParams({
+          q: state.query,
+          letter: state.letter,
+          page: String(state.page),
+          page_size: String(state.pageSize),
+        });
+        meta.textContent = "טוען…";
+        const response = await fetch(`/lists/${state.list}?${params.toString()}`);
+        if (!response.ok) {
+          meta.textContent = "שגיאה בטעינת הרשימה";
+          rows.innerHTML = "";
+          return;
+        }
+        const payload = await response.json();
+        state.total = payload.total;
+        renderRows(payload.items);
+        renderLetters(payload.letters);
+
+        const totalLetterCount = payload.letters.reduce((sum, item) => sum + item.count, 0);
+        document.getElementById(`count-${state.list}`).textContent = ` (${totalLetterCount.toLocaleString("he-IL")})`;
+
+        const startIndex = payload.total === 0 ? 0 : (payload.page - 1) * payload.page_size + 1;
+        const endIndex = Math.min(payload.total, payload.page * payload.page_size);
+        meta.textContent = `${listLabels[state.list]}: מציג ${startIndex.toLocaleString("he-IL")}–${endIndex.toLocaleString("he-IL")} מתוך ${payload.total.toLocaleString("he-IL")}`;
+
+        const totalPages = Math.max(1, Math.ceil(payload.total / payload.page_size));
+        pageInfo.textContent = `עמוד ${payload.page} / ${totalPages}`;
+        prevButton.disabled = payload.page <= 1;
+        nextButton.disabled = payload.page >= totalPages;
+      }
+
+      async function loadSimilar() {
+        if (state.query.length < 2) {
+          similar.hidden = true;
+          similar.innerHTML = "";
+          return;
+        }
+        try {
+          const response = await fetch(`/suggest?q=${encodeURIComponent(state.query)}&limit=8`);
+          if (!response.ok) return;
+          const payload = await response.json();
+          if (!payload.suggestions || !payload.suggestions.length) {
+            similar.hidden = true;
+            similar.innerHTML = "";
+            return;
+          }
+          similar.hidden = false;
+          similar.innerHTML =
+            `<strong>מילים דומות:</strong>` +
+            payload.suggestions
+              .map(
+                (item) =>
+                  `<span class="similar-term" data-term="${escapeHtml(item.display_term)}">${escapeHtml(item.display_term)}</span>`
+              )
+              .join("");
+        } catch (error) {
+          similar.hidden = true;
+        }
+      }
+
+      let searchTimer;
+      searchInput.addEventListener("input", () => {
+        clearTimeout(searchTimer);
+        searchTimer = setTimeout(() => {
+          state.query = searchInput.value.trim();
+          state.page = 1;
+          loadList();
+          loadSimilar();
+        }, 220);
+      });
+
+      similar.addEventListener("click", (event) => {
+        const target = event.target.closest(".similar-term");
+        if (!target) return;
+        searchInput.value = target.dataset.term;
+        state.query = target.dataset.term;
+        state.page = 1;
+        loadList();
+        loadSimilar();
+      });
+
+      tabs.forEach((tab) => {
+        tab.addEventListener("click", () => {
+          state.list = tab.dataset.list;
+          state.page = 1;
+          state.letter = "";
+          setActiveTab();
+          loadList();
+        });
+      });
+
+      letterGrid.addEventListener("click", (event) => {
+        const button = event.target.closest(".letter");
+        if (!button || button.disabled) return;
+        const letter = button.dataset.letter;
+        state.letter = state.letter === letter ? "" : letter;
+        state.page = 1;
+        loadList();
+      });
+
+      clearLetterButton.addEventListener("click", () => {
+        if (!state.letter) return;
+        state.letter = "";
+        state.page = 1;
+        loadList();
+      });
+
+      prevButton.addEventListener("click", () => {
+        if (state.page <= 1) return;
+        state.page -= 1;
+        loadList();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+      nextButton.addEventListener("click", () => {
+        state.page += 1;
+        loadList();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+
+      async function preloadCounts() {
+        for (const name of ["blacklist", "whitelist", "combinations"]) {
+          if (name === state.list) continue;
+          try {
+            const response = await fetch(`/lists/${name}?page=1&page_size=1`);
+            if (!response.ok) continue;
+            const payload = await response.json();
+            document.getElementById(`count-${name}`).textContent = ` (${payload.total.toLocaleString("he-IL")})`;
+          } catch (error) {}
+        }
+      }
+
+      setActiveTab();
+      loadList().then(preloadCounts);
+    </script>
+  </body>
+</html>

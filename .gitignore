@@ -3,5 +3,6 @@ __pycache__/
 *.pyc
 .DS_Store
 logs/*.jsonl
+logs/*.log
 sources/
 node_modules/
