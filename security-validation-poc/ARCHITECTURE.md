@@ -26,12 +26,14 @@
 יש לנו מערכות שבהן משתמשים מכניסים שמות חופשיים — שמות חדרים, שירותים, משאבים. אנחנו רוצים **למנוע חשיפה מקרית של מונחים רגישים ביטחונית** (שמות יחידות, מבנים ארגוניים צבאיים, צירופים חשודים).
 
 **דוגמאות:**
+
 - `"מרפאה"` → ✅ ALLOW — מילה אזרחית רגילה
 - `"יחידת 8200"` → ❌ BLOCK — מספר יחידה רגיש
 - `"לשכת אלוף"` → ❌ BLOCK — צירוף שחושף היררכיה צבאית
 - `"בלשכת האלוף"` → ❌ BLOCK — אותו דבר עם אותיות שימוש (ב, ה)
 
 **הדרישות:**
+
 1. **זמן אמת** — ולידציה על כל keystroke, ללא השהיה מורגשת
 2. **דגל אחד** — מפתח מוסיף `securityValidation` ל-TextField וזהו
 3. **Single Source of Truth** — רשימות מנוהלות במקום אחד
@@ -178,13 +180,13 @@ input: "בלשכת האלוף"
 
 בעברית אפשר לכתוב את אותה מילה בהרבה צורות:
 
-| מה שהמשתמש כתב | מה שאנחנו רוצים לזהות |
-|---|---|
-| `בְּלִשְׁכַּת` (עם ניקוד) | `לשכה` |
-| `"לשכת"` (עם גרשיים) | `לשכה` |
-| `בלשכת` (עם אות שימוש) | `לשכה` |
-| `לשכת` (צורת סמיכות) | `לשכה` |
-| `הלשכה` (עם ה"א הידיעה) | `לשכה` |
+| מה שהמשתמש כתב            | מה שאנחנו רוצים לזהות |
+| ------------------------- | --------------------- |
+| `בְּלִשְׁכַּת` (עם ניקוד) | `לשכה`                |
+| `"לשכת"` (עם גרשיים)      | `לשכה`                |
+| `בלשכת` (עם אות שימוש)    | `לשכה`                |
+| `לשכת` (צורת סמיכות)      | `לשכה`                |
+| `הלשכה` (עם ה"א הידיעה)   | `לשכה`                |
 
 בלי נורמליזציה, נצטרך לשמור את **כל** הצורות ברשימות. עם נורמליזציה — מספיק לשמור `"לשכה"` פעם אחת.
 
@@ -230,12 +232,13 @@ while (token.length > 3 && HEBREW_PREFIXES.has(token[0])) {
 ```typescript
 // knownBases נבנה אוטומטית מכל המילים ברשימות:
 const knownBases = new Set([
-  ...blacklist.map(t => t.normalizedTerm.split(' ')).flat(),
-  ...combinations.map(c => c.normalizedPhrase.split(' ')).flat(),
+  ...blacklist.map((t) => t.normalizedTerm.split(" ")).flat(),
+  ...combinations.map((c) => c.normalizedPhrase.split(" ")).flat(),
 ]);
 ```
 
 **דוגמה:**
+
 - `"במבצע"` → candidate `"מבצע"` → `knownBases.has("מבצע")` = true → חותך ✅
 - `"בדיקה"` → candidate `"דיקה"` → `knownBases.has("דיקה")` = false → **לא חותך** ✅
 
@@ -256,6 +259,7 @@ const knownBases = new Set([
 > "האם X נמצא בקבוצה?"
 
 עם שתי תכונות:
+
 1. **אם התשובה "לא" — זה בטוח לא.** (Zero false negatives)
 2. **אם התשובה "כן" — זה כנראה כן** (יכול להיות false positive נדיר)
 
@@ -299,12 +303,12 @@ Bloom Filter = מערך של ביטים (0 או 1)
 
 ### למה זה מתאים לנו?
 
-| בלי Bloom | עם Bloom |
-|-----------|----------|
+| בלי Bloom                     | עם Bloom               |
+| ----------------------------- | ---------------------- |
 | שולחים 129,343 strings לדפדפן | שולחים מערך ביטים בלבד |
-| ~2.5MB gzipped | **~227KB** |
-| טעינה איטית | טעינה מהירה |
-| lookup = O(1) | lookup = O(1) |
+| ~2.5MB gzipped                | **~227KB**             |
+| טעינה איטית                   | טעינה מהירה            |
+| lookup = O(1)                 | lookup = O(1)          |
 
 ### מה קורה ב-false positive?
 
@@ -317,6 +321,7 @@ Bloom Filter = מערך של ביטים (0 או 1)
 ```
 
 False positive = מילה לא-מוכרת מוצגת כ-ALLOW (ירוק) במקום UNKNOWN (צהוב). זה לא מסוכן כי:
+
 - מילים **רגישות** תמיד נבדקות מול ה-blacklist **לפני** ה-Bloom
 - ה-Bloom רק קובע "ירוק" או "צהוב", לעולם לא מבטל "אדום"
 
@@ -326,21 +331,21 @@ False positive = מילה לא-מוכרת מוצגת כ-ALLOW (ירוק) במק�
 // src/core/bloom-filter.ts
 
 class BloomFilter {
-  readonly size: number;     // כמות ביטים (m) — אצלנו ~1.8 מיליון
-  readonly hashes: number;   // כמות hash functions (k) — אצלנו 10
-  private readonly bits: Uint8Array;  // מערך הביטים
+  readonly size: number; // כמות ביטים (m) — אצלנו ~1.8 מיליון
+  readonly hashes: number; // כמות hash functions (k) — אצלנו 10
+  private readonly bits: Uint8Array; // מערך הביטים
 
   // חישוב הפרמטרים האופטימליים: n=129,343 items, p=0.001 (0.1% false positive)
   static optimal(n: number, p = 0.001) {
-    const size = Math.ceil((-n * Math.log(p)) / (Math.LN2 * Math.LN2));  // ~1.86M bits
-    const hashes = Math.round((size / n) * Math.LN2);                     // 10 hashes
+    const size = Math.ceil((-n * Math.log(p)) / (Math.LN2 * Math.LN2)); // ~1.86M bits
+    const hashes = Math.round((size / n) * Math.LN2); // 10 hashes
     return { size, hashes };
   }
 
   // הוספת מילה (בצד השרת בלבד — בונה את ה-filter)
   add(item: string): void {
     for (const idx of this.indexes(item)) {
-      this.bits[idx >>> 3] |= 1 << (idx & 7);  // set bit
+      this.bits[idx >>> 3] |= 1 << (idx & 7); // set bit
     }
   }
 
@@ -349,21 +354,21 @@ class BloomFilter {
     for (const idx of this.indexes(item)) {
       if ((this.bits[idx >>> 3] & (1 << (idx & 7))) === 0) return false;
     }
-    return true;  // all bits set → probably exists
+    return true; // all bits set → probably exists
   }
 }
 ```
 
 ### סיכום Bloom Filter
 
-| מאפיין | ערך |
-|---------|------|
-| מספר מילים (n) | 129,343 |
-| גודל (m) | ~1.86 מיליון bits = **227 KB** |
-| hash functions (k) | 10 |
-| false positive rate | 0.1% (מילה 1 מ-1000 תראה "ירוקה" בטעות) |
+| מאפיין              | ערך                                         |
+| ------------------- | ------------------------------------------- |
+| מספר מילים (n)      | 129,343                                     |
+| גודל (m)            | ~1.86 מיליון bits = **227 KB**              |
+| hash functions (k)  | 10                                          |
+| false positive rate | 0.1% (מילה 1 מ-1000 תראה "ירוקה" בטעות)     |
 | false negative rate | **0%** (אף מילה אזרחית לא תיראה "לא מוכרת") |
-| lookup time | **O(1)** — קבוע |
+| lookup time         | **O(1)** — קבוע                             |
 
 ---
 
@@ -373,11 +378,11 @@ class BloomFilter {
 
 משתמש עלול לכתוב מילה רגישה עם שגיאת כתיב קטנה:
 
-| מה כתב | מה ברשימה | דמיון | צריך לתפוס? |
-|---------|-----------|-------|------------|
-| `"מודיעי"` | `"מודיעין"` | 86% | ✅ כן |
-| `"סיירט"` | `"סיירת"` | 92% | ✅ כן |
-| `"מרפאה"` | `"מודיעין"` | 35% | ❌ לא |
+| מה כתב     | מה ברשימה   | דמיון | צריך לתפוס? |
+| ---------- | ----------- | ----- | ----------- |
+| `"מודיעי"` | `"מודיעין"` | 86%   | ✅ כן       |
+| `"סיירט"`  | `"סיירת"`   | 92%   | ✅ כן       |
+| `"מרפאה"`  | `"מודיעין"` | 35%   | ❌ לא       |
 
 ### הסף
 
@@ -429,11 +434,11 @@ private matchRiskToken(token: string): BlacklistTerm | null {
 
 לפעמים מילה בודדת היא לגיטימית, אבל **צירוף** של שתי מילים הוא בעייתי:
 
-| מילה 1 | מילה 2 | לבד | ביחד |
-|---------|---------|------|------|
+| מילה 1 | מילה 2 | לבד   | ביחד         |
+| ------ | ------ | ----- | ------------ |
 | `לשכה` | `אלוף` | ✅/❌ | ❌ **BLOCK** |
-| `חמל` | `צפון` | ❌/✅ | ❌ **BLOCK** |
-| `חדר` | `כושר` | ✅/✅ | ✅ ALLOW |
+| `חמל`  | `צפון` | ❌/✅ | ❌ **BLOCK** |
+| `חדר`  | `כושר` | ✅/✅ | ✅ ALLOW     |
 
 ### איך הזיהוי עובד
 
@@ -508,11 +513,17 @@ export function suggest(text, onResult, debounceMs = 300) {
   const token = lastToken(text);
 
   // Rule 1: minimum 2 characters
-  if (token.length < 2) { onResult([]); return; }
+  if (token.length < 2) {
+    onResult([]);
+    return;
+  }
 
   // Rule 2: check local cache first (0ms)
   const cached = suggestCache.get(token);
-  if (cached) { onResult(cached); return; }
+  if (cached) {
+    onResult(cached);
+    return;
+  }
 
   // Rule 3: debounce — wait 300ms of silence before asking the server
   clearTimeout(debounceTimer);
@@ -557,12 +568,13 @@ Timer:     start  restart  restart  restart
 // src/server/data-loader.ts
 
 // On startup: sort all 129k terms alphabetically by normalized form
-suggestionIndex.sort((a, b) => a.normalized < b.normalized ? -1 : 1);
+suggestionIndex.sort((a, b) => (a.normalized < b.normalized ? -1 : 1));
 
 // On request: binary search for the prefix
 export function suggest(index, prefix, limit): { suggestions: string[] } {
   // Find first item >= prefix using binary search (O(log n))
-  let lo = 0, hi = index.length;
+  let lo = 0,
+    hi = index.length;
   while (lo < hi) {
     const mid = (lo + hi) >>> 1;
     if (index[mid].normalized < prefix) lo = mid + 1;
@@ -597,19 +609,19 @@ export function suggest(index, prefix, limit): { suggestions: string[] } {
 
 ```typescript
 interface SyncPayload {
-  version: string;         // "2855d063d2bb" — hash שמשתנה כשהרשימות משתנות
-  updatedAt: string;       // "2026-06-07T10:00:00.000Z"
+  version: string; // "2855d063d2bb" — hash שמשתנה כשהרשימות משתנות
+  updatedAt: string; // "2026-06-07T10:00:00.000Z"
 
-  blacklist: BlacklistTerm[];      // 275 מונחים (~10KB)
+  blacklist: BlacklistTerm[]; // 275 מונחים (~10KB)
   combinations: CombinationRule[]; // 88 כללים (~5KB)
-  constructForms: [string,string][]; // 5 pairs (~0.5KB)
-  prefixVocabulary: string[];      // ~900 bases (~8KB)
+  constructForms: [string, string][]; // 5 pairs (~0.5KB)
+  prefixVocabulary: string[]; // ~900 bases (~8KB)
 
   whitelist: {
-    bits: string;   // Bloom filter as base64 (~227KB)
-    size: number;   // 1,862,000 bits
+    bits: string; // Bloom filter as base64 (~227KB)
+    size: number; // 1,862,000 bits
     hashes: number; // 10
-    count: number;  // 129,343
+    count: number; // 129,343
   };
 }
 // Total: ~368KB (before gzip: ~180KB after)
@@ -725,32 +737,32 @@ security-validation-poc/
 
 ### מה רץ איפה
 
-| קובץ | Node (server) | Browser | שניהם |
-|-------|:---:|:---:|:---:|
-| `core/normalize.ts` | | | ✅ |
-| `core/bloom-filter.ts` | | | ✅ |
-| `core/validation-engine.ts` | | | ✅ |
-| `server/data-loader.ts` | ✅ | | |
-| `server/index.ts` | ✅ | | |
-| `web/browser-engine.ts` | | ✅ | |
+| קובץ                        | Node (server) | Browser | שניהם |
+| --------------------------- | :-----------: | :-----: | :---: |
+| `core/normalize.ts`         |               |         |  ✅   |
+| `core/bloom-filter.ts`      |               |         |  ✅   |
+| `core/validation-engine.ts` |               |         |  ✅   |
+| `server/data-loader.ts`     |      ✅       |         |       |
+| `server/index.ts`           |      ✅       |         |       |
+| `web/browser-engine.ts`     |               |   ✅    |       |
 
 ---
 
 ## טכנולוגיות
 
-| טכנולוגיה | איפה | למה |
-|-----------|------|------|
-| **TypeScript** | הכל | type safety, הצוות כבר שם |
-| **Express** | server | minimal HTTP framework (בפרודקשן = NestJS) |
-| **esbuild** | build | bundles `src/core` + `src/web` → `engine.js` ב-48ms |
-| **tsx** | dev | runs TypeScript ישירות ב-Node בלי compile |
-| **Bloom Filter** | core | whitelist 129k → 227KB instead of 2.5MB |
-| **Binary Search** | server (suggest) | prefix lookup ב-O(log n) על 129k מילים |
-| **Levenshtein ratio** | core (fuzzy) | זיהוי שגיאות כתיב ב-blacklist |
-| **ETag/304** | sync | לא מורידים payload אם לא השתנה |
-| **Debounce + AbortController** | browser | request אחד ל-"עצירה" בהקלדה, ביטול ישנים |
-| **localStorage** | browser | cache של sync payload בין sessions |
-| **WeakMap** | browser | state ניווט מקלדת לכל field בנפרד |
+| טכנולוגיה                      | איפה             | למה                                                 |
+| ------------------------------ | ---------------- | --------------------------------------------------- |
+| **TypeScript**                 | הכל              | type safety, הצוות כבר שם                           |
+| **Express**                    | server           | minimal HTTP framework (בפרודקשן = NestJS)          |
+| **esbuild**                    | build            | bundles `src/core` + `src/web` → `engine.js` ב-48ms |
+| **tsx**                        | dev              | runs TypeScript ישירות ב-Node בלי compile           |
+| **Bloom Filter**               | core             | whitelist 129k → 227KB instead of 2.5MB             |
+| **Binary Search**              | server (suggest) | prefix lookup ב-O(log n) על 129k מילים              |
+| **Levenshtein ratio**          | core (fuzzy)     | זיהוי שגיאות כתיב ב-blacklist                       |
+| **ETag/304**                   | sync             | לא מורידים payload אם לא השתנה                      |
+| **Debounce + AbortController** | browser          | request אחד ל-"עצירה" בהקלדה, ביטול ישנים           |
+| **localStorage**               | browser          | cache של sync payload בין sessions                  |
+| **WeakMap**                    | browser          | state ניווט מקלדת לכל field בנפרד                   |
 
 ---
 

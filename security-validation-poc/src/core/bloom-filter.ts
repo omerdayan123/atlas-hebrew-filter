@@ -65,18 +65,19 @@ export class BloomFilter {
 
   toBase64(): string {
     // Works in both Node (Buffer) and the browser (btoa).
-    if (typeof Buffer !== 'undefined') {
-      return Buffer.from(this.bits).toString('base64');
+    if (typeof Buffer !== "undefined") {
+      return Buffer.from(this.bits).toString("base64");
     }
-    let binary = '';
-    for (let i = 0; i < this.bits.length; i++) binary += String.fromCharCode(this.bits[i]);
+    let binary = "";
+    for (let i = 0; i < this.bits.length; i++)
+      binary += String.fromCharCode(this.bits[i]);
     return btoa(binary);
   }
 
   static fromBase64(base64: string, size: number, hashes: number): BloomFilter {
     let bytes: Uint8Array;
-    if (typeof Buffer !== 'undefined') {
-      bytes = new Uint8Array(Buffer.from(base64, 'base64'));
+    if (typeof Buffer !== "undefined") {
+      bytes = new Uint8Array(Buffer.from(base64, "base64"));
     } else {
       const binary = atob(base64);
       bytes = new Uint8Array(binary.length);

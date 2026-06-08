@@ -1,29 +1,34 @@
-import { createHash } from 'node:crypto';
-import { readFileSync, statSync } from 'node:fs';
-import { join } from 'node:path';
+import { createHash } from "node:crypto";
+import { readFileSync, statSync } from "node:fs";
+import { join } from "node:path";
 
-import { BloomFilter } from '../core/bloom-filter.js';
+import { BloomFilter } from "../core/bloom-filter.js";
 import {
   buildNormalizationConfig,
   normalizeText,
   normalizeToken,
-} from '../core/normalize.js';
-import { BlacklistTerm, CombinationRule, SafeCombination, SyncPayload } from '../core/types.js';
+} from "../core/normalize.js";
+import {
+  BlacklistTerm,
+  CombinationRule,
+  SafeCombination,
+  SyncPayload,
+} from "../core/types.js";
 
 // Construct-form (smichut) mapping. In production this would live in the DB
 // alongside the lists; for the POC we seed it from the atlas POC.
 const CONSTRUCT_FORMS: [string, string][] = [
-  ['לשכת', 'לשכה'],
-  ['יחידת', 'יחידה'],
-  ['חטיבת', 'חטיבה'],
-  ['מחלקת', 'מחלקה'],
-  ['מפקדת', 'מפקדה'],
+  ["לשכת", "לשכה"],
+  ["יחידת", "יחידה"],
+  ["חטיבת", "חטיבה"],
+  ["מחלקת", "מחלקה"],
+  ["מפקדת", "מפקדה"],
 ];
 
 // Minimal RFC-4180-ish CSV parser (handles quoted fields and escaped quotes).
 function parseCsv(content: string): Record<string, string>[] {
   const rows: string[][] = [];
-  let field = '';
+  let field = "";
   let row: string[] = [];
   let inQuotes = false;
   for (let i = 0; i < content.length; i++) {
@@ -36,15 +41,15 @@ function parseCsv(content: string): Record<string, string>[] {
         } else inQuotes = false;
       } else field += ch;
     } else if (ch === '"') inQuotes = true;
-    else if (ch === ',') {
+    else if (ch === ",") {
       row.push(field);
-      field = '';
-    } else if (ch === '\n') {
+      field = "";
+    } else if (ch === "\n") {
       row.push(field);
       rows.push(row);
-      field = '';
+      field = "";
       row = [];
-    } else if (ch !== '\r') field += ch;
+    } else if (ch !== "\r") field += ch;
   }
   if (field.length || row.length) {
     row.push(field);
@@ -57,7 +62,7 @@ function parseCsv(content: string): Record<string, string>[] {
     .filter((r) => r.some((c) => c.length))
     .map((r) => {
       const obj: Record<string, string> = {};
-      header.forEach((h, idx) => (obj[h] = r[idx] ?? ''));
+      header.forEach((h, idx) => (obj[h] = r[idx] ?? ""));
       return obj;
     });
 }
@@ -79,25 +84,29 @@ export interface LoadedData {
 export function loadData(dataDir: string): LoadedData {
   const t0 = performance.now();
 
-  const blacklistRows = parseCsv(readFileSync(join(dataDir, 'blacklist.csv'), 'utf-8'));
-  const comboRows = parseCsv(
-    readFileSync(join(dataDir, 'problematic_combinations.csv'), 'utf-8'),
+  const blacklistRows = parseCsv(
+    readFileSync(join(dataDir, "blacklist.csv"), "utf-8"),
   );
-  const whitelistRows = parseCsv(readFileSync(join(dataDir, 'whitelist.csv'), 'utf-8'));
+  const comboRows = parseCsv(
+    readFileSync(join(dataDir, "problematic_combinations.csv"), "utf-8"),
+  );
+  const whitelistRows = parseCsv(
+    readFileSync(join(dataDir, "whitelist.csv"), "utf-8"),
+  );
 
   const blacklist: BlacklistTerm[] = blacklistRows.map((r) => ({
     term: r.term,
     normalizedTerm: r.normalized_term,
-    category: r.category ?? '',
+    category: r.category ?? "",
     riskLevel: Number(r.risk_level) || 50,
-    action: 'BLOCK',
+    action: "BLOCK",
     notes: r.notes,
   }));
 
   const combinations: CombinationRule[] = comboRows.map((r) => ({
     phrase: r.combination,
     normalizedPhrase: r.normalized_combination,
-    riskLabel: r.risk ?? 'High',
+    riskLabel: r.risk ?? "High",
     riskLevel: Number(r.risk_level) || 90,
     notes: r.notes,
   }));
@@ -105,7 +114,9 @@ export function loadData(dataDir: string): LoadedData {
   // Safe combinations — override individual blocks when words appear together.
   let safeCombinationRows: Record<string, string>[] = [];
   try {
-    safeCombinationRows = parseCsv(readFileSync(join(dataDir, 'safe_combinations.csv'), 'utf-8'));
+    safeCombinationRows = parseCsv(
+      readFileSync(join(dataDir, "safe_combinations.csv"), "utf-8"),
+    );
   } catch {
     // File doesn't exist yet — that's fine, start empty.
   }
@@ -114,10 +125,11 @@ export function loadData(dataDir: string): LoadedData {
   // normalization is deterministic. Derived purely from the data (generic).
   const prefixVocabulary = new Set<string>();
   for (const t of blacklist) {
-    for (const w of t.normalizedTerm.split(' ')) if (w) prefixVocabulary.add(w);
+    for (const w of t.normalizedTerm.split(" ")) if (w) prefixVocabulary.add(w);
   }
   for (const c of combinations) {
-    for (const w of c.normalizedPhrase.split(' ')) if (w) prefixVocabulary.add(w);
+    for (const w of c.normalizedPhrase.split(" "))
+      if (w) prefixVocabulary.add(w);
   }
 
   const cfg = buildNormalizationConfig(CONSTRUCT_FORMS, [...prefixVocabulary]);
@@ -140,7 +152,9 @@ export function loadData(dataDir: string): LoadedData {
   const bloom = new BloomFilter(size, hashes);
   for (const term of normalizedWhitelist) bloom.add(term);
 
-  suggestionIndex.sort((a, b) => (a.normalized < b.normalized ? -1 : a.normalized > b.normalized ? 1 : 0));
+  suggestionIndex.sort((a, b) =>
+    a.normalized < b.normalized ? -1 : a.normalized > b.normalized ? 1 : 0,
+  );
 
   const bitsBase64 = bloom.toBase64();
 
@@ -150,9 +164,12 @@ export function loadData(dataDir: string): LoadedData {
     notes: r.notes,
   }));
 
-  const version = createHash('sha1')
-    .update(bitsBase64.slice(0, 200) + `:${blacklist.length}:${combinations.length}:${safeCombinations.length}:${normalizedWhitelist.size}`)
-    .digest('hex')
+  const version = createHash("sha1")
+    .update(
+      bitsBase64.slice(0, 200) +
+        `:${blacklist.length}:${combinations.length}:${safeCombinations.length}:${normalizedWhitelist.size}`,
+    )
+    .digest("hex")
     .slice(0, 12);
 
   const payload: SyncPayload = {
@@ -163,10 +180,17 @@ export function loadData(dataDir: string): LoadedData {
     safeCombinations,
     constructForms: CONSTRUCT_FORMS,
     prefixVocabulary: [...prefixVocabulary],
-    whitelist: { bits: bitsBase64, size, hashes, count: normalizedWhitelist.size },
+    whitelist: {
+      bits: bitsBase64,
+      size,
+      hashes,
+      count: normalizedWhitelist.size,
+    },
   };
 
-  const payloadKB = Math.round(Buffer.byteLength(JSON.stringify(payload)) / 1024);
+  const payloadKB = Math.round(
+    Buffer.byteLength(JSON.stringify(payload)) / 1024,
+  );
   const buildMs = Math.round(performance.now() - t0);
 
   return {
@@ -176,7 +200,7 @@ export function loadData(dataDir: string): LoadedData {
       blacklist: blacklist.length,
       whitelist: normalizedWhitelist.size,
       combinations: combinations.length,
-      bloomKB: Math.round((size / 8) / 1024),
+      bloomKB: Math.round(size / 8 / 1024),
       payloadKB,
       buildMs,
     },
@@ -213,14 +237,14 @@ export function suggest(
 
 export function dataSignature(dataDir: string): string {
   // Cheap change detector based on file mtimes/sizes.
-  return ['blacklist.csv', 'problematic_combinations.csv', 'whitelist.csv']
+  return ["blacklist.csv", "problematic_combinations.csv", "whitelist.csv"]
     .map((f) => {
       try {
         const s = statSync(join(dataDir, f));
         return `${s.size}:${s.mtimeMs}`;
       } catch {
-        return 'missing';
+        return "missing";
       }
     })
-    .join('|');
+    .join("|");
 }

@@ -1,11 +1,11 @@
-import { BloomFilter } from './bloom-filter.js';
+import { BloomFilter } from "./bloom-filter.js";
 import {
   buildNormalizationConfig,
   NormalizationConfig,
   normalizeText,
   normalizeToken,
   tokenize,
-} from './normalize.js';
+} from "./normalize.js";
 import {
   BlacklistTerm,
   CombinationRule,
@@ -14,7 +14,7 @@ import {
   TokenResult,
   TokenStatus,
   ValidationResult,
-} from './types.js';
+} from "./types.js";
 
 const FUZZY_THRESHOLD = 0.86;
 const COMBO_TOKEN_THRESHOLD = 0.82;
@@ -62,7 +62,10 @@ export class ValidationEngine {
 
   constructor(payload: SyncPayload) {
     this.version = payload.version;
-    this.cfg = buildNormalizationConfig(payload.constructForms, payload.prefixVocabulary);
+    this.cfg = buildNormalizationConfig(
+      payload.constructForms,
+      payload.prefixVocabulary,
+    );
     this.whitelist = BloomFilter.fromBase64(
       payload.whitelist.bits,
       payload.whitelist.size,
@@ -70,7 +73,7 @@ export class ValidationEngine {
     );
 
     for (const term of payload.blacklist) {
-      const tokenCount = term.normalizedTerm.split(' ').filter(Boolean).length;
+      const tokenCount = term.normalizedTerm.split(" ").filter(Boolean).length;
       if (tokenCount <= 1) {
         this.singleExact.set(term.normalizedTerm, term);
         const len = term.normalizedTerm.length;
@@ -85,7 +88,7 @@ export class ValidationEngine {
     this.combinations = payload.combinations;
     this.comboVocabulary = new Set();
     for (const rule of this.combinations) {
-      for (const tok of rule.normalizedPhrase.split(' ')) {
+      for (const tok of rule.normalizedPhrase.split(" ")) {
         if (tok) this.comboVocabulary.add(tok);
       }
     }
@@ -106,7 +109,8 @@ export class ValidationEngine {
       const bucket = this.singleByLength.get(len);
       if (!bucket) continue;
       for (const term of bucket) {
-        if (similarity(token, term.normalizedTerm) >= FUZZY_THRESHOLD) return term;
+        if (similarity(token, term.normalizedTerm) >= FUZZY_THRESHOLD)
+          return term;
       }
     }
     return null;
@@ -116,18 +120,26 @@ export class ValidationEngine {
     const cached = this.tokenCache.get(token);
     if (cached) return cached;
     let status: TokenStatus;
-    if (this.matchRiskToken(token)) status = 'BLOCK';
-    else if (this.tryPrefixStrippedBlacklist(token)) status = 'BLOCK';
-    else if (this.whitelist.has(token)) status = 'ALLOW';
-    else if (this.tryPrefixStrippedWhitelist(token)) status = 'ALLOW';
-    else status = 'UNKNOWN';
+    if (this.matchRiskToken(token)) status = "BLOCK";
+    else if (this.tryPrefixStrippedBlacklist(token)) status = "BLOCK";
+    else if (this.whitelist.has(token)) status = "ALLOW";
+    else if (this.tryPrefixStrippedWhitelist(token)) status = "ALLOW";
+    else status = "UNKNOWN";
     this.tokenCache.set(token, status);
     return status;
   }
 
   // Try progressively stripping Hebrew prefixes and check each stripped form
   // against the blacklist. Handles "ובמודיעין" → "מודיעין" even with double prefixes.
-  private static readonly PREFIXES = new Set(['ב', 'ל', 'מ', 'ה', 'ו', 'כ', 'ש']);
+  private static readonly PREFIXES = new Set([
+    "ב",
+    "ל",
+    "מ",
+    "ה",
+    "ו",
+    "כ",
+    "ש",
+  ]);
   private tryPrefixStrippedBlacklist(token: string): boolean {
     let t = token;
     while (t.length > 2 && ValidationEngine.PREFIXES.has(t[0])) {
@@ -150,15 +162,21 @@ export class ValidationEngine {
   }
 
   private comboTokenMatches(candidate: string, target: string): boolean {
-    return candidate === target || similarity(candidate, target) >= COMBO_TOKEN_THRESHOLD;
+    return (
+      candidate === target ||
+      similarity(candidate, target) >= COMBO_TOKEN_THRESHOLD
+    );
   }
 
-  private detectCombinations(normalized: string, tokens: string[]): CombinationRule[] {
+  private detectCombinations(
+    normalized: string,
+    tokens: string[],
+  ): CombinationRule[] {
     // Fast path: skip entirely unless 2+ tokens are in the combination vocabulary.
     const relevant = tokens.filter((t) => this.comboVocabulary.has(t));
     const matches: CombinationRule[] = [];
     for (const rule of this.combinations) {
-      const phraseTokens = rule.normalizedPhrase.split(' ').filter(Boolean);
+      const phraseTokens = rule.normalizedPhrase.split(" ").filter(Boolean);
       if (!phraseTokens.length) continue;
       if (normalized.includes(rule.normalizedPhrase)) {
         matches.push(rule);
@@ -198,8 +216,11 @@ export class ValidationEngine {
   }
 
   // Find indices of tokens that participate in a matched combination phrase.
-  private findComboTokenIndices(tokens: string[], rule: CombinationRule): number[] {
-    const phraseTokens = rule.normalizedPhrase.split(' ').filter(Boolean);
+  private findComboTokenIndices(
+    tokens: string[],
+    rule: CombinationRule,
+  ): number[] {
+    const phraseTokens = rule.normalizedPhrase.split(" ").filter(Boolean);
     if (!phraseTokens.length) return [];
     for (let i = 0; i <= tokens.length - phraseTokens.length; i++) {
       const indices: number[] = [];
@@ -209,9 +230,15 @@ export class ValidationEngine {
         const end = Math.min(tokens.length, cursor + COMBO_WINDOW);
         let next = -1;
         for (let j = cursor; j < end; j++) {
-          if (this.comboTokenMatches(tokens[j], pt)) { next = j; break; }
+          if (this.comboTokenMatches(tokens[j], pt)) {
+            next = j;
+            break;
+          }
         }
-        if (next === -1) { found = false; break; }
+        if (next === -1) {
+          found = false;
+          break;
+        }
         indices.push(next);
         cursor = next + 1;
       }
@@ -226,12 +253,15 @@ export class ValidationEngine {
   private detectSafeCombinations(tokens: string[]): Set<number> {
     const safeIndices = new Set<number>();
     for (const sc of this.safeCombinations) {
-      const phraseTokens = sc.normalizedPhrase.split(' ').filter(Boolean);
+      const phraseTokens = sc.normalizedPhrase.split(" ").filter(Boolean);
       if (phraseTokens.length < 2) continue;
       for (let i = 0; i <= tokens.length - phraseTokens.length; i++) {
         let match = true;
         for (let j = 0; j < phraseTokens.length; j++) {
-          if (tokens[i + j] !== phraseTokens[j]) { match = false; break; }
+          if (tokens[i + j] !== phraseTokens[j]) {
+            match = false;
+            break;
+          }
         }
         if (match) {
           for (let j = 0; j < phraseTokens.length; j++) safeIndices.add(i + j);
@@ -253,14 +283,14 @@ export class ValidationEngine {
     for (const raw of rawTokens) {
       const normalized = normalizeToken(raw, this.cfg);
       if (!normalized) {
-        tokens.push({ raw, normalized: '', status: 'UNKNOWN' });
+        tokens.push({ raw, normalized: "", status: "UNKNOWN" });
         continue;
       }
       tokenStrings.push(normalized);
       const risk = this.matchRiskToken(normalized);
       let status: TokenStatus;
       if (risk) {
-        status = 'BLOCK';
+        status = "BLOCK";
         matchedTerms.add(risk.term);
         maxRisk = Math.max(maxRisk, risk.riskLevel);
       } else {
@@ -275,14 +305,17 @@ export class ValidationEngine {
         matchedTerms.add(phrase.term);
         maxRisk = Math.max(maxRisk, phrase.riskLevel);
         // Mark individual tokens that form this phrase as BLOCK.
-        const pw = phrase.normalizedTerm.split(' ').filter(Boolean);
+        const pw = phrase.normalizedTerm.split(" ").filter(Boolean);
         for (let i = 0; i <= tokenStrings.length - pw.length; i++) {
           let match = true;
           for (let j = 0; j < pw.length; j++) {
-            if (tokenStrings[i + j] !== pw[j]) { match = false; break; }
+            if (tokenStrings[i + j] !== pw[j]) {
+              match = false;
+              break;
+            }
           }
           if (match) {
-            for (let j = 0; j < pw.length; j++) tokens[i + j].status = 'BLOCK';
+            for (let j = 0; j < pw.length; j++) tokens[i + j].status = "BLOCK";
           }
         }
       }
@@ -296,34 +329,35 @@ export class ValidationEngine {
     for (const combo of combos) {
       const indices = this.findComboTokenIndices(tokenStrings, combo);
       for (const idx of indices) {
-        if (tokens[idx]) tokens[idx].status = 'BLOCK';
+        if (tokens[idx]) tokens[idx].status = "BLOCK";
       }
     }
 
     // Safe combinations: override BLOCK→ALLOW for tokens that appear in a safe phrase.
     const safeIndices = this.detectSafeCombinations(tokenStrings);
     for (const idx of safeIndices) {
-      if (tokens[idx] && tokens[idx].status === 'BLOCK') {
-        tokens[idx].status = 'ALLOW';
+      if (tokens[idx] && tokens[idx].status === "BLOCK") {
+        tokens[idx].status = "ALLOW";
         // Remove the term from matchedTerms since it's safe in context
         matchedTerms.delete(tokens[idx].raw);
       }
     }
 
-    const hasRisk = tokens.some(t => t.status === 'BLOCK');
+    const hasRisk = tokens.some((t) => t.status === "BLOCK");
     const reasons: string[] = [];
-    if (matchedTerms.size > 0) reasons.push('Matched sensitive terminology');
-    if (combos.length > 0 && hasRisk) reasons.push('Matched problematic term combination');
-    if (!reasons.length) reasons.push('No sensitive terminology detected');
+    if (matchedTerms.size > 0) reasons.push("Matched sensitive terminology");
+    if (combos.length > 0 && hasRisk)
+      reasons.push("Matched problematic term combination");
+    if (!reasons.length) reasons.push("No sensitive terminology detected");
 
     return {
-      action: hasRisk ? 'BLOCK' : 'ALLOW',
+      action: hasRisk ? "BLOCK" : "ALLOW",
       riskScore: maxRisk,
       normalizedText,
       matchedTerms: [...matchedTerms].sort(),
       matchedCombinations,
       tokens,
-      reason: reasons.join('; '),
+      reason: reasons.join("; "),
     };
   }
 }

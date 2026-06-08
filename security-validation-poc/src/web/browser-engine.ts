@@ -2,12 +2,12 @@
 // This is the kernel of what would become the `useSecurityValidation` hook +
 // `<TextField securityValidation />` wrapper in the client package.
 
-import { SyncPayload, ValidationResult } from '../core/types.js';
-import { ValidationEngine } from '../core/validation-engine.js';
+import { SyncPayload, ValidationResult } from "../core/types.js";
+import { ValidationEngine } from "../core/validation-engine.js";
 
-const SYNC_URL = '/api/security/sync';
-const SUGGEST_URL = '/api/security/suggest';
-const SYNC_CACHE_KEY = 'security-sync-payload';
+const SYNC_URL = "/api/security/sync";
+const SUGGEST_URL = "/api/security/suggest";
+const SYNC_CACHE_KEY = "security-sync-payload";
 
 export interface SyncInfo {
   version: string;
@@ -29,7 +29,7 @@ export async function init(): Promise<SyncInfo> {
 
   const t0 = performance.now();
   const res = await fetch(SYNC_URL, {
-    headers: cached ? { 'If-None-Match': `"${cached.etag}"` } : {},
+    headers: cached ? { "If-None-Match": `"${cached.etag}"` } : {},
   });
   const syncMs = +(performance.now() - t0).toFixed(1);
 
@@ -40,7 +40,10 @@ export async function init(): Promise<SyncInfo> {
     fromCache = true;
   } else {
     payload = (await res.json()) as SyncPayload;
-    localStorage.setItem(SYNC_CACHE_KEY, JSON.stringify({ etag: payload.version, payload }));
+    localStorage.setItem(
+      SYNC_CACHE_KEY,
+      JSON.stringify({ etag: payload.version, payload }),
+    );
   }
 
   const tb = performance.now();
@@ -52,7 +55,11 @@ export async function init(): Promise<SyncInfo> {
     fromCache,
     syncMs,
     buildMs,
-    payloadKB: Math.round((cachedRaw && fromCache ? cachedRaw.length : JSON.stringify(payload).length) / 1024),
+    payloadKB: Math.round(
+      (cachedRaw && fromCache
+        ? cachedRaw.length
+        : JSON.stringify(payload).length) / 1024,
+    ),
     stats: {
       blacklist: payload.blacklist.length,
       whitelist: payload.whitelist.count,
@@ -63,7 +70,7 @@ export async function init(): Promise<SyncInfo> {
 
 // ---- Real-time validation (synchronous, zero network) ----
 export function validate(text: string): ValidationResult & { tookMs: number } {
-  if (!engine) throw new Error('Engine not initialized — call init() first');
+  if (!engine) throw new Error("Engine not initialized — call init() first");
   const t0 = performance.now();
   const result = engine.validate(text);
   return { ...result, tookMs: +(performance.now() - t0).toFixed(3) };
@@ -76,14 +83,17 @@ let debounceTimer: ReturnType<typeof setTimeout> | null = null;
 
 export function lastToken(text: string): string {
   // If text ends with whitespace the user hasn't started a new word yet → empty.
-  if (!text || /\s$/.test(text)) return '';
+  if (!text || /\s$/.test(text)) return "";
   const parts = text.split(/\s+/);
-  return parts[parts.length - 1] ?? '';
+  return parts[parts.length - 1] ?? "";
 }
 
 export function suggest(
   text: string,
-  onResult: (suggestions: string[], info: { fromCache: boolean; tookMs: number }) => void,
+  onResult: (
+    suggestions: string[],
+    info: { fromCache: boolean; tookMs: number },
+  ) => void,
   debounceMs = 300,
 ): void {
   const token = lastToken(text);
@@ -102,23 +112,31 @@ export function suggest(
     abortController = new AbortController();
     const t0 = performance.now();
     try {
-      const res = await fetch(`${SUGGEST_URL}?q=${encodeURIComponent(token)}&limit=5`, {
-        signal: abortController.signal,
-      });
+      const res = await fetch(
+        `${SUGGEST_URL}?q=${encodeURIComponent(token)}&limit=5`,
+        {
+          signal: abortController.signal,
+        },
+      );
       const data = await res.json();
       suggestCache.set(token, data.suggestions);
-      onResult(data.suggestions, { fromCache: false, tookMs: +(performance.now() - t0).toFixed(1) });
+      onResult(data.suggestions, {
+        fromCache: false,
+        tookMs: +(performance.now() - t0).toFixed(1),
+      });
     } catch (e) {
-      if ((e as Error).name !== 'AbortError') console.error(e);
+      if ((e as Error).name !== "AbortError") console.error(e);
     }
   }, debounceMs);
 }
 
 // ---- Server re-validation (defense-in-depth, on submit) ----
-export async function validateOnServer(text: string): Promise<ValidationResult & { tookMs: number }> {
-  const res = await fetch('/api/security/validate', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+export async function validateOnServer(
+  text: string,
+): Promise<ValidationResult & { tookMs: number }> {
+  const res = await fetch("/api/security/validate", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ text }),
   });
   return res.json();
@@ -145,21 +163,22 @@ export function verifyWithServer(
     verifyAbort?.abort();
     verifyAbort = new AbortController();
     try {
-      const res = await fetch('/api/security/validate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const res = await fetch("/api/security/validate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ text }),
         signal: verifyAbort.signal,
       });
       const serverResult: ValidationResult = await res.json();
       // Compare token statuses — if any differ, push correction
-      const differs = serverResult.tokens.some((st, i) => {
-        const lt = localResult.tokens[i];
-        return !lt || st.status !== lt.status;
-      }) || serverResult.action !== localResult.action;
+      const differs =
+        serverResult.tokens.some((st, i) => {
+          const lt = localResult.tokens[i];
+          return !lt || st.status !== lt.status;
+        }) || serverResult.action !== localResult.action;
       if (differs) onCorrected(serverResult);
     } catch (e) {
-      if ((e as Error).name !== 'AbortError') console.error('[verify]', e);
+      if ((e as Error).name !== "AbortError") console.error("[verify]", e);
     }
   }, debounceMs);
 }

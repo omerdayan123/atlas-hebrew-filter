@@ -3,7 +3,7 @@
 // not hard-coded. Server and client construct this with the SAME vocabulary so
 // that normalization (and therefore bloom lookups) are deterministic on both sides.
 
-const HEBREW_PREFIXES = new Set(['ב', 'ל', 'מ', 'ה', 'ו', 'כ', 'ש']);
+const HEBREW_PREFIXES = new Set(["ב", "ל", "מ", "ה", "ו", "כ", "ש"]);
 
 // Hebrew niqqud / cantillation marks + general combining marks.
 const NIQQUD_RE = /[\u0591-\u05C7]/g;
@@ -29,14 +29,17 @@ export function buildNormalizationConfig(
 }
 
 export function stripNiqqud(text: string): string {
-  return text.normalize('NFD').replace(NIQQUD_RE, '');
+  return text.normalize("NFD").replace(NIQQUD_RE, "");
 }
 
-export function normalizeToken(token: string, cfg: NormalizationConfig): string {
+export function normalizeToken(
+  token: string,
+  cfg: NormalizationConfig,
+): string {
   token = stripNiqqud(token).trim().toLowerCase();
-  token = token.replace(QUOTE_RE, '');
-  token = token.replace(TOKEN_KEEP_RE, '');
-  if (!token) return '';
+  token = token.replace(QUOTE_RE, "");
+  token = token.replace(TOKEN_KEEP_RE, "");
+  if (!token) return "";
 
   if (cfg.constructForms.has(token)) return cfg.constructForms.get(token)!;
 
@@ -44,7 +47,8 @@ export function normalizeToken(token: string, cfg: NormalizationConfig): string 
   // candidate is a KNOWN base (from the data), preventing over-stripping.
   while (token.length > 3 && HEBREW_PREFIXES.has(token[0])) {
     const candidate = token.slice(1);
-    if (!cfg.knownBases.has(candidate) && !cfg.constructForms.has(candidate)) break;
+    if (!cfg.knownBases.has(candidate) && !cfg.constructForms.has(candidate))
+      break;
     token = candidate;
     if (cfg.constructForms.has(token)) return cfg.constructForms.get(token)!;
   }
@@ -53,17 +57,17 @@ export function normalizeToken(token: string, cfg: NormalizationConfig): string 
 
 export function normalizeText(text: string, cfg: NormalizationConfig): string {
   text = stripNiqqud(text);
-  text = text.replace(QUOTE_RE, '');
-  text = text.replace(SEPARATOR_RE, ' ');
-  text = text.replace(KEEP_RE, ' ');
+  text = text.replace(QUOTE_RE, "");
+  text = text.replace(SEPARATOR_RE, " ");
+  text = text.replace(KEEP_RE, " ");
   const tokens = text
     .split(/\s+/)
     .map((part) => normalizeToken(part, cfg))
     .filter(Boolean);
-  return tokens.join(' ');
+  return tokens.join(" ");
 }
 
 export function tokenize(text: string, cfg: NormalizationConfig): string[] {
   const normalized = normalizeText(text, cfg);
-  return normalized ? normalized.split(' ') : [];
+  return normalized ? normalized.split(" ") : [];
 }

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="he" dir="rtl">
   <head>
     <meta charset="UTF-8" />
@@ -6,66 +6,238 @@
     <title>Security Validation — Admin</title>
     <style>
       :root {
-        --ink: #1a1f2e; --paper: #f7f8fb; --card: #fff; --border: #e2e6ee;
-        --green: #1f9d55; --red: #e3342f; --yellow: #d9a300; --muted: #6b7280; --accent: #2563eb;
+        --ink: #1a1f2e;
+        --paper: #f7f8fb;
+        --card: #fff;
+        --border: #e2e6ee;
+        --green: #1f9d55;
+        --red: #e3342f;
+        --yellow: #d9a300;
+        --muted: #6b7280;
+        --accent: #2563eb;
       }
-      * { box-sizing: border-box; }
-      body { margin: 0; font-family: "Segoe UI", Arial, sans-serif; background: var(--paper); color: var(--ink); line-height: 1.5; }
-      .wrap { max-width: 960px; margin: 0 auto; padding: 20px 16px 60px; }
-      h1 { font-size: 22px; margin: 0 0 4px; }
-      .sub { color: var(--muted); font-size: 13px; margin-bottom: 16px; }
-      .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-bottom: 14px; }
-      .tabs { display: flex; gap: 0; margin-bottom: 0; }
-      .tab { padding: 10px 20px; font-size: 14px; font-weight: 600; cursor: pointer; border: 1px solid var(--border); background: var(--paper); border-bottom: none; border-radius: 10px 10px 0 0; }
-      .tab.active { background: var(--card); border-bottom-color: var(--card); color: var(--accent); }
-      .tab .cnt { font-size: 11px; color: var(--muted); margin-right: 6px; font-weight: 400; }
-      input[type="text"], input[type="search"] {
-        padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px;
-        font-size: 14px; font-family: inherit; width: 100%;
+      * {
+        box-sizing: border-box;
       }
-      input:focus { outline: 2px solid var(--accent); border-color: transparent; }
-      .toolbar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 12px; }
-      .toolbar input[type="search"] { flex: 1; min-width: 180px; }
+      body {
+        margin: 0;
+        font-family: "Segoe UI", Arial, sans-serif;
+        background: var(--paper);
+        color: var(--ink);
+        line-height: 1.5;
+      }
+      .wrap {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 20px 16px 60px;
+      }
+      h1 {
+        font-size: 22px;
+        margin: 0 0 4px;
+      }
+      .sub {
+        color: var(--muted);
+        font-size: 13px;
+        margin-bottom: 16px;
+      }
+      .card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 16px;
+        margin-bottom: 14px;
+      }
+      .tabs {
+        display: flex;
+        gap: 0;
+        margin-bottom: 0;
+      }
+      .tab {
+        padding: 10px 20px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        border: 1px solid var(--border);
+        background: var(--paper);
+        border-bottom: none;
+        border-radius: 10px 10px 0 0;
+      }
+      .tab.active {
+        background: var(--card);
+        border-bottom-color: var(--card);
+        color: var(--accent);
+      }
+      .tab .cnt {
+        font-size: 11px;
+        color: var(--muted);
+        margin-right: 6px;
+        font-weight: 400;
+      }
+      input[type="text"],
+      input[type="search"] {
+        padding: 8px 12px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        font-size: 14px;
+        font-family: inherit;
+        width: 100%;
+      }
+      input:focus {
+        outline: 2px solid var(--accent);
+        border-color: transparent;
+      }
+      .toolbar {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        flex-wrap: wrap;
+        margin-bottom: 12px;
+      }
+      .toolbar input[type="search"] {
+        flex: 1;
+        min-width: 180px;
+      }
       button {
-        padding: 8px 14px; border: none; border-radius: 8px; font-size: 13px;
-        font-weight: 600; cursor: pointer; font-family: inherit;
+        padding: 8px 14px;
+        border: none;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        font-family: inherit;
       }
-      .btn-primary { background: var(--accent); color: #fff; }
-      .btn-danger { background: var(--red); color: #fff; }
-      .btn-ghost { background: #eef2ff; color: var(--accent); }
-      table { width: 100%; border-collapse: collapse; font-size: 14px; }
-      th { text-align: right; padding: 8px 10px; border-bottom: 2px solid var(--border); color: var(--muted); font-size: 12px; font-weight: 600; }
-      td { padding: 7px 10px; border-bottom: 1px solid var(--border); }
-      tr:hover td { background: #f1f5ff; }
-      .del-btn { background: none; border: none; color: var(--red); cursor: pointer; font-size: 16px; padding: 2px 6px; border-radius: 4px; }
-      .del-btn:hover { background: #fde2e1; }
-      .pager { display: flex; gap: 8px; align-items: center; justify-content: center; margin-top: 14px; font-size: 13px; color: var(--muted); }
-      .pager button { padding: 5px 12px; }
-      .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--ink); color: #fff; padding: 10px 20px; border-radius: 10px; font-size: 14px; z-index: 99; display: none; }
+      .btn-primary {
+        background: var(--accent);
+        color: #fff;
+      }
+      .btn-danger {
+        background: var(--red);
+        color: #fff;
+      }
+      .btn-ghost {
+        background: #eef2ff;
+        color: var(--accent);
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+      }
+      th {
+        text-align: right;
+        padding: 8px 10px;
+        border-bottom: 2px solid var(--border);
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 600;
+      }
+      td {
+        padding: 7px 10px;
+        border-bottom: 1px solid var(--border);
+      }
+      tr:hover td {
+        background: #f1f5ff;
+      }
+      .del-btn {
+        background: none;
+        border: none;
+        color: var(--red);
+        cursor: pointer;
+        font-size: 16px;
+        padding: 2px 6px;
+        border-radius: 4px;
+      }
+      .del-btn:hover {
+        background: #fde2e1;
+      }
+      .pager {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        justify-content: center;
+        margin-top: 14px;
+        font-size: 13px;
+        color: var(--muted);
+      }
+      .pager button {
+        padding: 5px 12px;
+      }
+      .toast {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--ink);
+        color: #fff;
+        padding: 10px 20px;
+        border-radius: 10px;
+        font-size: 14px;
+        z-index: 99;
+        display: none;
+      }
       /* Add form */
-      .add-form { display: none; margin-bottom: 14px; }
-      .add-form.open { display: block; }
-      .form-row { display: flex; gap: 8px; margin-bottom: 8px; flex-wrap: wrap; }
-      .form-row input { flex: 1; min-width: 140px; }
-      .badge { display: inline-block; padding: 2px 8px; border-radius: 6px; font-size: 12px; font-weight: 600; }
-      .badge.bl { background: #fde2e1; color: var(--red); }
-      .badge.wl { background: #dcf3e6; color: var(--green); }
-      .badge.cb { background: #fbf0cf; color: var(--yellow); }
-      a { color: var(--accent); text-decoration: none; }
+      .add-form {
+        display: none;
+        margin-bottom: 14px;
+      }
+      .add-form.open {
+        display: block;
+      }
+      .form-row {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 8px;
+        flex-wrap: wrap;
+      }
+      .form-row input {
+        flex: 1;
+        min-width: 140px;
+      }
+      .badge {
+        display: inline-block;
+        padding: 2px 8px;
+        border-radius: 6px;
+        font-size: 12px;
+        font-weight: 600;
+      }
+      .badge.bl {
+        background: #fde2e1;
+        color: var(--red);
+      }
+      .badge.wl {
+        background: #dcf3e6;
+        color: var(--green);
+      }
+      .badge.cb {
+        background: #fbf0cf;
+        color: var(--yellow);
+      }
+      a {
+        color: var(--accent);
+        text-decoration: none;
+      }
     </style>
   </head>
   <body>
     <div class="wrap">
       <h1>ניהול רשימות אבטחה <span class="badge bl">Admin</span></h1>
-      <div class="sub">צפייה, הוספה ומחיקה של מונחים. <a href="/">← חזרה ל-demo</a></div>
-
-      <div class="tabs">
-        <div class="tab active" data-type="blacklist">רשימה שחורה <span class="cnt" id="cnt-blacklist"></span></div>
-        <div class="tab" data-type="whitelist">רשימה לבנה <span class="cnt" id="cnt-whitelist"></span></div>
-        <div class="tab" data-type="combinations">צירופים <span class="cnt" id="cnt-combinations"></span></div>
+      <div class="sub">
+        צפייה, הוספה ומחיקה של מונחים. <a href="/">← חזרה ל-demo</a>
       </div>
 
-      <div class="card" style="border-top-right-radius: 0;">
+      <div class="tabs">
+        <div class="tab active" data-type="blacklist">
+          רשימה שחורה <span class="cnt" id="cnt-blacklist"></span>
+        </div>
+        <div class="tab" data-type="whitelist">
+          רשימה לבנה <span class="cnt" id="cnt-whitelist"></span>
+        </div>
+        <div class="tab" data-type="combinations">
+          צירופים <span class="cnt" id="cnt-combinations"></span>
+        </div>
+      </div>
+
+      <div class="card" style="border-top-right-radius: 0">
         <div class="toolbar">
           <input type="search" id="search" placeholder="חיפוש מונח…" />
           <button class="btn-primary" id="toggleAdd">+ הוסף מונח</button>
@@ -74,7 +246,11 @@
         <div class="add-form" id="addForm">
           <div class="form-row">
             <input type="text" id="newTerm" placeholder="מונח (חובה)" />
-            <input type="text" id="newCategory" placeholder="קטגוריה (אופציונלי)" />
+            <input
+              type="text"
+              id="newCategory"
+              placeholder="קטגוריה (אופציונלי)"
+            />
             <input type="text" id="newNotes" placeholder="הערות (אופציונלי)" />
             <button class="btn-primary" id="addBtn">הוסף</button>
           </div>
@@ -89,21 +265,22 @@
 
     <script>
       const $ = (id) => document.getElementById(id);
-      let activeType = 'blacklist';
+      let activeType = "blacklist";
       let page = 1;
       const PAGE_SIZE = 50;
 
       function toast(msg) {
-        const el = $('toast');
+        const el = $("toast");
         el.textContent = msg;
-        el.style.display = 'block';
-        setTimeout(() => (el.style.display = 'none'), 2500);
+        el.style.display = "block";
+        setTimeout(() => (el.style.display = "none"), 2500);
       }
 
       async function loadList() {
-        const q = $('search').value;
-        const url = `/api/admin/lists/${activeType}?page=${page}&page_size=${PAGE_SIZE}` +
-          (q ? `&q=${encodeURIComponent(q)}` : '');
+        const q = $("search").value;
+        const url =
+          `/api/admin/lists/${activeType}?page=${page}&page_size=${PAGE_SIZE}` +
+          (q ? `&q=${encodeURIComponent(q)}` : "");
         const res = await fetch(url);
         const data = await res.json();
 
@@ -111,11 +288,11 @@
         $(`cnt-${activeType}`).textContent = `(${data.total})`;
 
         // Render table
-        const isCombos = activeType === 'combinations';
+        const isCombos = activeType === "combinations";
         let html = `<table><thead><tr>
-          <th>${isCombos ? 'צירוף' : 'מונח'}</th>
+          <th>${isCombos ? "צירוף" : "מונח"}</th>
           <th>מנורמל</th>
-          ${activeType !== 'whitelist' ? '<th>קטגוריה</th><th>risk</th><th>הערות</th>' : ''}
+          ${activeType !== "whitelist" ? "<th>קטגוריה</th><th>risk</th><th>הערות</th>" : ""}
           <th></th>
         </tr></thead><tbody>`;
 
@@ -123,75 +300,102 @@
           html += `<tr>
             <td><b>${esc(item.term)}</b></td>
             <td style="color:var(--muted)">${esc(item.normalized)}</td>
-            ${activeType !== 'whitelist' ? `
-              <td>${esc(item.category || '')}</td>
-              <td>${item.riskLevel ?? ''}</td>
-              <td style="font-size:12px;color:var(--muted)">${esc(item.notes || '')}</td>
-            ` : ''}
+            ${
+              activeType !== "whitelist"
+                ? `
+              <td>${esc(item.category || "")}</td>
+              <td>${item.riskLevel ?? ""}</td>
+              <td style="font-size:12px;color:var(--muted)">${esc(item.notes || "")}</td>
+            `
+                : ""
+            }
             <td><button class="del-btn" data-term="${esc(item.term)}" title="מחק">✕</button></td>
           </tr>`;
         }
-        html += '</tbody></table>';
-        $('tableWrap').innerHTML = html;
+        html += "</tbody></table>";
+        $("tableWrap").innerHTML = html;
 
         // Wire delete buttons
-        $('tableWrap').querySelectorAll('.del-btn').forEach((btn) => {
-          btn.onclick = () => deleteTerm(btn.dataset.term);
-        });
+        $("tableWrap")
+          .querySelectorAll(".del-btn")
+          .forEach((btn) => {
+            btn.onclick = () => deleteTerm(btn.dataset.term);
+          });
 
         // Pager
         const totalPages = Math.ceil(data.total / PAGE_SIZE) || 1;
-        $('pager').innerHTML = `
-          <button class="btn-ghost" ${page <= 1 ? 'disabled' : ''} id="prevPage">→ הקודם</button>
+        $("pager").innerHTML = `
+          <button class="btn-ghost" ${page <= 1 ? "disabled" : ""} id="prevPage">→ הקודם</button>
           <span>עמוד ${page} מתוך ${totalPages}</span>
-          <button class="btn-ghost" ${page >= totalPages ? 'disabled' : ''} id="nextPage">הבא ←</button>
+          <button class="btn-ghost" ${page >= totalPages ? "disabled" : ""} id="nextPage">הבא ←</button>
         `;
-        $('prevPage')?.addEventListener('click', () => { page--; loadList(); });
-        $('nextPage')?.addEventListener('click', () => { page++; loadList(); });
+        $("prevPage")?.addEventListener("click", () => {
+          page--;
+          loadList();
+        });
+        $("nextPage")?.addEventListener("click", () => {
+          page++;
+          loadList();
+        });
       }
 
       function esc(s) {
-        const d = document.createElement('div');
+        const d = document.createElement("div");
         d.textContent = s;
         return d.innerHTML;
       }
 
       async function addTerm() {
-        const term = $('newTerm').value.trim();
-        if (!term) { toast('יש להזין מונח'); return; }
-        const body = { term, category: $('newCategory').value, notes: $('newNotes').value };
+        const term = $("newTerm").value.trim();
+        if (!term) {
+          toast("יש להזין מונח");
+          return;
+        }
+        const body = {
+          term,
+          category: $("newCategory").value,
+          notes: $("newNotes").value,
+        };
         const res = await fetch(`/api/admin/lists/${activeType}`, {
-          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify(body),
         });
         const data = await res.json();
         if (data.ok) {
           toast(data.message);
-          $('newTerm').value = '';
-          $('newCategory').value = '';
-          $('newNotes').value = '';
+          $("newTerm").value = "";
+          $("newCategory").value = "";
+          $("newNotes").value = "";
           loadList();
         } else {
-          toast('שגיאה: ' + (data.error || 'unknown'));
+          toast("שגיאה: " + (data.error || "unknown"));
         }
       }
 
       async function deleteTerm(term) {
         if (!confirm(`למחוק את "${term}" מ-${activeType}?`)) return;
         const res = await fetch(`/api/admin/lists/${activeType}`, {
-          method: 'DELETE', headers: { 'Content-Type': 'application/json' },
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ term }),
         });
         const data = await res.json();
-        if (data.ok) { toast(data.message); loadList(); }
-        else { toast('שגיאה: ' + (data.error || 'unknown')); }
+        if (data.ok) {
+          toast(data.message);
+          loadList();
+        } else {
+          toast("שגיאה: " + (data.error || "unknown"));
+        }
       }
 
       // Tabs
-      document.querySelectorAll('.tab').forEach((tab) => {
+      document.querySelectorAll(".tab").forEach((tab) => {
         tab.onclick = () => {
-          document.querySelectorAll('.tab').forEach((t) => t.classList.remove('active'));
-          tab.classList.add('active');
+          document
+            .querySelectorAll(".tab")
+            .forEach((t) => t.classList.remove("active"));
+          tab.classList.add("active");
           activeType = tab.dataset.type;
           page = 1;
           loadList();
@@ -200,19 +404,24 @@
 
       // Search (debounced)
       let searchTimer;
-      $('search').addEventListener('input', () => {
+      $("search").addEventListener("input", () => {
         clearTimeout(searchTimer);
-        searchTimer = setTimeout(() => { page = 1; loadList(); }, 300);
+        searchTimer = setTimeout(() => {
+          page = 1;
+          loadList();
+        }, 300);
       });
 
       // Add form toggle
-      $('toggleAdd').onclick = () => $('addForm').classList.toggle('open');
-      $('addBtn').onclick = addTerm;
-      $('newTerm').addEventListener('keydown', (e) => { if (e.key === 'Enter') addTerm(); });
+      $("toggleAdd").onclick = () => $("addForm").classList.toggle("open");
+      $("addBtn").onclick = addTerm;
+      $("newTerm").addEventListener("keydown", (e) => {
+        if (e.key === "Enter") addTerm();
+      });
 
       // Initial load + counts for all tabs
       loadList();
-      ['blacklist', 'whitelist', 'combinations'].forEach(async (type) => {
+      ["blacklist", "whitelist", "combinations"].forEach(async (type) => {
         const r = await fetch(`/api/admin/lists/${type}?page=1&page_size=1`);
         const d = await r.json();
         $(`cnt-${type}`).textContent = `(${d.total})`;

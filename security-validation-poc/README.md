@@ -50,12 +50,12 @@ performance, and the Bloom false-positive rate.
 
 ## Measured results (this machine)
 
-| Input | Client validate |
-|-------|-----------------|
-| 1 word | ~0.09 ms |
-| 10 words | ~0.34 ms |
-| 50 words | ~1.4 ms |
-| 100 words | ~2.5 ms |
+| Input     | Client validate |
+| --------- | --------------- |
+| 1 word    | ~0.09 ms        |
+| 10 words  | ~0.34 ms        |
+| 50 words  | ~1.4 ms         |
+| 100 words | ~2.5 ms         |
 
 Sync download ~11ms, engine build ~1ms, payload ~368KB (bloom 227KB),
 Bloom false-positives 0/5000.
@@ -72,9 +72,9 @@ scripts/     selftest.ts
 
 ## Mapping to production
 
-| POC piece | Production home |
-|-----------|-----------------|
-| `src/core/*` | shared logic in **Smartbase-Server-Packages** + bundled to client |
-| `src/server/*` | dedicated **Security Validation Service** (NestJS + Postgres/Sequelize) |
+| POC piece                   | Production home                                                                                   |
+| --------------------------- | ------------------------------------------------------------------------------------------------- |
+| `src/core/*`                | shared logic in **Smartbase-Server-Packages** + bundled to client                                 |
+| `src/server/*`              | dedicated **Security Validation Service** (NestJS + Postgres/Sequelize)                           |
 | `src/web/browser-engine.ts` | `useSecurityValidation` hook + `<TextField securityValidation />` in **Smartbase-Client-Package** |
-| CSV loader | Sequelize models + admin CRUD |
+| CSV loader                  | Sequelize models + admin CRUD                                                                     |

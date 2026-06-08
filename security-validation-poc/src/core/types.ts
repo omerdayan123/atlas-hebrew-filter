@@ -1,7 +1,7 @@
 // Shared types between server (source of truth) and client (real-time engine).
 
-export type ValidationAction = 'BLOCK' | 'ALLOW';
-export type TokenStatus = 'BLOCK' | 'ALLOW' | 'UNKNOWN';
+export type ValidationAction = "BLOCK" | "ALLOW";
+export type TokenStatus = "BLOCK" | "ALLOW" | "UNKNOWN";
 
 export interface BlacklistTerm {
   term: string;
