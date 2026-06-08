@@ -274,3 +274,4 @@ term,normalized_term,category,source,risk_level,action,confidence,notes
 תרגילו,תרגילו,operations,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: operations
 תרגילי,תרגילי,operations,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: operations
 תרגילים,תרגילים,operations,eyaler/hebrew_wordlists:hspell_simple.txt+atlas_heuristic_blacklist,90,BLOCK,0.72,Promoted from cloned lexicon by sensitive pattern category: operations
+"אייל","אייל","test_sensitive","admin",90,BLOCK,0.9,"test - blocked individually"
